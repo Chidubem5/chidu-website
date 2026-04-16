@@ -547,7 +547,7 @@ function loadTrack(index) {
 function nextTrack() {
   currentTrack = (currentTrack + 1) % jazzPlaylist.length;
   loadTrack(currentTrack);
-  bgAudio.volume = 0.05;
+  bgAudio.volume = 0.04;
   bgAudio.play().catch(() => {});
 }
 
@@ -577,7 +577,7 @@ function startPlaying() {
   bgAudio.play().then(() => {
     musicPlayer.classList.add('playing');
     musicToggle.setAttribute('aria-label', 'Pause music');
-    fadeAudio(0.05);
+    fadeAudio(0.04);
   }).catch(() => {});
 }
 
