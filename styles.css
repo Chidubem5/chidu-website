@@ -745,8 +745,10 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .music-layout {
   display: grid;
   grid-template-columns: 1fr 1.6fr;
-  gap: 3rem;
+  gap: 0.35rem;
   align-items: start;
+  max-width: 900px;
+  margin: 0 auto;
 }
 @media (max-width: 700px) { .music-layout { grid-template-columns: 1fr; } }
 
