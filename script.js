@@ -464,7 +464,7 @@ function startPlaying() {
   bgAudio.play().then(() => {
     musicPlayer.classList.add('playing');
     musicToggle.setAttribute('aria-label', 'Pause music');
-    fadeAudio(0.16);
+    fadeAudio(0.05);
   }).catch(() => {});
 }
 
