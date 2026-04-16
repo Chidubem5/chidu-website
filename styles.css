@@ -1131,7 +1131,8 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   align-items: center;
   gap: .75rem;
   flex-direction: column;
-  margin-bottom: 1rem;
+  margin: 0 auto 1rem;
+  transition: max-width 0.6s ease;
 }
 
 .slides-track {
@@ -1139,7 +1140,8 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   position: relative;
   border-radius: 16px;
   overflow: hidden;
-  min-height: 280px;
+  min-height: 260px;
+  transition: height 0.6s ease;
 }
 
 .slide {
@@ -1181,7 +1183,8 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .slide-img-wrap {
   position: relative;
   width: 100%;
-  height: 480px;
+  height: 100%;
+  min-height: 260px;
   border-radius: 16px;
   overflow: hidden;
   background: #000;
@@ -1569,8 +1572,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 @media (max-width: 768px) {
   .research-grid { grid-template-columns: 1fr; }
 
-  /* Slideshow: drop height from 480 → 300px */
-  .slide-img-wrap { height: 300px; }
+  /* Slideshow height handled dynamically by JS */
 
   /* Bigger arrow touch targets */
   .slide-arrow {
@@ -1603,8 +1605,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   .model-ph-featured        { height: 260px !important; }
   .model-ph-featured img    { height: 260px; }
 
-  /* Slideshow height ≤ 640 */
-  .slide-img-wrap  { height: 260px; }
+  /* Slideshow height handled dynamically by JS */
 
   /* Slide arrows sit at absolute center of the track */
   .slideshow-wrapper { position: relative; }
@@ -1653,8 +1654,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   .songs-list li    { flex-wrap: wrap; gap: .3rem; }
   .song-platform-links { gap: .25rem; }
 
-  /* Travel slideshow */
-  .slide-img-wrap   { height: 220px; }
+  /* Slideshow height handled dynamically by JS */
   .slide-arrow      { width: 40px; height: 40px; font-size: 1.4rem; }
   .slide-caption    { font-size: .78rem; }
 

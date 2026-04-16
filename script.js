@@ -238,7 +238,7 @@ function startAutoplay(id, interval = 5000) {
   const state = slideState[id];
   if (!state) return;
   clearInterval(state.timer);
-  state.timer = setInterval(() => goToSlide(id, state.current + 1), interval);
+  state.timer = setInterval(() => _goToSlide(id, state.current + 1), interval);
 }
 
 function pauseAutoplay(id, resumeAfter = 8000) {
@@ -248,7 +248,46 @@ function pauseAutoplay(id, resumeAfter = 8000) {
   setTimeout(() => startAutoplay(id, 5000), resumeAfter);
 }
 
-function goToSlide(id, index) {
+function adaptSlideshow(id) {
+  const track   = document.getElementById(`${id}-track`);
+  const wrapper = track && track.closest('.slideshow-wrapper');
+  if (!track || !wrapper) return;
+
+  const activeImg = track.querySelector('.slide.active .slide-img');
+  if (!activeImg) return;
+
+  const apply = () => {
+    const nw = activeImg.naturalWidth;
+    const nh = activeImg.naturalHeight;
+    if (!nw || !nh) return;
+
+    const ratio       = nw / nh;
+    const available   = wrapper.parentElement.offsetWidth;
+    const isPortrait  = nh > nw;
+
+    let newH, newMaxW;
+
+    if (isPortrait) {
+      newH    = Math.min(600, Math.round(available * 0.85 / ratio));
+      newMaxW = Math.round(newH * ratio) + 'px';
+    } else {
+      newMaxW = '100%';
+      newH    = Math.min(520, Math.round(available / ratio));
+      newH    = Math.max(260, newH);
+    }
+
+    track.style.height        = newH + 'px';
+    wrapper.style.maxWidth    = newMaxW;
+  };
+
+  if (activeImg.complete && activeImg.naturalWidth) {
+    apply();
+  } else {
+    activeImg.addEventListener('load', apply, { once: true });
+  }
+}
+
+function _goToSlide(id, index) {
   const track  = document.getElementById(`${id}-track`);
   const dotsEl = document.getElementById(`${id}-dots`);
   if (!track) return;
@@ -264,18 +303,20 @@ function goToSlide(id, index) {
 
   slides[state.current].classList.add('active');
   dots[state.current]?.classList.add('active');
+
+  adaptSlideshow(id);
 }
 
 window.shiftSlide = function(id, dir) {
   const state = slideState[id];
   if (!state) return;
   pauseAutoplay(id);
-  goToSlide(id, state.current + dir);
+  _goToSlide(id, state.current + dir);
 };
 
 window.goToSlide = function(id, index) {
   pauseAutoplay(id);
-  goToSlide(id, index);
+  _goToSlide(id, index);
 };
 
 /* ─────────────────────────────────────────
@@ -315,6 +356,7 @@ window.toggleSongs = function(card) {
 };
 
 initSlideshow('intl', true, 4000);
+adaptSlideshow('intl');
 
 /* ─────────────────────────────────────────
    SWIPE SUPPORT FOR SLIDESHOWS (mobile)
