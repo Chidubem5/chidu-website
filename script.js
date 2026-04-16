@@ -186,7 +186,7 @@ function renderStars(containerEl, score) {
 
   const stars =
     '<span class="star full">★</span>'.repeat(full) +
-    (half ? '<span class="star half">⯨</span>' : '') +
+    (half ? '<span class="star half">★</span>' : '') +
     '<span class="star">★</span>'.repeat(empty);
 
   containerEl.innerHTML = stars;
