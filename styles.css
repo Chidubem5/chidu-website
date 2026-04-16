@@ -1133,6 +1133,8 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   flex-direction: column;
   margin: 0 auto 1rem;
   transition: max-width 0.6s ease;
+  background: #000;
+  border-radius: 16px;
 }
 
 .slides-track {
@@ -1142,6 +1144,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   overflow: hidden;
   min-height: 260px;
   transition: height 0.6s ease;
+  background: #000;
 }
 
 .slide {

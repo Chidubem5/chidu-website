@@ -256,34 +256,40 @@ function adaptSlideshow(id) {
   const activeImg = track.querySelector('.slide.active .slide-img');
   if (!activeImg) return;
 
+  // Force eager loading so naturalWidth is available ASAP
+  activeImg.loading = 'eager';
+
   const apply = () => {
     const nw = activeImg.naturalWidth;
     const nh = activeImg.naturalHeight;
     if (!nw || !nh) return;
 
-    const ratio       = nw / nh;
-    const available   = wrapper.parentElement.offsetWidth;
-    const isPortrait  = nh > nw;
+    const ratio      = nw / nh;
+    const available  = wrapper.parentElement.offsetWidth || window.innerWidth;
+    const isPortrait = nh > nw;
 
     let newH, newMaxW;
 
     if (isPortrait) {
-      newH    = Math.min(600, Math.round(available * 0.85 / ratio));
+      newH    = Math.min(580, Math.round(available * 0.85 / ratio));
       newMaxW = Math.round(newH * ratio) + 'px';
     } else {
       newMaxW = '100%';
-      newH    = Math.min(520, Math.round(available / ratio));
-      newH    = Math.max(260, newH);
+      newH    = Math.min(520, Math.max(260, Math.round(available / ratio)));
     }
 
-    track.style.height        = newH + 'px';
-    wrapper.style.maxWidth    = newMaxW;
+    track.style.height     = newH + 'px';
+    wrapper.style.maxWidth = newMaxW;
   };
 
   if (activeImg.complete && activeImg.naturalWidth) {
     apply();
   } else {
     activeImg.addEventListener('load', apply, { once: true });
+    // Retry after short delay in case load event already fired
+    setTimeout(() => {
+      if (activeImg.naturalWidth) apply();
+    }, 300);
   }
 }
 
