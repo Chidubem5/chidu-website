@@ -202,17 +202,50 @@ document.querySelectorAll('.star-rating').forEach(el => {
 ───────────────────────────────────────── */
 const slideState = {};
 
-function initSlideshow(id) {
+function shuffleSlides(track) {
+  const slides = Array.from(track.querySelectorAll('.slide'));
+  for (let i = slides.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    track.appendChild(slides[j]);
+    slides.splice(j, 1, slides[i]);
+  }
+}
+
+function initSlideshow(id, autoplay = false, interval = 5000) {
   const track = document.getElementById(`${id}-track`);
   if (!track) return;
+
+  // Randomize order
+  shuffleSlides(track);
+
   const slides = Array.from(track.querySelectorAll('.slide'));
   const dotsEl = document.getElementById(`${id}-dots`);
 
-  slideState[id] = { current: 0, total: slides.length };
+  // Reset active state after shuffle
+  slides.forEach(s => s.classList.remove('active'));
+  slides[0].classList.add('active');
+
+  slideState[id] = { current: 0, total: slides.length, timer: null };
 
   dotsEl.innerHTML = slides.map((_, i) =>
     `<span class="dot${i === 0 ? ' active' : ''}" onclick="goToSlide('${id}', ${i})"></span>`
   ).join('');
+
+  if (autoplay) startAutoplay(id, interval);
+}
+
+function startAutoplay(id, interval = 5000) {
+  const state = slideState[id];
+  if (!state) return;
+  clearInterval(state.timer);
+  state.timer = setInterval(() => goToSlide(id, state.current + 1), interval);
+}
+
+function pauseAutoplay(id, resumeAfter = 8000) {
+  const state = slideState[id];
+  if (!state || !state.timer) return;
+  clearInterval(state.timer);
+  setTimeout(() => startAutoplay(id, 5000), resumeAfter);
 }
 
 function goToSlide(id, index) {
@@ -236,10 +269,14 @@ function goToSlide(id, index) {
 window.shiftSlide = function(id, dir) {
   const state = slideState[id];
   if (!state) return;
+  pauseAutoplay(id);
   goToSlide(id, state.current + dir);
 };
 
-window.goToSlide = goToSlide;
+window.goToSlide = function(id, index) {
+  pauseAutoplay(id);
+  goToSlide(id, index);
+};
 
 /* ─────────────────────────────────────────
    ARTIST SONG TOGGLE
@@ -277,7 +314,7 @@ window.toggleSongs = function(card) {
   }
 };
 
-initSlideshow('intl');
+initSlideshow('intl', true, 5000);
 
 /* ─────────────────────────────────────────
    SWIPE SUPPORT FOR SLIDESHOWS (mobile)
@@ -291,7 +328,11 @@ function addSwipe(trackId) {
   }, { passive: true });
   el.addEventListener('touchend', e => {
     const dx = e.changedTouches[0].clientX - startX;
-    if (Math.abs(dx) > 40) shiftSlide(trackId.replace('-track', ''), dx < 0 ? 1 : -1);
+    if (Math.abs(dx) > 40) {
+      const id = trackId.replace('-track', '');
+      pauseAutoplay(id);
+      shiftSlide(id, dx < 0 ? 1 : -1);
+    }
   }, { passive: true });
 }
 addSwipe('intl-track');
