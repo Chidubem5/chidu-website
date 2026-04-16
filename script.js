@@ -361,22 +361,32 @@ initTravelLightbox();
 /* ─────────────────────────────────────────
    ANIME POSTER LOADER  (Jikan / MAL API)
 ───────────────────────────────────────── */
+async function fetchWithRetry(url, retries = 2, delay = 800) {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const res = await fetch(url);
+      if (res.status === 429) throw new Error('rate limited');
+      return await res.json();
+    } catch (_) {
+      if (i < retries) await new Promise(r => setTimeout(r, delay * (i + 1)));
+    }
+  }
+  return null;
+}
+
 async function loadAnimePosters() {
   const cards = Array.from(document.querySelectorAll('.anime-card[data-mal-id]'));
   for (let i = 0; i < cards.length; i++) {
-    const card  = cards[i];
-    const type  = card.dataset.malType;   // "anime" or "manga"
-    const id    = card.dataset.malId;
-    const img   = card.querySelector('.anime-poster');
+    const card = cards[i];
+    const type = card.dataset.malType;
+    const id   = card.dataset.malId;
+    const img  = card.querySelector('.anime-poster');
     if (!img) continue;
-    try {
-      const res  = await fetch(`https://api.jikan.moe/v4/${type}/${id}`);
-      const json = await res.json();
-      const url  = json?.data?.images?.jpg?.image_url;
-      if (url) img.src = url;
-    } catch (_) { /* silently skip on network error */ }
-    // Jikan allows ~3 req/s — 350ms gap keeps us well within limits
-    if (i < cards.length - 1) await new Promise(r => setTimeout(r, 350));
+    const json = await fetchWithRetry(`https://api.jikan.moe/v4/${type}/${id}`);
+    const url  = json?.data?.images?.jpg?.large_image_url || json?.data?.images?.jpg?.image_url;
+    if (url) img.src = url;
+    // 500ms between requests — safely under Jikan's 3 req/s limit
+    if (i < cards.length - 1) await new Promise(r => setTimeout(r, 500));
   }
 }
 

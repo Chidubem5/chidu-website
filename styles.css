@@ -725,18 +725,20 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 
 .genre-pills {
   display: flex;
-  flex-wrap: wrap;
-  gap: .6rem;
+  flex-direction: column;
+  gap: .5rem;
 }
 .genre-pill {
   background: var(--genre-bg);
   color: var(--genre-txt);
-  padding: .4rem 1rem;
+  padding: .45rem 1.1rem;
   border-radius: 20px;
   font-size: .88rem;
   font-weight: 600;
   cursor: default;
   transition: transform .15s;
+  display: inline-block;
+  align-self: flex-start;
 }
 .genre-pill:hover { transform: scale(1.05); }
 
@@ -1030,6 +1032,65 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   .anime-card   { padding: .75rem .9rem; gap: .75rem; }
   .anime-wiki   { display: none; }
   .anime-title  { font-size: .92rem; white-space: normal; }
+}
+
+/* ─────────────────────────────────────────
+   COMEDIANS
+───────────────────────────────────────── */
+.comedian-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: .55rem;
+}
+
+.comedian-card {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .75rem 1rem;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .2s, border-color .2s, background .2s;
+}
+.comedian-card:hover {
+  transform: translateX(4px);
+  border-color: var(--accent);
+  background: var(--bg-card-hover);
+}
+
+.comedian-rank {
+  font-size: .72rem;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: .05em;
+  min-width: 22px;
+  flex-shrink: 0;
+}
+
+.comedian-name {
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+}
+
+.comedian-wiki {
+  font-size: .75rem;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: .65;
+  transition: opacity .2s;
+}
+.comedian-card:hover .comedian-wiki { opacity: 1; }
+
+@media (max-width: 480px) {
+  .comedian-list  { grid-template-columns: 1fr; }
+  .comedian-wiki  { display: none; }
 }
 
 /* ─────────────────────────────────────────
