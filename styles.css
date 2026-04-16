@@ -54,11 +54,17 @@
 /* ─────────────────────────────────────────
    RESET & BASE
 ───────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
 
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -67,10 +73,18 @@ body {
   color: var(--text);
   line-height: 1.7;
   transition: background .35s, color .35s;
+  overscroll-behavior-y: none;
 }
 
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
 
 /* ─────────────────────────────────────────
    SCROLLBAR
@@ -116,11 +130,18 @@ img { max-width: 100%; display: block; }
 }
 
 .nav-brand {
-  font-size: 1.2rem;
-  font-weight: 800;
-  letter-spacing: .04em;
-  color: var(--accent);
+  display: flex;
+  align-items: center;
 }
+
+.nav-logo {
+  height: 36px;
+  width: 36px;
+  object-fit: contain;
+  border-radius: 8px;
+  transition: transform .2s;
+}
+.nav-logo:hover { transform: scale(1.08); }
 
 .nav-right {
   display: flex;
@@ -1142,12 +1163,14 @@ img { max-width: 100%; display: block; }
   background: rgba(255,255,255,.12);
   border: none;
   color: #fff;
-  width: 48px; height: 48px;
+  width: 52px; height: 52px;
   border-radius: 50%;
   font-size: 2rem;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: background .2s;
+  /* ensure at least 44px touch target */
+  min-width: 44px; min-height: 44px;
 }
 .lightbox-arrow:hover { background: rgba(255,255,255,.25); }
 .lightbox-arrow.left  { left: 1.5rem; }
@@ -1181,12 +1204,109 @@ img { max-width: 100%; display: block; }
 .footer-copy { font-size: .78rem; color: var(--text-muted); }
 
 /* ─────────────────────────────────────────
-   RESPONSIVE
+   RESPONSIVE  ≤ 768px  (tablets / large phones)
+───────────────────────────────────────── */
+@media (max-width: 768px) {
+  .research-grid { grid-template-columns: 1fr; }
+
+  /* Slideshow: drop height from 480 → 300px */
+  .slide-img-wrap { height: 300px; }
+
+  /* Bigger arrow touch targets */
+  .slide-arrow {
+    width: 44px; height: 44px;
+    font-size: 1.6rem;
+  }
+
+  /* Bigger dot tap areas */
+  .dot { width: 10px; height: 10px; }
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE  ≤ 640px  (phones)
 ───────────────────────────────────────── */
 @media (max-width: 640px) {
-  .section { padding: 70px 0; }
-  .hero { padding: 80px 1rem 40px; }
-  .games-grid { grid-template-columns: repeat(2, 1fr); }
-  .projects-grid { grid-template-columns: 1fr; }
-  .book-card { flex-direction: column; max-width: 100%; }
+  /* Spacing */
+  .section         { padding: 60px 0; }
+  .container       { padding: 0 1rem; }
+  .hero            { padding: 80px 1rem 40px; }
+
+  /* Grids */
+  .games-grid      { grid-template-columns: repeat(2, 1fr); }
+  .projects-grid   { grid-template-columns: 1fr; }
+  .model-grid      { grid-template-columns: repeat(2, 1fr); }
+
+  /* Books */
+  .book-card       { flex-direction: column; max-width: 100%; }
+
+  /* Featured photo */
+  .model-ph-featured        { height: 260px !important; }
+  .model-ph-featured img    { height: 260px; }
+
+  /* Slideshow height ≤ 640 */
+  .slide-img-wrap  { height: 260px; }
+
+  /* Slide arrows sit at absolute center of the track */
+  .slideshow-wrapper { position: relative; }
+  .slide-arrow.left  { left: 6px; }
+  .slide-arrow.right { right: 6px; }
+
+  /* Lightbox */
+  .lightbox-img {
+    max-width: 96vw;
+    max-height: 80vh;
+  }
+  .lightbox-arrow.left  { left: .5rem; }
+  .lightbox-arrow.right { right: .5rem; }
+  .lightbox-close       { top: .75rem; right: .9rem; font-size: 1.4rem; }
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE  ≤ 480px  (small phones)
+───────────────────────────────────────── */
+@media (max-width: 480px) {
+  /* Sections */
+  .section          { padding: 50px 0; }
+  .container        { padding: 0 .9rem; }
+
+  /* Navbar */
+  .navbar           { padding: 0 .85rem; }
+  /* Dropdown: full-width feel */
+  .dropdown-menu    { min-width: 170px; right: -4px; }
+  .drop-link        { padding: .65rem 1.25rem; font-size: .88rem; }
+
+  /* Hero: stack CTA buttons */
+  .hero-cta         { flex-direction: column; align-items: center; }
+  .btn              { width: 100%; max-width: 280px; text-align: center; justify-content: center; }
+  .hero-scroll-hint { display: none; }
+
+  /* About */
+  .about-text p     { font-size: .97rem; }
+
+  /* Artist cards: tighter on narrow screens */
+  .artist-card      { padding: .7rem .85rem; gap: .65rem; }
+  .artist-links     { gap: .3rem; }
+  .artist-link      { width: 28px; height: 28px; font-size: .75rem; }
+  .songs-toggle     { font-size: .75rem; }
+
+  /* Song rows: let platform links wrap if needed */
+  .songs-list li    { flex-wrap: wrap; gap: .3rem; }
+  .song-platform-links { gap: .25rem; }
+
+  /* Travel slideshow */
+  .slide-img-wrap   { height: 220px; }
+  .slide-arrow      { width: 40px; height: 40px; font-size: 1.4rem; }
+  .slide-caption    { font-size: .78rem; }
+
+  /* Research cards */
+  .research-card    { padding: 1.1rem; gap: .75rem; }
+  .research-icon    { font-size: 1.5rem; }
+
+  /* Games 2-column stays but tighter */
+  .game-card        { padding: 1.5rem 1rem; }
+  .game-emoji       { font-size: 1.8rem; }
+
+  /* Books */
+  .book-cover-front { width: 105px; }
+  .book-cover-title { font-size: .8rem; }
 }
