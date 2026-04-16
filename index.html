@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chidubem Umeh</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar" id="navbar">
+    <a class="nav-brand" href="#home">CU</a>
+
+    <div class="nav-right">
+      <div class="nav-dropdown" id="navDropdown">
+        <button class="nav-toggle" id="navToggle" aria-expanded="false">
+          Menu <span class="arrow">▾</span>
+        </button>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a href="#home"     class="drop-link">Home</a>
+          <a href="#about"    class="drop-link">About Me</a>
+          <a href="#projects" class="drop-link">Projects</a>
+          <div class="drop-divider"></div>
+          <span class="drop-label">Hobbies</span>
+          <a href="#music"    class="drop-link drop-indent">Music</a>
+          <a href="#gaming"   class="drop-link drop-indent">Gaming</a>
+          <a href="#travel"   class="drop-link drop-indent">Travel</a>
+          <a href="#books"    class="drop-link drop-indent">Books</a>
+          <div class="drop-divider"></div>
+          <a href="#modeling" class="drop-link">Modeling</a>
+        </div>
+      </div>
+
+      <button class="theme-btn" id="themeBtn" title="Toggle theme">
+        <span id="themeIcon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── HOME ── -->
+  <section id="home" class="hero">
+    <div class="hero-bg-orb orb-1"></div>
+    <div class="hero-bg-orb orb-2"></div>
+    <div class="hero-content">
+      <p class="hero-greeting">Hello, World. I'm</p>
+      <h1 class="hero-name">Chidubem Umeh</h1>
+      <p class="hero-aka">
+        also known as <span class="nickname-wrap"><span id="nicknameDisplay" class="nickname-text"></span><span class="nickname-cursor">|</span></span>
+      </p>
+      <p class="hero-tagline">
+        Analyst &middot; Coder &middot; Explorer<br />
+        <span class="tagline-sub">Making sense of the world through data, code, and curiosity.</span>
+      </p>
+      <div class="hero-cta">
+        <a href="#about"    class="btn btn-primary">About Me</a>
+        <a href="#projects" class="btn btn-outline">My Projects</a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I'm Chidubem — a deeply analytical mind with a wide lens. Whether I'm
+            breaking down financial markets, dissecting social dynamics, or diving
+            into a physics simulation, I'm always searching for the pattern beneath
+            the surface.
+          </p>
+          <p>
+            My work sits at the intersection of data, science, and storytelling.
+            I believe that understanding systems — social, economic, or scientific —
+            starts with asking the right questions and never settling for surface-level answers.
+          </p>
+          <div class="tag-list">
+            <span class="tag">Financial Analysis</span>
+            <span class="tag">Social Issues</span>
+            <span class="tag">Quantum Computing</span>
+            <span class="tag">Data Science</span>
+            <span class="tag">Astronomy</span>
+            <span class="tag">Physics</span>
+          </div>
+        </div>
+
+        <div class="nickname-card">
+          <h3 class="nickname-card-title">I go by many names</h3>
+          <div class="nickname-grid">
+            <span>Chid</span>
+            <span>Chidu</span>
+            <span>Cheetos</span>
+            <span>Cheetahbem</span>
+            <span>OrlandoBem</span>
+            <span>Dubem</span>
+            <span>Dube&nbsp;Dube</span>
+            <span>Chi&nbsp;Chi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROJECTS ── -->
+  <section id="projects" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Projects</h2>
+      <p class="section-sub">Latest work from <a href="https://github.com/Chidubem5" target="_blank" class="link">GitHub ↗</a></p>
+      <div class="projects-grid" id="projectsGrid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MUSIC ── -->
+  <section id="music" class="section">
+    <div class="container">
+      <h2 class="section-title">Music</h2>
+      <div class="music-layout">
+        <div class="music-genres">
+          <h3 class="sub-heading">What I listen to</h3>
+          <div class="genre-pills">
+            <span class="genre-pill afrobeats">Afrobeats</span>
+            <span class="genre-pill hiphop">Hip Hop</span>
+            <span class="genre-pill rnb">R&amp;B</span>
+            <span class="genre-pill jazz">Jazz</span>
+            <span class="genre-pill country">Country</span>
+          </div>
+        </div>
+
+        <div class="spotify-block">
+          <h3 class="sub-heading">My Playlist</h3>
+          <!-- To embed: replace the div below with your Spotify iframe -->
+          <!-- Example: <iframe src="https://open.spotify.com/embed/playlist/YOUR_ID" ... /> -->
+          <div class="spotify-placeholder" id="spotifyEmbed">
+            <div class="spotify-icon">♫</div>
+            <p>Spotify playlist coming soon</p>
+            <p class="hint">Paste your Spotify embed link to activate</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GAMING ── -->
+  <section id="gaming" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Gaming</h2>
+      <p class="section-sub">Current rotation</p>
+      <div class="games-grid">
+        <div class="game-card">
+          <div class="game-emoji">🌆</div>
+          <h3>GTA V</h3>
+          <p>Open world chaos</p>
+        </div>
+        <div class="game-card">
+          <div class="game-emoji">🦸</div>
+          <h3>Overwatch II</h3>
+          <p>Team-based hero shooter</p>
+        </div>
+        <div class="game-card">
+          <div class="game-emoji">🏗️</div>
+          <h3>Fortnite</h3>
+          <p>Battle royale builder</p>
+        </div>
+        <div class="game-card">
+          <div class="game-emoji">🎯</div>
+          <h3>FPS Games</h3>
+          <p>First-person shooters</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TRAVEL ── -->
+  <section id="travel" class="section">
+    <div class="container">
+      <h2 class="section-title">Travel</h2>
+      <p class="section-sub">Exploring the world, one country at a time</p>
+
+      <h3 class="sub-heading travel-sub">International</h3>
+      <div class="slideshow-wrapper">
+        <button class="slide-arrow left"  onclick="shiftSlide('intl', -1)">&#8249;</button>
+        <div class="slides-track" id="intl-track">
+          <div class="slide active">
+            <div class="slide-img-wrap">
+              <img src="images/travel/india-1.jpg" alt="Taj Mahal, India" class="slide-img" />
+              <span class="slide-caption">🇮🇳 India — Taj Mahal</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/india-2.jpg" alt="Taj Mahal group photo, India" class="slide-img" />
+              <span class="slide-caption">🇮🇳 India — Taj Mahal</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/sa-1.jpg" alt="South Africa group photo" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇿🇦 South Africa</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/sa-2.jpg" alt="South Africa petting a cheetah" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇿🇦 South Africa — Cheetah sanctuary</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/sa-3.jpg" alt="South Africa friends carrying" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇿🇦 South Africa</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/sa-4.jpg" alt="South Africa flower portrait" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇿🇦 South Africa</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/sa-5.jpg" alt="South Africa walking with child" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇿🇦 South Africa</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/dr-1.jpg" alt="Dominican Republic sun over ocean" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇩🇴 Dominican Republic</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/dr-2.jpg" alt="Dominican Republic ocean with sailboat" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇩🇴 Dominican Republic</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/dr-3.jpg" alt="Dominican Republic sun reflection" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇩🇴 Dominican Republic</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/dr-4.jpg" alt="Dominican Republic sun over ocean" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇩🇴 Dominican Republic</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/dr-5.jpg" alt="Dominican Republic string lights at night" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇩🇴 Dominican Republic</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/dr-6.jpg" alt="Dominican Republic stone steps" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇩🇴 Dominican Republic</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/dr-7.jpg" alt="Dominican Republic pink sunset" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇩🇴 Dominican Republic</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/dr-8.jpg" alt="Dominican Republic" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇩🇴 Dominican Republic</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/dr-9.jpg" alt="Dominican Republic" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇩🇴 Dominican Republic</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/dr-10.jpg" alt="Dominican Republic" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇩🇴 Dominican Republic</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/dr-11.jpg" alt="Dominican Republic" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇩🇴 Dominican Republic</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/nigeria-1.jpg" alt="Nigeria traditional attire" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇳🇬 Nigeria</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/nigeria-2.jpg" alt="Nigeria ceremony" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇳🇬 Nigeria</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/nigeria-3.jpg" alt="Nigeria matching turquoise outfits" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇳🇬 Nigeria</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/nigeria-4.jpg" alt="Nigeria traditional celebration" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇳🇬 Nigeria</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/nigeria-5.jpg" alt="Nigeria chiefs and elders ceremony" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇳🇬 Nigeria</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/nigeria-6.jpg" alt="Nigeria wedding greeting" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇳🇬 Nigeria</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/nigeria-7.jpg" alt="Nigeria ceremony handshake" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇳🇬 Nigeria</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/nigeria-8.jpg" alt="Nigeria white lace outfits" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇳🇬 Nigeria</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/nigeria-9.jpg" alt="Nigeria group photo" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇳🇬 Nigeria</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/nigeria-10.jpg" alt="Lagos highway at night" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇳🇬 Nigeria — Lagos streets</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/nigeria-11.jpg" alt="Nigeria" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇳🇬 Nigeria</span>
+            </div>
+          </div>
+          <div class="slide">
+            <div class="slide-img-wrap">
+              <img src="images/travel/nigeria-12.jpg" alt="Nigeria" class="slide-img slide-img-zoom" />
+              <span class="slide-caption">🇳🇬 Nigeria</span>
+            </div>
+          </div>
+        </div>
+        <button class="slide-arrow right" onclick="shiftSlide('intl', 1)">&#8250;</button>
+        <div class="slide-dots" id="intl-dots"></div>
+      </div>
+
+      <h3 class="sub-heading travel-sub">United States</h3>
+      <div class="slideshow-wrapper">
+        <button class="slide-arrow left"  onclick="shiftSlide('us', -1)">&#8249;</button>
+        <div class="slides-track" id="us-track">
+          <div class="slide active">
+            <div class="slide-ph"><span class="slide-flag">🇺🇸</span><span class="slide-place">Add a State</span><p class="slide-hint">Upload your photo here</p></div>
+          </div>
+        </div>
+        <button class="slide-arrow right" onclick="shiftSlide('us', 1)">&#8250;</button>
+        <div class="slide-dots" id="us-dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BOOKS ── -->
+  <section id="books" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Books</h2>
+      <p class="section-sub">Currently reading &amp; recently finished</p>
+      <div class="books-row">
+        <div class="book-card">
+          <div class="book-visual">
+            <div class="book-spine-bar"></div>
+            <div class="book-cover-front">
+              <p class="book-cover-title">A Mind For Numbers</p>
+              <p class="book-cover-author">Barbara Oakley</p>
+              <p class="book-cover-sub">How to Excel at Math and Science</p>
+            </div>
+          </div>
+          <div class="book-meta">
+            <p class="book-label">Last Read</p>
+            <div class="star-rating" data-score="4.3">
+              <!-- Stars rendered by JS -->
+            </div>
+            <p class="book-score">4.3 / 5</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MODELING ── -->
+  <section id="modeling" class="section">
+    <div class="container">
+      <h2 class="section-title">Modeling</h2>
+      <p class="section-sub">In front of the lens</p>
+
+      <!-- Featured photo (largest slot) -->
+      <div class="model-featured">
+        <div class="model-ph model-ph-featured" onclick="openLightbox('images/modeling/headshot.jpg', 0)">
+          <img src="images/modeling/headshot.jpg" alt="Chidubem Umeh headshot" />
+        </div>
+      </div>
+
+      <!-- Gallery grid -->
+      <div class="model-grid" id="modelGrid">
+        <div class="model-ph" onclick="openLightbox('images/modeling/modeling-1.jpg', 1)">
+          <img src="images/modeling/modeling-1.jpg" alt="Traditional attire on stage" />
+        </div>
+        <div class="model-ph" onclick="openLightbox('images/modeling/modeling-2.jpg', 2)">
+          <img src="images/modeling/modeling-2.jpg" alt="Rewrite Romance editorial" />
+        </div>
+        <div class="model-ph" onclick="openLightbox('images/modeling/modeling-3.jpg', 3)">
+          <img src="images/modeling/modeling-3.jpg" alt="Chika & Mayowa wedding" />
+        </div>
+        <div class="model-ph" onclick="openLightbox('images/modeling/modeling-4.jpg', 4)">
+          <img src="images/modeling/modeling-4.jpg" alt="Blue and orange dramatic lighting" />
+        </div>
+        <div class="model-ph" onclick="openLightbox('images/modeling/modeling-5.jpg', 5)">
+          <img src="images/modeling/modeling-5.jpg" alt="Modeling photo 5" />
+        </div>
+      </div>
+
+      <!-- Lightbox overlay -->
+      <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <button class="lightbox-arrow left"  onclick="lbShift(event, -1)">&#8249;</button>
+        <img class="lightbox-img" id="lightboxImg" src="" alt="Modeling photo" />
+        <button class="lightbox-arrow right" onclick="lbShift(event,  1)">&#8250;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p class="footer-name">Chidubem Umeh</p>
+      <div class="footer-links">
+        <a href="https://github.com/Chidubem5" target="_blank">GitHub ↗</a>
+      </div>
+      <p class="footer-copy">&copy; <span id="year"></span> Chidubem Umeh</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
