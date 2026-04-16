@@ -951,7 +951,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: .9rem 1.2rem;
+  padding: .7rem 1.2rem .7rem .7rem;
   text-decoration: none;
   color: inherit;
   transition: transform .2s, border-color .2s, background .2s;
@@ -961,6 +961,18 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   border-color: var(--accent);
   background: var(--bg-card-hover);
 }
+
+.anime-poster {
+  width: 52px;
+  height: 74px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: var(--accent-dim);
+  display: block;
+  transition: opacity .3s;
+}
+.anime-poster[src=""] { opacity: 0; }
 
 .anime-rank {
   font-size: .75rem;

@@ -359,6 +359,30 @@ function initTravelLightbox() {
 initTravelLightbox();
 
 /* ─────────────────────────────────────────
+   ANIME POSTER LOADER  (Jikan / MAL API)
+───────────────────────────────────────── */
+async function loadAnimePosters() {
+  const cards = Array.from(document.querySelectorAll('.anime-card[data-mal-id]'));
+  for (let i = 0; i < cards.length; i++) {
+    const card  = cards[i];
+    const type  = card.dataset.malType;   // "anime" or "manga"
+    const id    = card.dataset.malId;
+    const img   = card.querySelector('.anime-poster');
+    if (!img) continue;
+    try {
+      const res  = await fetch(`https://api.jikan.moe/v4/${type}/${id}`);
+      const json = await res.json();
+      const url  = json?.data?.images?.jpg?.image_url;
+      if (url) img.src = url;
+    } catch (_) { /* silently skip on network error */ }
+    // Jikan allows ~3 req/s — 350ms gap keeps us well within limits
+    if (i < cards.length - 1) await new Promise(r => setTimeout(r, 350));
+  }
+}
+
+loadAnimePosters();
+
+/* ─────────────────────────────────────────
    FOOTER YEAR
 ───────────────────────────────────────── */
 document.getElementById('year').textContent = new Date().getFullYear();
