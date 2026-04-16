@@ -436,11 +436,40 @@ img { max-width: 100%; display: block; }
 ───────────────────────────────────────── */
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  grid-template-columns: 260px 1fr 280px;
+  gap: 2.5rem;
   align-items: start;
 }
-@media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; } }
+@media (max-width: 1000px) {
+  .about-grid { grid-template-columns: 220px 1fr; }
+  .about-grid .nickname-card { grid-column: 1 / -1; }
+}
+@media (max-width: 700px) {
+  .about-grid { grid-template-columns: 1fr; }
+}
+
+.about-photo {
+  position: sticky;
+  top: 80px;
+}
+.about-img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
+  display: block;
+}
+@media (max-width: 700px) {
+  .about-photo { position: static; }
+  .about-img {
+    aspect-ratio: 4 / 3;
+    object-position: center 20%;
+    max-height: 280px;
+    width: 100%;
+  }
+}
 
 .about-text p {
   color: var(--text-2);
