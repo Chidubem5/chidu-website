@@ -110,11 +110,11 @@ cycleNickname();
 ───────────────────────────────────────── */
 const projects = [
   {
-    name: 'batesastronomythesis2022',
-    desc: 'Code used to supplement Senior Thesis in Astronomy — Spring 2022',
-    url:  'https://github.com/Chidubem5/batesastronomythesis2022',
+    name: 'Erdos_Africa',
+    desc: 'Data analysis project — Erdős Institute collaboration',
+    url:  'https://github.com/Chidubem5/Erdos_Africa',
     lang: 'Jupyter Notebook',
-    updated: 'Apr 2026',
+    updated: 'Jan 2026',
   },
   {
     name: 'Gun_Violence',
@@ -138,11 +138,11 @@ const projects = [
     updated: 'Apr 2026',
   },
   {
-    name: 'Erdos_Africa',
-    desc: 'Data analysis project — Erdős Institute collaboration',
-    url:  'https://github.com/Chidubem5/Erdos_Africa',
+    name: 'batesastronomythesis2022',
+    desc: 'Code used to supplement Senior Thesis in Astronomy — Spring 2022',
+    url:  'https://github.com/Chidubem5/batesastronomythesis2022',
     lang: 'Jupyter Notebook',
-    updated: 'Jan 2026',
+    updated: 'Apr 2026',
   },
 ];
 
