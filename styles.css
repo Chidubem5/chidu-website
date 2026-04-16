@@ -518,6 +518,30 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   transform: scale(1.06);
 }
 
+/* Mobile: title above, pills in a single scrollable row */
+@media (max-width: 640px) {
+  .nickname-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .75rem;
+    padding: 1.1rem 1.1rem 1.1rem;
+  }
+  .nickname-grid {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    padding-bottom: .3rem;
+    scrollbar-width: none;
+  }
+  .nickname-grid::-webkit-scrollbar { display: none; }
+  .nickname-grid span {
+    flex-shrink: 0;
+    font-size: .8rem;
+    padding: .35rem .75rem;
+  }
+}
+
 .about-text p {
   color: var(--text-2);
   margin-bottom: 1.1rem;
