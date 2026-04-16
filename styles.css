@@ -570,6 +570,68 @@ img { max-width: 100%; display: block; }
 .genre-pill:hover { transform: scale(1.05); }
 
 .spotify-block { }
+.artist-list {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+.artist-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .85rem 1.1rem;
+  transition: transform .2s, border-color .2s, background .2s;
+  cursor: default;
+}
+.artist-card:hover {
+  transform: translateX(4px);
+  border-color: var(--accent);
+  background: var(--bg-card-hover);
+}
+
+.artist-rank {
+  font-size: .75rem;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: .05em;
+  min-width: 24px;
+}
+
+.artist-info {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  flex: 1;
+}
+
+.artist-name {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.artist-genre {
+  font-size: .75rem;
+  color: var(--text-muted);
+}
+
+.artist-note {
+  font-size: 1rem;
+  opacity: .5;
+}
+
+.artist-honorable {
+  opacity: .75;
+  border-style: dashed;
+}
+.artist-honorable .artist-rank {
+  color: var(--text-muted);
+}
+
 .spotify-placeholder {
   background: var(--bg-card);
   border: 1.5px dashed var(--border);
@@ -684,9 +746,9 @@ img { max-width: 100%; display: block; }
   border-radius: 16px;
   display: block;
 }
-/* Zoom in to crop black/white side bars on vertical photos */
+/* Slight zoom to crop black/white side bars on vertical photos */
 .slide-img-zoom {
-  transform: scale(1.18);
+  transform: scale(1.05);
   transform-origin: center center;
 }
 

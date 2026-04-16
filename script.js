@@ -242,7 +242,6 @@ window.shiftSlide = function(id, dir) {
 window.goToSlide = goToSlide;
 
 initSlideshow('intl');
-initSlideshow('us');
 
 
 /* ─────────────────────────────────────────
@@ -283,6 +282,28 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft')  lbShift(e, -1);
   if (e.key === 'ArrowRight') lbShift(e,  1);
 });
+
+/* ─────────────────────────────────────────
+   TRAVEL SLIDESHOW — CLICK TO EXPAND
+───────────────────────────────────────── */
+function initTravelLightbox() {
+  const track = document.getElementById('intl-track');
+  if (!track) return;
+
+  const imgs = Array.from(track.querySelectorAll('.slide-img'));
+  const srcs = imgs.map(img => img.src);
+
+  imgs.forEach((img, i) => {
+    img.style.cursor = 'pointer';
+    img.addEventListener('click', () => {
+      lbImages  = srcs;
+      lbCurrent = i;
+      openLightbox(srcs[i], i);
+    });
+  });
+}
+
+initTravelLightbox();
 
 /* ─────────────────────────────────────────
    FOOTER YEAR
