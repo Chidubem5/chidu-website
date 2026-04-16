@@ -936,6 +936,91 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .game-card p { font-size: .82rem; color: var(--text-muted); }
 
 /* ─────────────────────────────────────────
+   ANIME & MANGA
+───────────────────────────────────────── */
+.anime-list {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+.anime-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .9rem 1.2rem;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .2s, border-color .2s, background .2s;
+}
+.anime-card:hover {
+  transform: translateX(4px);
+  border-color: var(--accent);
+  background: var(--bg-card-hover);
+}
+
+.anime-rank {
+  font-size: .75rem;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: .05em;
+  min-width: 26px;
+  flex-shrink: 0;
+}
+
+.anime-info {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.anime-title {
+  font-size: .98rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.anime-tags {
+  display: flex;
+  gap: .35rem;
+  flex-wrap: wrap;
+}
+
+.anime-tag {
+  font-size: .7rem;
+  font-weight: 600;
+  background: var(--accent-dim);
+  color: var(--accent);
+  padding: .15rem .55rem;
+  border-radius: 20px;
+}
+
+.anime-wiki {
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: .7;
+  transition: opacity .2s;
+}
+.anime-card:hover .anime-wiki { opacity: 1; }
+
+@media (max-width: 480px) {
+  .anime-card   { padding: .75rem .9rem; gap: .75rem; }
+  .anime-wiki   { display: none; }
+  .anime-title  { font-size: .92rem; white-space: normal; }
+}
+
+/* ─────────────────────────────────────────
    TRAVEL — SLIDESHOW
 ───────────────────────────────────────── */
 .travel-sub { margin-bottom: 1rem; margin-top: 2.5rem; }
