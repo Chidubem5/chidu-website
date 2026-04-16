@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6d28d9"/>
+      <stop offset="50%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="flame" x1="0%" y1="100%" x2="30%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#e9d5ff;stop-opacity:.9"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect width="200" height="200" rx="44" fill="url(#bg)"/>
+
+  <!-- Subtle star dots -->
+  <circle cx="30"  cy="30"  r="1.2" fill="white" opacity=".3"/>
+  <circle cx="170" cy="25"  r="1"   fill="white" opacity=".25"/>
+  <circle cx="160" cy="160" r="1.5" fill="white" opacity=".2"/>
+  <circle cx="25"  cy="155" r="1"   fill="white" opacity=".25"/>
+  <circle cx="85"  cy="18"  r=".8"  fill="white" opacity=".2"/>
+  <circle cx="150" cy="80"  r="1"   fill="white" opacity=".15"/>
+
+  <!-- Main flame -->
+  <g filter="url(#glow)">
+    <path d="
+      M100 155
+      C72 155 52 136 52 112
+      C52 90 65 80 68 65
+      C70 55 66 42 60 32
+      C72 42 78 55 76 68
+      C88 52 90 30 85 15
+      C102 30 112 52 108 72
+      C116 60 118 45 115 30
+      C130 48 138 72 130 92
+      C138 84 142 72 140 60
+      C152 78 152 100 144 115
+      C140 136 122 155 100 155Z
+    " fill="url(#flame)"/>
+
+    <!-- Inner flame teardrop -->
+    <path d="
+      M100 140
+      C90 140 83 132 83 122
+      C83 113 88 108 90 100
+      C93 107 95 112 100 115
+      C105 112 107 107 110 100
+      C112 108 117 113 117 122
+      C117 132 110 140 100 140Z
+    " fill="white" opacity=".55"/>
+  </g>
+</svg>
