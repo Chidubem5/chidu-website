@@ -393,18 +393,60 @@ async function loadAnimePosters() {
 loadAnimePosters();
 
 /* ─────────────────────────────────────────
+   SCROLL PROGRESS BAR
+───────────────────────────────────────── */
+const scrollProgressEl = document.getElementById('scrollProgress');
+window.addEventListener('scroll', () => {
+  const scrolled  = document.documentElement.scrollTop;
+  const maxScroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  scrollProgressEl.style.width = ((scrolled / maxScroll) * 100) + '%';
+}, { passive: true });
+
+
+/* ─────────────────────────────────────────
+   SCROLL-TRIGGERED ENTRANCE ANIMATIONS
+───────────────────────────────────────── */
+function initScrollAnimations() {
+  const targets = document.querySelectorAll(
+    '.section-title, .section-sub, .about-text p, .about-languages, .tag-list, .linkedin-btn,' +
+    '.research-card, .project-card, .artist-card, .anime-card, .comedian-card,' +
+    '.book-card, .game-card, .nickname-card, .sub-heading'
+  );
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  targets.forEach(el => {
+    // Only animate elements below the visible fold on load
+    const rect = el.getBoundingClientRect();
+    if (rect.top > window.innerHeight * 0.95) {
+      el.classList.add('fade-up');
+      observer.observe(el);
+    }
+  });
+}
+
+// Run after DOM is fully painted
+requestAnimationFrame(initScrollAnimations);
+
+
+/* ─────────────────────────────────────────
    BACKGROUND MUSIC PLAYER
 ───────────────────────────────────────── */
-const bgAudio      = document.getElementById('bgAudio');
-const musicToggle  = document.getElementById('musicToggle');
-const musicPlayer  = document.getElementById('musicPlayer');
+const bgAudio     = document.getElementById('bgAudio');
+const musicToggle = document.getElementById('musicToggle');
+const musicPlayer = document.getElementById('musicPlayer');
 
-bgAudio.volume = 0.18;   // quiet background level
-
-function fadeAudio(targetVol, duration = 600) {
+function fadeAudio(targetVol, duration = 1400) {
   const start    = bgAudio.volume;
   const diff     = targetVol - start;
-  const steps    = 30;
+  const steps    = 40;
   const interval = duration / steps;
   let   step     = 0;
   const timer = setInterval(() => {
@@ -417,17 +459,37 @@ function fadeAudio(targetVol, duration = 600) {
   }, interval);
 }
 
+function startPlaying() {
+  bgAudio.volume = 0;
+  bgAudio.play().then(() => {
+    musicPlayer.classList.add('playing');
+    musicToggle.setAttribute('aria-label', 'Pause music');
+    fadeAudio(0.16);
+  }).catch(() => {});
+}
+
+// Try immediate autoplay (works if browser allows)
+startPlaying();
+
+// Fallback: start on first user interaction
+let unlocked = false;
+function unlockMusic() {
+  if (unlocked) return;
+  unlocked = true;
+  startPlaying();
+}
+document.addEventListener('scroll',     unlockMusic, { passive: true, once: true });
+document.addEventListener('click',      unlockMusic, { once: true });
+document.addEventListener('touchstart', unlockMusic, { passive: true, once: true });
+
+// Manual toggle
 musicToggle.addEventListener('click', () => {
+  unlocked = true;
   if (bgAudio.paused) {
-    bgAudio.play().then(() => {
-      musicPlayer.classList.add('playing');
-      musicToggle.setAttribute('aria-label', 'Pause background music');
-      bgAudio.volume = 0;
-      fadeAudio(0.18);
-    }).catch(() => {});
+    startPlaying();
   } else {
     musicPlayer.classList.remove('playing');
-    musicToggle.setAttribute('aria-label', 'Play background music');
+    musicToggle.setAttribute('aria-label', 'Play music');
     fadeAudio(0);
   }
 });
