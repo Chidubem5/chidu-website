@@ -143,6 +143,22 @@ img { max-width: 100%; display: block; }
 }
 .nav-logo:hover { transform: scale(1.08); }
 
+.nav-initials {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  font-size: .85rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform .2s;
+}
+.nav-brand:hover .nav-initials { transform: scale(1.08); }
+
 .nav-right {
   display: flex;
   align-items: center;
