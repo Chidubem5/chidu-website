@@ -439,7 +439,7 @@ img { max-width: 100%; display: block; }
 }
 .about-img {
   width: 100%;
-  max-height: 420px;
+  height: 320px;
   object-fit: cover;
   object-position: center 25%;
   border-radius: 18px;
@@ -447,16 +447,55 @@ img { max-width: 100%; display: block; }
   display: block;
 }
 @media (max-width: 640px) {
-  .about-img { max-height: 260px; }
+  .about-img { height: 210px; }
 }
 
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: start;
+.about-text {
+  margin-bottom: 2.5rem;
 }
-@media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; } }
+
+.nickname-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem 1.75rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.nickname-card-title {
+  font-size: .8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nickname-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  flex: 1;
+}
+.nickname-grid span {
+  background: var(--accent-dim);
+  color: var(--accent);
+  text-align: center;
+  padding: .45rem .9rem;
+  border-radius: 20px;
+  font-size: .88rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background .2s, transform .2s;
+}
+.nickname-grid span:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: scale(1.06);
+}
 
 .about-text p {
   color: var(--text-2);
@@ -510,43 +549,6 @@ img { max-width: 100%; display: block; }
   display: flex; align-items: center; justify-content: center;
 }
 
-.nickname-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 1.75rem;
-  box-shadow: var(--shadow);
-}
-.nickname-card-title {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 1.25rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  font-size: .8rem;
-}
-.nickname-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .5rem;
-}
-.nickname-grid span {
-  background: var(--accent-dim);
-  color: var(--accent);
-  text-align: center;
-  padding: .45rem .9rem;
-  border-radius: 20px;
-  font-size: .88rem;
-  font-weight: 600;
-  white-space: nowrap;
-  transition: background .2s, transform .2s;
-}
-.nickname-grid span:hover {
-  background: var(--accent);
-  color: #fff;
-  transform: scale(1.06);
-}
 
 /* ─────────────────────────────────────────
    RESEARCH CARDS
