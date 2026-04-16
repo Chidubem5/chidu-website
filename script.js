@@ -383,6 +383,46 @@ async function loadAnimePosters() {
 loadAnimePosters();
 
 /* ─────────────────────────────────────────
+   BACKGROUND MUSIC PLAYER
+───────────────────────────────────────── */
+const bgAudio      = document.getElementById('bgAudio');
+const musicToggle  = document.getElementById('musicToggle');
+const musicPlayer  = document.getElementById('musicPlayer');
+
+bgAudio.volume = 0.18;   // quiet background level
+
+function fadeAudio(targetVol, duration = 600) {
+  const start    = bgAudio.volume;
+  const diff     = targetVol - start;
+  const steps    = 30;
+  const interval = duration / steps;
+  let   step     = 0;
+  const timer = setInterval(() => {
+    step++;
+    bgAudio.volume = Math.min(1, Math.max(0, start + diff * (step / steps)));
+    if (step >= steps) {
+      clearInterval(timer);
+      if (targetVol === 0) bgAudio.pause();
+    }
+  }, interval);
+}
+
+musicToggle.addEventListener('click', () => {
+  if (bgAudio.paused) {
+    bgAudio.play().then(() => {
+      musicPlayer.classList.add('playing');
+      musicToggle.setAttribute('aria-label', 'Pause background music');
+      bgAudio.volume = 0;
+      fadeAudio(0.18);
+    }).catch(() => {});
+  } else {
+    musicPlayer.classList.remove('playing');
+    musicToggle.setAttribute('aria-label', 'Play background music');
+    fadeAudio(0);
+  }
+});
+
+/* ─────────────────────────────────────────
    FOOTER YEAR
 ───────────────────────────────────────── */
 document.getElementById('year').textContent = new Date().getFullYear();
