@@ -65,6 +65,8 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   -webkit-overflow-scrolling: touch;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -1678,4 +1680,49 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   /* Books */
   .book-cover-front { width: 105px; }
   .book-cover-title { font-size: .8rem; }
+}
+
+/* ─────────────────────────────────────────
+   IOS / TOUCH  —  hover & active states
+   @media (hover: none) targets real touch
+   screens; mouse/trackpad devices keep their
+   hover animations untouched.
+───────────────────────────────────────── */
+@media (hover: none) {
+  /* ── neutralise sticky hover states ── */
+  .btn:hover                         { transform: none; box-shadow: var(--shadow); }
+  .btn-primary:hover                 { background: var(--accent); }
+  .btn-outline:hover                 { background: transparent; }
+  .linkedin-btn:hover                { background: #0077b5; transform: none; }
+  .artist-card:hover                 { transform: none; box-shadow: var(--shadow); background: var(--bg-card); }
+  .artist-link:hover                 { transform: none; opacity: 1; }
+  .song-link:hover                   { transform: none; opacity: 1; }
+  .research-card:hover               { transform: none; box-shadow: var(--shadow); }
+  .project-card:hover                { transform: none; box-shadow: var(--shadow); }
+  .project-card:hover .project-arrow { opacity: 0; }
+  .game-card:hover                   { transform: none; box-shadow: var(--shadow); }
+  .anime-card:hover                  { transform: none; box-shadow: var(--shadow); }
+  .anime-card:hover .anime-wiki      { opacity: 0; }
+  .comedian-card:hover               { transform: none; box-shadow: var(--shadow); }
+  .comedian-card:hover .comedian-wiki{ opacity: 0; }
+  .book-card:hover                   { transform: none; box-shadow: var(--shadow); }
+  .model-ph:hover                    { transform: none; }
+  .model-ph:hover img                { transform: none; }
+  .genre-pill:hover                  { transform: none; }
+  .music-toggle:hover                { transform: none; box-shadow: var(--shadow); }
+  .slide-arrow:hover                 { background: rgba(0,0,0,.45); color: #fff; border-color: rgba(255,255,255,.25); }
+
+  /* ── active (tap) feedback ── */
+  .btn:active                        { transform: scale(.97); opacity: .85; transition: transform .1s, opacity .1s; }
+  .artist-card:active                { background: var(--bg-card-hover); transition: background .1s; }
+  .research-card:active,
+  .project-card:active,
+  .game-card:active,
+  .anime-card:active,
+  .comedian-card:active,
+  .book-card:active                  { transform: scale(.985); transition: transform .1s; }
+  .model-ph:active                   { transform: scale(.97); transition: transform .1s; }
+  .slide-arrow:active                { background: var(--accent); color: #fff; }
+  .music-toggle:active               { transform: scale(.93); transition: transform .1s; }
+  .linkedin-btn:active               { transform: scale(.97); transition: transform .1s; }
 }
