@@ -1186,7 +1186,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .slide-img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 16px;
   display: block;
   background: #000;
