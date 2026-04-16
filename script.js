@@ -72,7 +72,7 @@ window.addEventListener('scroll', () => {
 /* ─────────────────────────────────────────
    NICKNAME ROTATOR (hero section)
 ───────────────────────────────────────── */
-const nicknames = ['Chid', 'Chidu', 'Cheetos', 'Cheetahbem', 'OrlandoBem', 'Dubem', 'Dube Dube', 'Chi Chi', 'Umi', 'Umizoomi', 'Shitbem', 'Shittybem', 'Gigabem', 'Supremebem'];
+const nicknames = ['Chid', 'Chidu', 'Cheetos', 'Cheetahbem', 'OrlandoBem', 'Dubem', 'Dube Dube', 'Chi Chi', 'Umi', 'Umizoomi', 'Gigabem', 'Supremebem'];
 let nickIdx = 0;
 const nickEl = document.getElementById('nicknameDisplay');
 
