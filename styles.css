@@ -624,6 +624,74 @@ img { max-width: 100%; display: block; }
   opacity: .5;
 }
 
+.artist-links {
+  display: flex;
+  gap: .4rem;
+  flex-shrink: 0;
+}
+
+.artist-link {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8rem;
+  text-decoration: none;
+  transition: transform .15s, opacity .15s;
+  font-weight: 700;
+}
+.artist-link:hover { transform: scale(1.15); opacity: .85; }
+
+.artist-link.spotify { background: #1DB954; color: #fff; }
+.artist-link.apple   { background: #fc3c44; color: #fff; }
+.artist-link.insta   { background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af); color: #fff; }
+
+.artist-wrap { display: flex; flex-direction: column; }
+
+.songs-toggle {
+  font-size: .8rem;
+  color: var(--text-muted);
+  transition: transform .25s;
+  flex-shrink: 0;
+  margin-left: .25rem;
+}
+.artist-card.open .songs-toggle { transform: rotate(180deg); }
+.artist-card { cursor: pointer; }
+
+.songs-list {
+  list-style: none;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s ease, padding .25s;
+  background: var(--accent-dim);
+  border-radius: 0 0 12px 12px;
+  border: 1px solid var(--border);
+  border-top: none;
+  padding: 0 1.1rem;
+}
+.songs-list.open {
+  max-height: 400px;
+  padding: .6rem 1.1rem .75rem;
+}
+.songs-list li {
+  font-size: .85rem;
+  color: var(--text-2);
+  padding: .3rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.songs-list li:last-child { border-bottom: none; }
+.songs-list li::before {
+  content: '♪';
+  color: var(--accent);
+  font-size: .75rem;
+  flex-shrink: 0;
+}
+
 .artist-honorable {
   opacity: .75;
   border-style: dashed;

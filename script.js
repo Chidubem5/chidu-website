@@ -72,7 +72,7 @@ window.addEventListener('scroll', () => {
 /* ─────────────────────────────────────────
    NICKNAME ROTATOR (hero section)
 ───────────────────────────────────────── */
-const nicknames = ['Chid', 'Chidu', 'Cheetos', 'Cheetahbem', 'OrlandoBem', 'Dubem', 'Dube Dube', 'Chi Chi'];
+const nicknames = ['Chid', 'Chidu', 'Cheetos', 'Cheetahbem', 'OrlandoBem', 'Dubem', 'Dube Dube', 'Chi Chi', 'Umi', 'Umizoomi', 'Shitbem', 'Shittybem', 'Gigabem', 'Supremebem'];
 let nickIdx = 0;
 const nickEl = document.getElementById('nicknameDisplay');
 
@@ -240,6 +240,22 @@ window.shiftSlide = function(id, dir) {
 };
 
 window.goToSlide = goToSlide;
+
+/* ─────────────────────────────────────────
+   ARTIST SONG TOGGLE
+───────────────────────────────────────── */
+window.toggleSongs = function(card) {
+  const list = card.nextElementSibling;
+  const isOpen = list.classList.contains('open');
+  // Close all others first
+  document.querySelectorAll('.songs-list.open').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.artist-card.open').forEach(el => el.classList.remove('open'));
+  // Toggle clicked one
+  if (!isOpen) {
+    list.classList.add('open');
+    card.classList.add('open');
+  }
+};
 
 initSlideshow('intl');
 
