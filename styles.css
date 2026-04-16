@@ -426,6 +426,37 @@ img { max-width: 100%; display: block; }
   letter-spacing: .02em;
 }
 
+.about-languages {
+  font-size: .88rem;
+  color: var(--text-muted);
+  margin-bottom: .5rem;
+}
+
+.linkedin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: 1.25rem;
+  background: #0077b5;
+  color: #fff;
+  padding: .55rem 1.2rem;
+  border-radius: 10px;
+  font-size: .9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .2s, transform .15s;
+}
+.linkedin-btn:hover { background: #005e94; transform: translateY(-2px); }
+.linkedin-icon {
+  background: #fff;
+  color: #0077b5;
+  font-size: .75rem;
+  font-weight: 800;
+  width: 20px; height: 20px;
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+}
+
 .nickname-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -443,24 +474,64 @@ img { max-width: 100%; display: block; }
   font-size: .8rem;
 }
 .nickname-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: .6rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
 }
 .nickname-grid span {
   background: var(--accent-dim);
   color: var(--accent);
   text-align: center;
-  padding: .5rem .6rem;
-  border-radius: 10px;
-  font-size: .9rem;
+  padding: .45rem .9rem;
+  border-radius: 20px;
+  font-size: .88rem;
   font-weight: 600;
+  white-space: nowrap;
   transition: background .2s, transform .2s;
 }
 .nickname-grid span:hover {
   background: var(--accent);
   color: #fff;
-  transform: scale(1.04);
+  transform: scale(1.06);
+}
+
+/* ─────────────────────────────────────────
+   RESEARCH CARDS
+───────────────────────────────────────── */
+.research-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.research-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 14px;
+  padding: 1.4rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  box-shadow: var(--shadow);
+  transition: transform .2s, box-shadow .2s;
+}
+.research-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+.research-icon { font-size: 1.8rem; flex-shrink: 0; }
+.research-body h4 {
+  font-size: .98rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: .4rem;
+}
+.research-body p {
+  font-size: .85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
 }
 
 /* ─────────────────────────────────────────
@@ -685,12 +756,29 @@ img { max-width: 100%; display: block; }
   gap: .5rem;
 }
 .songs-list li:last-child { border-bottom: none; }
-.songs-list li::before {
-  content: '♪';
-  color: var(--accent);
-  font-size: .75rem;
+.song-name {
+  flex: 1;
+  color: var(--text-2);
+  font-size: .85rem;
+}
+
+.song-platform-links {
+  display: flex;
+  gap: .35rem;
   flex-shrink: 0;
 }
+
+.song-link {
+  font-size: .72rem;
+  font-weight: 700;
+  padding: .2rem .55rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: opacity .15s, transform .15s;
+}
+.song-link:hover { opacity: .8; transform: scale(1.05); }
+.song-link.spotify { background: #1DB954; color: #fff; }
+.song-link.apple   { background: #fc3c44; color: #fff; }
 
 .artist-honorable {
   opacity: .75;
@@ -803,21 +891,18 @@ img { max-width: 100%; display: block; }
 .slide-img-wrap {
   position: relative;
   width: 100%;
-  height: 280px;
+  height: 480px;
   border-radius: 16px;
   overflow: hidden;
+  background: #000;
 }
 .slide-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 16px;
   display: block;
-}
-/* Slight zoom to crop black/white side bars on vertical photos */
-.slide-img-zoom {
-  transform: scale(1.05);
-  transform-origin: center center;
+  background: #000;
 }
 
 .slide-caption {

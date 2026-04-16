@@ -31,7 +31,7 @@
           <a href="#travel"   class="drop-link drop-indent">Travel</a>
           <a href="#books"    class="drop-link drop-indent">Books</a>
           <div class="drop-divider"></div>
-          <a href="#modeling" class="drop-link">Modeling</a>
+          <a href="#modeling" class="drop-link">Pictures Through The Years</a>
         </div>
       </div>
 
@@ -52,8 +52,8 @@
         also known as <span class="nickname-wrap"><span id="nicknameDisplay" class="nickname-text"></span><span class="nickname-cursor">|</span></span>
       </p>
       <p class="hero-tagline">
-        Analyst &middot; Coder &middot; Explorer<br />
-        <span class="tagline-sub">Making sense of the world through data, code, and curiosity.</span>
+        Physicist &middot; Analyst &middot; Coder &middot; Athlete &middot; Explorer<br />
+        <span class="tagline-sub">Making sense of the world through science, data, and curiosity.</span>
       </p>
       <div class="hero-cta">
         <a href="#about"    class="btn btn-primary">About Me</a>
@@ -76,27 +76,51 @@
           <p>
             I'm Chidubem, a name that in the Igbo language translates to
             <em>"God Guide Me"</em> or <em>"I will follow in God's footsteps"</em>.
-            It's a name I carry with purpose.
+            It's a name I carry with purpose. I hold dual US and Nigerian citizenship,
+            and that dual identity shapes everything about how I see the world.
           </p>
           <p>
-            A deeply analytical mind with a wide lens. Whether I'm
-            breaking down financial markets, dissecting social dynamics, or diving
-            into a physics simulation, I'm always searching for the pattern beneath
-            the surface.
+            I earned my Bachelor of Science in Physics from Bates College, with minors in
+            Computer Science and Mathematics. I am currently a Masters student in Physics
+            at the University of Central Florida, where I work in Dr. Enrique Del Barco's
+            lab researching adiabatic spintronics — specifically detecting spin current
+            transport through antiferromagnetic materials. I am also a member of the
+            National Society of Black Engineers (NSBE) and the Graduate Society of
+            Physics Students (GSPS).
           </p>
           <p>
-            My work sits at the intersection of data, science, and storytelling.
-            I believe that understanding systems, social, economic, or scientific,
-            starts with asking the right questions and never settling for surface level answers.
+            Beyond the lab, I am a deeply analytical mind with a wide lens. I completed the
+            Erdős Institute Quant Finance Boot Camp and hold a Google Analytics certification.
+            Whether breaking down financial markets, dissecting social dynamics, or building
+            data pipelines, I am always searching for the pattern beneath the surface.
+          </p>
+          <p>
+            I was a collegiate athlete at Bates College, competing in football as a
+            Defensive End and Outside Linebacker, and in track and field across sprints,
+            high jump, long jump, and shot put. My travels to India and South Africa were
+            service trips through Noble and Greenough School, where I volunteered in
+            education and community health initiatives.
+          </p>
+          <p class="about-languages">
+            <strong>Languages:</strong> English (Native) &nbsp;·&nbsp; Igbo (Working proficiency) &nbsp;·&nbsp; Spanish (Elementary)
           </p>
           <div class="tag-list">
+            <span class="tag">Physics Research</span>
+            <span class="tag">Spintronics</span>
+            <span class="tag">Data Science</span>
+            <span class="tag">Quant Finance</span>
             <span class="tag">Financial Analysis</span>
             <span class="tag">Social Issues</span>
             <span class="tag">Quantum Computing</span>
-            <span class="tag">Data Science</span>
             <span class="tag">Astronomy</span>
-            <span class="tag">Physics</span>
+            <span class="tag">Collegiate Athlete</span>
+            <span class="tag">NSBE</span>
+            <span class="tag">Python · SQL · MATLAB</span>
+            <span class="tag">UCF · Bates College</span>
           </div>
+          <a href="https://www.linkedin.com/in/chidubem-umeh/" target="_blank" class="linkedin-btn">
+            <span class="linkedin-icon">in</span> View LinkedIn Profile
+          </a>
         </div>
 
         <div class="nickname-card">
@@ -127,6 +151,35 @@
     <div class="container">
       <h2 class="section-title">Projects</h2>
       <p class="section-sub">Latest work from <a href="https://github.com/Chidubem5" target="_blank" class="link">GitHub ↗</a></p>
+
+      <!-- Graduate Research -->
+      <h3 class="sub-heading" style="margin-bottom: 1rem;">Graduate Research at UCF</h3>
+      <div class="research-grid">
+        <div class="research-card">
+          <div class="research-icon">⚛️</div>
+          <div class="research-body">
+            <h4>Adiabatic Spintronics</h4>
+            <p>Researching spin current transport through antiferromagnetic materials via the inverse spin Hall effect (ISHE) in Dr. Enrique Del Barco's lab at the University of Central Florida.</p>
+          </div>
+        </div>
+        <div class="research-card">
+          <div class="research-icon">🔬</div>
+          <div class="research-body">
+            <h4>TR-MOKE Measurements</h4>
+            <p>Collaborated on time-resolved magneto-optic Kerr effect measurements with the University of Tampa Optics lab, operating equipment at cryogenic temperatures (~70 K).</p>
+          </div>
+        </div>
+        <div class="research-card">
+          <div class="research-icon">🧑‍🏫</div>
+          <div class="research-body">
+            <h4>Graduate Teaching Assistant</h4>
+            <p>Teaching Assistant for Physics I and II labs at UCF, guiding undergraduate students through experimental physics and data analysis.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coding Projects -->
+      <h3 class="sub-heading" style="margin: 2.5rem 0 1rem;">Coding Projects</h3>
       <div class="projects-grid" id="projectsGrid">
         <!-- Rendered by JS -->
       </div>
@@ -154,7 +207,7 @@
           <div class="artist-list">
 
             <!-- J. Cole -->
-            <div class="artist-wrap">
+            <div class="artist-wrap" data-artist="J. Cole">
               <div class="artist-card" onclick="toggleSongs(this)">
                 <span class="artist-rank">01</span>
                 <div class="artist-info">
@@ -179,7 +232,7 @@
             </div>
 
             <!-- Davido -->
-            <div class="artist-wrap">
+            <div class="artist-wrap" data-artist="Davido">
               <div class="artist-card" onclick="toggleSongs(this)">
                 <span class="artist-rank">02</span>
                 <div class="artist-info">
@@ -203,7 +256,7 @@
             </div>
 
             <!-- BigXthaPlug -->
-            <div class="artist-wrap">
+            <div class="artist-wrap" data-artist="BigXthaPlug">
               <div class="artist-card" onclick="toggleSongs(this)">
                 <span class="artist-rank">03</span>
                 <div class="artist-info">
@@ -226,7 +279,7 @@
             </div>
 
             <!-- Dave -->
-            <div class="artist-wrap">
+            <div class="artist-wrap" data-artist="Dave">
               <div class="artist-card" onclick="toggleSongs(this)">
                 <span class="artist-rank">04</span>
                 <div class="artist-info">
@@ -255,7 +308,7 @@
             </div>
 
             <!-- Tems -->
-            <div class="artist-wrap">
+            <div class="artist-wrap" data-artist="Tems">
               <div class="artist-card" onclick="toggleSongs(this)">
                 <span class="artist-rank">05</span>
                 <div class="artist-info">
@@ -281,7 +334,7 @@
             </div>
 
             <!-- Minnie Riperton -->
-            <div class="artist-wrap">
+            <div class="artist-wrap" data-artist="Minnie Riperton">
               <div class="artist-card artist-honorable" onclick="toggleSongs(this)">
                 <span class="artist-rank">★</span>
                 <div class="artist-info">
@@ -524,7 +577,7 @@
   <!-- ── MODELING ── -->
   <section id="modeling" class="section">
     <div class="container">
-      <h2 class="section-title">Modeling</h2>
+      <h2 class="section-title">Pictures Through The Years</h2>
       <p class="section-sub">In front of the lens</p>
 
       <!-- Featured photo (largest slot) -->

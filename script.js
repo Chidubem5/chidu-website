@@ -244,6 +244,26 @@ window.goToSlide = goToSlide;
 /* ─────────────────────────────────────────
    ARTIST SONG TOGGLE
 ───────────────────────────────────────── */
+/* ─────────────────────────────────────────
+   SONG PLATFORM LINKS — auto-generated
+───────────────────────────────────────── */
+document.querySelectorAll('.artist-wrap').forEach(wrap => {
+  const artist = wrap.dataset.artist || '';
+  wrap.querySelectorAll('.songs-list li').forEach(li => {
+    const song = li.textContent.trim();
+    const query = encodeURIComponent(`${song} ${artist}`);
+    const spotifyUrl     = `https://open.spotify.com/search/${query}`;
+    const appleMusicUrl  = `https://music.apple.com/us/search?term=${query}`;
+
+    li.innerHTML = `
+      <span class="song-name">♪ ${song}</span>
+      <span class="song-platform-links">
+        <a href="${spotifyUrl}" target="_blank" class="song-link spotify" title="Play on Spotify">Spotify</a>
+        <a href="${appleMusicUrl}" target="_blank" class="song-link apple" title="Play on Apple Music">Apple</a>
+      </span>`;
+  });
+});
+
 window.toggleSongs = function(card) {
   const list = card.nextElementSibling;
   const isOpen = list.classList.contains('open');
