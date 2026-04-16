@@ -314,7 +314,7 @@ window.toggleSongs = function(card) {
   }
 };
 
-initSlideshow('intl', true, 5000);
+initSlideshow('intl', true, 4000);
 
 /* ─────────────────────────────────────────
    SWIPE SUPPORT FOR SLIDESHOWS (mobile)
