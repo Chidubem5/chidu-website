@@ -66,7 +66,7 @@ document.addEventListener('click', () => {
 window.addEventListener('scroll', () => {
   document.getElementById('navbar').style.boxShadow =
     window.scrollY > 10 ? '0 2px 16px rgba(0,0,0,.12)' : 'none';
-});
+}, { passive: true });
 
 
 /* ─────────────────────────────────────────
@@ -278,6 +278,23 @@ window.toggleSongs = function(card) {
 };
 
 initSlideshow('intl');
+
+/* ─────────────────────────────────────────
+   SWIPE SUPPORT FOR SLIDESHOWS (mobile)
+───────────────────────────────────────── */
+function addSwipe(trackId) {
+  const el = document.getElementById(trackId);
+  if (!el) return;
+  let startX = 0;
+  el.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+  }, { passive: true });
+  el.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) shiftSlide(trackId.replace('-track', ''), dx < 0 ? 1 : -1);
+  }, { passive: true });
+}
+addSwipe('intl-track');
 
 
 /* ─────────────────────────────────────────
