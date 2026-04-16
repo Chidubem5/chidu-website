@@ -483,6 +483,36 @@ requestAnimationFrame(initScrollAnimations);
 const bgAudio     = document.getElementById('bgAudio');
 const musicToggle = document.getElementById('musicToggle');
 const musicPlayer = document.getElementById('musicPlayer');
+const musicLabel  = document.getElementById('musicLabel');
+
+const jazzPlaylist = [
+  { title: 'Bossa Antigua',    url: 'https://incompetech.com/music/royalty-free/mp3-royaltyfree/Bossa%20Antigua.mp3' },
+  { title: 'Sneaky Snitch',    url: 'https://incompetech.com/music/royalty-free/mp3-royaltyfree/Sneaky%20Snitch.mp3' },
+  { title: 'Latin Industries', url: 'https://incompetech.com/music/royalty-free/mp3-royaltyfree/Latin%20Industries.mp3' },
+  { title: 'Fillmore',         url: 'https://incompetech.com/music/royalty-free/mp3-royaltyfree/Fillmore.mp3' },
+];
+
+// Start from a random track
+let currentTrack = Math.floor(Math.random() * jazzPlaylist.length);
+
+function loadTrack(index) {
+  const track = jazzPlaylist[index];
+  bgAudio.src = track.url;
+  bgAudio.load();
+  musicLabel.textContent = `${track.title} · Kevin MacLeod`;
+}
+
+function nextTrack() {
+  currentTrack = (currentTrack + 1) % jazzPlaylist.length;
+  loadTrack(currentTrack);
+  bgAudio.volume = 0.05;
+  bgAudio.play().catch(() => {});
+}
+
+// Advance to next song when current one ends
+bgAudio.addEventListener('ended', nextTrack);
+
+loadTrack(currentTrack);
 
 function fadeAudio(targetVol, duration = 1400) {
   const start    = bgAudio.volume;
