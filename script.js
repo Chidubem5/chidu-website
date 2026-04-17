@@ -328,38 +328,6 @@ window.goToSlide = function(id, index) {
 /* ─────────────────────────────────────────
    ARTIST SONG TOGGLE
 ───────────────────────────────────────── */
-/* ─────────────────────────────────────────
-   SONG PLATFORM LINKS — auto-generated
-───────────────────────────────────────── */
-document.querySelectorAll('.artist-wrap').forEach(wrap => {
-  const artist = wrap.dataset.artist || '';
-  wrap.querySelectorAll('.songs-list li').forEach(li => {
-    const song = li.textContent.trim();
-    const query = encodeURIComponent(`${song} ${artist}`);
-    const spotifyUrl     = `https://open.spotify.com/search/${query}`;
-    const appleMusicUrl  = `https://music.apple.com/us/search?term=${query}`;
-
-    li.innerHTML = `
-      <span class="song-name">♪ ${song}</span>
-      <span class="song-platform-links">
-        <a href="${spotifyUrl}" target="_blank" rel="noopener noreferrer" class="song-link spotify" title="Play on Spotify">Spotify</a>
-        <a href="${appleMusicUrl}" target="_blank" rel="noopener noreferrer" class="song-link apple" title="Play on Apple Music">Apple</a>
-      </span>`;
-  });
-});
-
-window.toggleSongs = function(card) {
-  const list = card.nextElementSibling;
-  const isOpen = list.classList.contains('open');
-  // Close all others first
-  document.querySelectorAll('.songs-list.open').forEach(el => el.classList.remove('open'));
-  document.querySelectorAll('.artist-card.open').forEach(el => el.classList.remove('open'));
-  // Toggle clicked one
-  if (!isOpen) {
-    list.classList.add('open');
-    card.classList.add('open');
-  }
-};
 
 initSlideshow('intl', true, 4000);
 adaptSlideshow('intl');
@@ -398,13 +366,16 @@ let lbImages = [
   'images/modeling/Magazine%20cover%201%20-557.webp',
   'images/modeling/modeling-6.webp',
 ];
-let lbCurrent = 0;
+let lbCurrent  = 0;
+let lbCaptions = [];
 
 function openLightbox(src, index) {
   const lb  = document.getElementById('lightbox');
   const img = document.getElementById('lightboxImg');
   img.src      = src;
   lbCurrent    = index;
+  const cap = document.getElementById('lightboxCaption');
+  if (cap) cap.textContent = lbCaptions[index] || '';
   lb.classList.add('open');
 }
 
@@ -417,6 +388,8 @@ window.lbShift = function(e, dir) {
   if (!lbImages.length) return;
   lbCurrent = (lbCurrent + dir + lbImages.length) % lbImages.length;
   document.getElementById('lightboxImg').src = lbImages[lbCurrent];
+  const cap = document.getElementById('lightboxCaption');
+  if (cap) cap.textContent = lbCaptions[lbCurrent] || '';
 };
 
 // Close on Escape key
@@ -447,12 +420,16 @@ function initTravelLightbox() {
 
   const imgs = Array.from(track.querySelectorAll('.slide-img'));
   const srcs = imgs.map(img => img.src);
+  const caps = imgs.map(img =>
+    img.closest('.slide-img-wrap')?.querySelector('.slide-caption')?.textContent || ''
+  );
 
   imgs.forEach((img, i) => {
     img.style.cursor = 'pointer';
     img.addEventListener('click', () => {
-      lbImages  = srcs;
-      lbCurrent = i;
+      lbImages   = srcs;
+      lbCaptions = caps;
+      lbCurrent  = i;
       openLightbox(srcs[i], i);
     });
   });
@@ -478,7 +455,7 @@ window.addEventListener('scroll', () => {
 function initScrollAnimations() {
   const targets = document.querySelectorAll(
     '.section-title, .section-sub, .about-text p, .about-languages, .tag-list, .linkedin-btn,' +
-    '.research-card, .project-card, .artist-card, .anime-card, .comedian-card,' +
+    '.research-card, .project-card, .anime-card, .comedian-card,' +
     '.book-card, .game-card, .sub-heading'
   );
 
@@ -504,94 +481,6 @@ function initScrollAnimations() {
 // Run after DOM is fully painted
 requestAnimationFrame(initScrollAnimations);
 
-
-/* ─────────────────────────────────────────
-   BACKGROUND MUSIC PLAYER
-───────────────────────────────────────── */
-const bgAudio     = document.getElementById('bgAudio');
-const musicToggle = document.getElementById('musicToggle');
-const musicPlayer = document.getElementById('musicPlayer');
-const musicLabel  = document.getElementById('musicLabel');
-
-const jazzPlaylist = [
-  { title: 'Bossa Antigua',    url: 'https://incompetech.com/music/royalty-free/mp3-royaltyfree/Bossa%20Antigua.mp3' },
-  { title: 'Sneaky Snitch',    url: 'https://incompetech.com/music/royalty-free/mp3-royaltyfree/Sneaky%20Snitch.mp3' },
-  { title: 'Latin Industries', url: 'https://incompetech.com/music/royalty-free/mp3-royaltyfree/Latin%20Industries.mp3' },
-  { title: 'Fillmore',         url: 'https://incompetech.com/music/royalty-free/mp3-royaltyfree/Fillmore.mp3' },
-];
-
-// Start from a random track
-let currentTrack = Math.floor(Math.random() * jazzPlaylist.length);
-
-function loadTrack(index) {
-  const track = jazzPlaylist[index];
-  bgAudio.src = track.url;
-  bgAudio.load();
-  musicLabel.textContent = `${track.title} · Kevin MacLeod`;
-}
-
-function nextTrack() {
-  currentTrack = (currentTrack + 1) % jazzPlaylist.length;
-  loadTrack(currentTrack);
-  bgAudio.volume = 0.025;
-  bgAudio.play().catch(() => {});
-}
-
-// Advance to next song when current one ends
-bgAudio.addEventListener('ended', nextTrack);
-
-loadTrack(currentTrack);
-
-function fadeAudio(targetVol, duration = 1400) {
-  const start    = bgAudio.volume;
-  const diff     = targetVol - start;
-  const steps    = 40;
-  const interval = duration / steps;
-  let   step     = 0;
-  const timer = setInterval(() => {
-    step++;
-    bgAudio.volume = Math.min(1, Math.max(0, start + diff * (step / steps)));
-    if (step >= steps) {
-      clearInterval(timer);
-      if (targetVol === 0) bgAudio.pause();
-    }
-  }, interval);
-}
-
-function startPlaying() {
-  bgAudio.volume = 0;
-  bgAudio.play().then(() => {
-    musicPlayer.classList.add('playing');
-    musicToggle.setAttribute('aria-label', 'Pause music');
-    fadeAudio(0.025);
-  }).catch(() => {});
-}
-
-// Try immediate autoplay (works if browser allows)
-startPlaying();
-
-// Fallback: start on first user interaction
-let unlocked = false;
-function unlockMusic() {
-  if (unlocked) return;
-  unlocked = true;
-  startPlaying();
-}
-document.addEventListener('scroll',     unlockMusic, { passive: true, once: true });
-document.addEventListener('click',      unlockMusic, { once: true });
-document.addEventListener('touchstart', unlockMusic, { passive: true, once: true });
-
-// Manual toggle
-musicToggle.addEventListener('click', () => {
-  unlocked = true;
-  if (bgAudio.paused) {
-    startPlaying();
-  } else {
-    musicPlayer.classList.remove('playing');
-    musicToggle.setAttribute('aria-label', 'Play music');
-    fadeAudio(0);
-  }
-});
 
 /* ─────────────────────────────────────────
    FOOTER YEAR
@@ -693,7 +582,7 @@ window.copyEmail = function() {
    Make onclick <div>s operable via Enter
    and Space for keyboard-only users.
 ───────────────────────────────────────── */
-document.querySelectorAll('.artist-card, .model-ph').forEach(el => {
+document.querySelectorAll('.model-ph').forEach(el => {
   if (!el.hasAttribute('tabindex')) {
     el.setAttribute('tabindex', '0');
     el.setAttribute('role', 'button');
