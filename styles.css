@@ -1820,6 +1820,57 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 
 /* ─────────────────────────────────────────
+   ANIME POSTER SKELETON
+   Shows a shimmer while the Jikan API is
+   fetching the cover image (src is empty).
+───────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.anime-poster[src=''] {
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--bg-card-hover) 50%,
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+/* ─────────────────────────────────────────
+   BACK TO TOP BUTTON
+───────────────────────────────────────── */
+.back-to-top {
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 1.1rem;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .3s, transform .3s, box-shadow .2s;
+  z-index: 290;
+  box-shadow: var(--shadow);
+  touch-action: manipulation;
+}
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.back-to-top:hover { box-shadow: var(--shadow-lg); }
+.back-to-top:active { transform: scale(.93); }
+
+/* On mobile the music button is on the left, so back-to-top can stay right */
+
+/* ─────────────────────────────────────────
    MOBILE: music button on left
 ───────────────────────────────────────── */
 @media (max-width: 768px) {

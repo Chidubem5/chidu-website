@@ -158,7 +158,7 @@ function renderProjects() {
   grid.innerHTML = projects.map(p => {
     const lm = langMeta[p.lang] || { cls: 'lang-default', label: p.lang };
     return `
-      <a class="project-card" href="${p.url}" target="_blank" rel="noopener">
+      <a class="project-card" href="${p.url}" target="_blank" rel="noopener noreferrer">
         <div class="project-header">
           <span class="project-name">${p.name}</span>
           <span class="project-arrow">↗</span>
@@ -342,8 +342,8 @@ document.querySelectorAll('.artist-wrap').forEach(wrap => {
     li.innerHTML = `
       <span class="song-name">♪ ${song}</span>
       <span class="song-platform-links">
-        <a href="${spotifyUrl}" target="_blank" class="song-link spotify" title="Play on Spotify">Spotify</a>
-        <a href="${appleMusicUrl}" target="_blank" class="song-link apple" title="Play on Apple Music">Apple</a>
+        <a href="${spotifyUrl}" target="_blank" rel="noopener noreferrer" class="song-link spotify" title="Play on Spotify">Spotify</a>
+        <a href="${appleMusicUrl}" target="_blank" rel="noopener noreferrer" class="song-link apple" title="Play on Apple Music">Apple</a>
       </span>`;
   });
 });
@@ -669,101 +669,77 @@ document.querySelectorAll('.artist-card, .model-ph').forEach(el => {
 
 /* ─────────────────────────────────────────
    INFINITY MIRROR BACKGROUND  (canvas)
-   Concentric rounded rectangles recede to
-   a vanishing point — slowly drifting
-   inward like looking through two mirrors.
 ───────────────────────────────────────── */
 (function initMirrorBg() {
   const canvas = document.getElementById('mirrorBg');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
-  let w, h, cx, cy;
-  let tick = 0;
-  const LAYERS = 30;
-  const DRIFT  = 0.00028; // very slow forward drift
+  let w, h, cx, cy, tick = 0, running = true;
+  const LAYERS = 30, DRIFT = 0.00028;
 
-  /* Draw a rounded rectangle path */
   function roundRect(x, y, rw, rh, r) {
     r = Math.min(r, rw / 2, rh / 2);
     ctx.beginPath();
-    ctx.moveTo(x + r, y);
-    ctx.lineTo(x + rw - r, y);
-    ctx.arcTo(x + rw, y,      x + rw, y + r,      r);
-    ctx.lineTo(x + rw, y + rh - r);
-    ctx.arcTo(x + rw, y + rh, x + rw - r, y + rh, r);
-    ctx.lineTo(x + r,  y + rh);
-    ctx.arcTo(x,       y + rh, x,         y + rh - r, r);
-    ctx.lineTo(x,      y + r);
-    ctx.arcTo(x,       y,      x + r,     y,          r);
-    ctx.closePath();
+    ctx.moveTo(x + r, y); ctx.lineTo(x + rw - r, y);
+    ctx.arcTo(x + rw, y, x + rw, y + r, r); ctx.lineTo(x + rw, y + rh - r);
+    ctx.arcTo(x + rw, y + rh, x + rw - r, y + rh, r); ctx.lineTo(x + r, y + rh);
+    ctx.arcTo(x, y + rh, x, y + rh - r, r); ctx.lineTo(x, y + r);
+    ctx.arcTo(x, y, x + r, y, r); ctx.closePath();
   }
 
   function draw() {
+    if (!running) return;
     tick += DRIFT;
     const dark = document.documentElement.getAttribute('data-theme') === 'dark';
-
-    /* Base fill — matches --bg custom property */
     ctx.fillStyle = dark ? '#0a0a0a' : '#f7f7f9';
     ctx.fillRect(0, 0, w, h);
-
-    /* Accent colour per theme */
     const [ar, ag, ab] = dark ? [167, 139, 250] : [124, 58, 237];
-
-    /* Concentric frames — drift from edge → centre, loop */
     for (let i = 0; i < LAYERS; i++) {
-      /* raw: 0 = centre/far, 1 = edge/near; advances with tick */
       const raw = ((i / LAYERS) - (tick % 1) + 1) % 1;
-
-      /* Non-linear curve: frames bunch up near centre (depth illusion) */
       const scale = Math.pow(raw, 1.55);
       if (scale < 0.004) continue;
-
-      const fw = Math.max(2, w * scale);
-      const fh = Math.max(2, h * scale);
-      const fx = (w - fw) / 2;
-      const fy = (h - fh) / 2;
-
-      /* Corner radius scales with frame size */
-      const radius = scale * 26;
-
-      /* Opacity: bright near edges, fades toward vanishing point */
-      const alpha  = dark
-        ? Math.pow(raw, 0.65) * 0.58
-        : Math.pow(raw, 0.65) * 0.36;
-      const lw     = Math.max(0.4, scale * 3.0);
-
+      const fw = Math.max(2, w * scale), fh = Math.max(2, h * scale);
+      const alpha = dark ? Math.pow(raw, 0.65) * 0.58 : Math.pow(raw, 0.65) * 0.36;
       ctx.strokeStyle = `rgba(${ar},${ag},${ab},${alpha})`;
-      ctx.lineWidth   = lw;
-      roundRect(fx, fy, fw, fh, radius);
+      ctx.lineWidth = Math.max(0.4, scale * 3.0);
+      roundRect((w - fw) / 2, (h - fh) / 2, fw, fh, scale * 26);
       ctx.stroke();
     }
-
-    /* Radial vignette — darkens corners for tunnel depth */
     const vig = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.hypot(cx, cy));
-    if (dark) {
-      vig.addColorStop(0,    'rgba(0,0,0,0)');
-      vig.addColorStop(0.50, 'rgba(0,0,0,0)');
-      vig.addColorStop(1,    'rgba(0,0,0,0.75)');
-    } else {
-      vig.addColorStop(0,    'rgba(0,0,0,0)');
-      vig.addColorStop(0.50, 'rgba(0,0,0,0)');
-      vig.addColorStop(1,    'rgba(0,0,0,0.16)');
-    }
+    vig.addColorStop(0, 'rgba(0,0,0,0)');
+    vig.addColorStop(0.50, 'rgba(0,0,0,0)');
+    vig.addColorStop(1, dark ? 'rgba(0,0,0,0.75)' : 'rgba(0,0,0,0.16)');
     ctx.fillStyle = vig;
     ctx.fillRect(0, 0, w, h);
-
     requestAnimationFrame(draw);
   }
 
   function resize() {
-    w  = canvas.width  = window.innerWidth;
-    h  = canvas.height = window.innerHeight;
-    cx = w / 2;
-    cy = h / 2;
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    cx = w / 2; cy = h / 2;
   }
+
+  /* Pause when tab hidden — saves battery / CPU */
+  document.addEventListener('visibilitychange', () => {
+    running = !document.hidden;
+    if (running) draw();
+  });
 
   window.addEventListener('resize', resize);
   resize();
   draw();
 })();
+
+
+/* ─────────────────────────────────────────
+   BACK TO TOP BUTTON
+───────────────────────────────────────── */
+const backToTopBtn = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTopBtn.classList.toggle('visible', window.scrollY > 600);
+}, { passive: true });
+backToTopBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
