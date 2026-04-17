@@ -64,7 +64,6 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
-  -webkit-overflow-scrolling: touch;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -320,6 +319,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 ───────────────────────────────────────── */
 .hero {
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
