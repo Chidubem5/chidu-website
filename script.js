@@ -111,21 +111,21 @@ cycleNickname();
 const projects = [
   {
     name: 'Erdos_Africa',
-    desc: 'Data analysis project — Erdős Institute collaboration',
+    desc: 'Used Python to analyze realized vs. implied volatility of the VanEck Africa index fund. Findings presented as an academic paper and slideshow through the Erdős Institute.',
     url:  'https://github.com/Chidubem5/Erdos_Africa',
     lang: 'Jupyter Notebook',
     updated: 'Jan 2026',
   },
   {
     name: 'Gun_Violence',
-    desc: 'Interactive comparison tool for gun violence data analysis',
+    desc: 'Data exploration challenging common narratives around gun violence in the US — examining victim demographics adjusted for population proportionality.',
     url:  'https://github.com/Chidubem5/Gun_Violence',
     lang: 'HTML',
     updated: 'Apr 2026',
   },
   {
     name: 'Latex',
-    desc: 'Collection of LaTeX documents — papers, reports, and write-ups',
+    desc: 'Collection of academic writing: undergraduate senior thesis, graduate computational physics papers, and other coursework typeset in LaTeX.',
     url:  'https://github.com/Chidubem5/Latex',
     lang: 'LaTeX',
     updated: 'Apr 2026',
@@ -139,7 +139,7 @@ const projects = [
   },
   {
     name: 'batesastronomythesis2022',
-    desc: 'Code used to supplement Senior Thesis in Astronomy — Spring 2022',
+    desc: 'Python analysis of MaNGA IFU spectroscopy data exploring the relationship between stellar mass, star formation rate, and gas outflow velocity across a large galaxy sample. Figures published in senior thesis (Spring 2022).',
     url:  'https://github.com/Chidubem5/batesastronomythesis2022',
     lang: 'Jupyter Notebook',
     updated: 'Apr 2026',
