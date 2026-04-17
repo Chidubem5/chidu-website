@@ -544,11 +544,18 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   margin-bottom: .5rem;
 }
 
+.about-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin-top: 1.25rem;
+  align-items: center;
+}
+
 .linkedin-btn {
   display: inline-flex;
   align-items: center;
   gap: .5rem;
-  margin-top: 1.25rem;
   background: #0077b5;
   color: #fff;
   padding: .55rem 1.2rem;
@@ -559,6 +566,21 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   transition: background .2s, transform .15s;
 }
 .linkedin-btn:hover { background: #005e94; transform: translateY(-2px); }
+
+.resume-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  background: var(--accent);
+  color: #fff;
+  padding: .55rem 1.2rem;
+  border-radius: 10px;
+  font-size: .9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .2s, transform .15s;
+}
+.resume-btn:hover { background: var(--accent-2); transform: translateY(-2px); }
 .linkedin-icon {
   background: #fff;
   color: #0077b5;
@@ -1640,6 +1662,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   .btn-primary:hover                 { background: var(--accent); }
   .btn-outline:hover                 { background: transparent; }
   .linkedin-btn:hover                { background: #0077b5; transform: none; }
+  .resume-btn:hover                  { background: var(--accent); transform: none; }
   .artist-card:hover                 { transform: none; box-shadow: var(--shadow); background: var(--bg-card); }
   .artist-link:hover                 { transform: none; opacity: 1; }
   .song-link:hover                   { transform: none; opacity: 1; }
