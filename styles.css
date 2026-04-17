@@ -918,9 +918,8 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   width: 100%;
   position: relative;
   border-radius: 16px;
-  height: 400px;
+  height: 520px;
   min-height: 260px;
-  transition: height 0.6s ease;
   background: #000;
 }
 

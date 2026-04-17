@@ -278,7 +278,6 @@ function adaptSlideshow(id) {
       newH    = Math.min(520, Math.max(260, Math.round(available / ratio)));
     }
 
-    track.style.height     = newH + 'px';
     wrapper.style.maxWidth = newMaxW;
   };
 
