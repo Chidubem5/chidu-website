@@ -597,6 +597,66 @@ function showToast(msg) {
   t._timer = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
+/* ─────────────────────────────────────────
+   CONTACT FORM
+───────────────────────────────────────── */
+(function() {
+  const form    = document.getElementById('contactForm');
+  const submitBtn = form.querySelector('.contact-submit');
+  const submitText = form.querySelector('.submit-text');
+  const submitLoad = form.querySelector('.submit-loading');
+  const successMsg = form.querySelector('.form-success');
+  const errorMsg   = form.querySelector('.form-error');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    successMsg.hidden = true;
+    errorMsg.hidden   = true;
+
+    // Validate
+    let valid = true;
+    ['contactName', 'contactEmail', 'contactMessage'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el.value.trim()) { el.classList.add('invalid'); valid = false; }
+      else el.classList.remove('invalid');
+    });
+    if (!valid) return;
+
+    submitBtn.disabled = true;
+    submitText.hidden  = true;
+    submitLoad.hidden  = false;
+
+    try {
+      const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name:    document.getElementById('contactName').value.trim(),
+          email:   document.getElementById('contactEmail').value.trim(),
+          message: document.getElementById('contactMessage').value.trim(),
+        }),
+      });
+      if (res.ok) {
+        form.reset();
+        successMsg.hidden = false;
+      } else {
+        throw new Error('bad response');
+      }
+    } catch (_) {
+      errorMsg.hidden = false;
+    } finally {
+      submitBtn.disabled = false;
+      submitText.hidden  = false;
+      submitLoad.hidden  = true;
+    }
+  });
+
+  // Clear invalid state on input
+  form.querySelectorAll('input, textarea').forEach(el => {
+    el.addEventListener('input', () => el.classList.remove('invalid'));
+  });
+})();
+
 window.copyEmail = function() {
   const email = 'Chidumeh@gmail.com';
   if (navigator.clipboard) {

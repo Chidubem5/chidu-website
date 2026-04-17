@@ -47,6 +47,7 @@
   <title>Chidubem Umeh</title>
   <link rel="icon" type="image/png" href="images/favicon.png" />
   <link rel="apple-touch-icon" href="images/favicon.png" />
+  <link rel="preload" as="image" href="images/modeling/headshot.webp" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -828,15 +829,40 @@
   <section id="contact" class="section section-alt">
     <div class="container">
       <h2 class="section-title">Contact Me</h2>
-      <p class="section-sub">Let's connect</p>
-      <div class="contact-grid">
-        <button type="button" class="contact-card" onclick="copyEmail()" aria-label="Copy email address">
-          <div class="contact-icon">✉</div>
-          <div class="contact-label">Email</div>
-          <div class="contact-value">Chidumeh@gmail.com</div>
-          <span class="contact-copy-hint">click to copy</span>
-        </button>
-        <a href="mailto:Chidumeh@gmail.com" class="contact-mail-link">open in mail app ↗</a>
+      <p class="section-sub">Let's connect. I'm looking forward to hearing from you!</p>
+      <div class="contact-layout">
+
+        <form class="contact-form" id="contactForm" novalidate>
+          <div class="form-group">
+            <label for="contactName">Name</label>
+            <input type="text" id="contactName" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="contactEmail">Email</label>
+            <input type="email" id="contactEmail" name="email" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="contactMessage">Message</label>
+            <textarea id="contactMessage" name="message" rows="5" placeholder="What's on your mind?" required></textarea>
+          </div>
+          <button type="submit" class="contact-submit">
+            <span class="submit-text">Send Message</span>
+            <span class="submit-loading" hidden>Sending…</span>
+          </button>
+          <p class="form-success" hidden>✓ Message sent! I'll get back to you soon.</p>
+          <p class="form-error" hidden>Something went wrong. <a href="mailto:Chidumeh@gmail.com">Email me directly ↗</a></p>
+        </form>
+
+        <div class="contact-aside">
+          <button type="button" class="contact-card" onclick="copyEmail()" aria-label="Copy email address">
+            <div class="contact-icon">✉</div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">Chidumeh@gmail.com</div>
+            <span class="contact-copy-hint">click to copy</span>
+          </button>
+          <a href="mailto:Chidumeh@gmail.com" class="contact-mail-link">open in mail app ↗</a>
+        </div>
+
       </div>
     </div>
   </section>
