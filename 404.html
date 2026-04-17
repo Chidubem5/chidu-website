@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Page Not Found · Chidubem Umeh</title>
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .not-found {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      gap: 1.25rem;
+    }
+    .not-found-code {
+      font-size: clamp(6rem, 20vw, 10rem);
+      font-weight: 800;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent) 0%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -.04em;
+    }
+    .not-found-title {
+      font-size: clamp(1.3rem, 3vw, 1.75rem);
+      font-weight: 700;
+      color: var(--text);
+    }
+    .not-found-sub {
+      color: var(--text-muted);
+      font-size: .95rem;
+      max-width: 320px;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="mirrorBg" aria-hidden="true"></canvas>
+
+  <main class="not-found">
+    <div class="not-found-code">404</div>
+    <h1 class="not-found-title">Page not found</h1>
+    <p class="not-found-sub">That URL doesn't exist. Head back to the homepage.</p>
+    <a href="/" class="btn btn-primary" style="margin-top:.5rem">Back to Home</a>
+  </main>
+
+  <script>
+    // Auto day / night theme
+    const h = new Date().getHours();
+    document.documentElement.setAttribute('data-theme', (h >= 6 && h < 18) ? 'light' : 'dark');
+
+    // Infinity mirror canvas (same as main site)
+    (function() {
+      const canvas = document.getElementById('mirrorBg');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let w, h, cx, cy, tick = 0;
+      const LAYERS = 30, DRIFT = 0.00028;
+
+      function roundRect(x, y, rw, rh, r) {
+        r = Math.min(r, rw / 2, rh / 2);
+        ctx.beginPath();
+        ctx.moveTo(x + r, y); ctx.lineTo(x + rw - r, y);
+        ctx.arcTo(x + rw, y, x + rw, y + r, r); ctx.lineTo(x + rw, y + rh - r);
+        ctx.arcTo(x + rw, y + rh, x + rw - r, y + rh, r); ctx.lineTo(x + r, y + rh);
+        ctx.arcTo(x, y + rh, x, y + rh - r, r); ctx.lineTo(x, y + r);
+        ctx.arcTo(x, y, x + r, y, r); ctx.closePath();
+      }
+
+      function draw() {
+        tick += DRIFT;
+        const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+        ctx.fillStyle = dark ? '#0a0a0a' : '#f7f7f9';
+        ctx.fillRect(0, 0, w, h);
+        const [ar, ag, ab] = dark ? [167, 139, 250] : [124, 58, 237];
+        for (let i = 0; i < LAYERS; i++) {
+          const raw = ((i / LAYERS) - (tick % 1) + 1) % 1;
+          const scale = Math.pow(raw, 1.55);
+          if (scale < 0.004) continue;
+          const fw = Math.max(2, w * scale), fh = Math.max(2, h * scale);
+          const alpha = dark ? Math.pow(raw, 0.65) * 0.58 : Math.pow(raw, 0.65) * 0.36;
+          ctx.strokeStyle = `rgba(${ar},${ag},${ab},${alpha})`;
+          ctx.lineWidth = Math.max(0.4, scale * 3.0);
+          roundRect((w - fw) / 2, (h - fh) / 2, fw, fh, scale * 26);
+          ctx.stroke();
+        }
+        const vig = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.hypot(cx, cy));
+        vig.addColorStop(0, 'rgba(0,0,0,0)');
+        vig.addColorStop(0.5, 'rgba(0,0,0,0)');
+        vig.addColorStop(1, dark ? 'rgba(0,0,0,0.75)' : 'rgba(0,0,0,0.16)');
+        ctx.fillStyle = vig; ctx.fillRect(0, 0, w, h);
+        requestAnimationFrame(draw);
+      }
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        cx = w / 2; cy = h / 2;
+      }
+
+      window.addEventListener('resize', resize);
+      resize(); draw();
+    })();
+  </script>
+</body>
+</html>
