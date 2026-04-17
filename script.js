@@ -676,7 +676,7 @@ document.querySelectorAll('.artist-card, .model-ph').forEach(el => {
   const ctx = canvas.getContext('2d');
 
   let w, h, cx, cy, tick = 0, running = true;
-  const LAYERS = 30, DRIFT = 0.00028;
+  const LAYERS = 30, DRIFT = 0.00014;
 
   function roundRect(x, y, rw, rh, r) {
     r = Math.min(r, rw / 2, rh / 2);
@@ -700,16 +700,16 @@ document.querySelectorAll('.artist-card, .model-ph').forEach(el => {
       const scale = Math.pow(raw, 1.55);
       if (scale < 0.004) continue;
       const fw = Math.max(2, w * scale), fh = Math.max(2, h * scale);
-      const alpha = dark ? Math.pow(raw, 0.65) * 0.58 : Math.pow(raw, 0.65) * 0.36;
+      const alpha = dark ? Math.pow(raw, 0.65) * 0.32 : Math.pow(raw, 0.65) * 0.18;
       ctx.strokeStyle = `rgba(${ar},${ag},${ab},${alpha})`;
-      ctx.lineWidth = Math.max(0.4, scale * 3.0);
+      ctx.lineWidth = Math.max(0.3, scale * 1.8);
       roundRect((w - fw) / 2, (h - fh) / 2, fw, fh, scale * 26);
       ctx.stroke();
     }
     const vig = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.hypot(cx, cy));
     vig.addColorStop(0, 'rgba(0,0,0,0)');
-    vig.addColorStop(0.50, 'rgba(0,0,0,0)');
-    vig.addColorStop(1, dark ? 'rgba(0,0,0,0.75)' : 'rgba(0,0,0,0.16)');
+    vig.addColorStop(0.40, 'rgba(0,0,0,0)');
+    vig.addColorStop(1, dark ? 'rgba(0,0,0,0.88)' : 'rgba(0,0,0,0.28)');
     ctx.fillStyle = vig;
     ctx.fillRect(0, 0, w, h);
     requestAnimationFrame(draw);
