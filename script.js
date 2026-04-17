@@ -390,12 +390,12 @@ addSwipe('intl-track');
    MODELING — LIGHTBOX
 ───────────────────────────────────────── */
 let lbImages = [
-  'images/modeling/headshot.jpg',
   'images/modeling/modeling-1.jpg',
   'images/modeling/modeling-2.jpg',
   'images/modeling/modeling-3.jpg',
   'images/modeling/modeling-4.jpg',
   'images/modeling/modeling-5.jpg',
+  'images/modeling/Magazine%20cover%201%20-557.JPG',
 ];
 let lbCurrent = 0;
 
@@ -499,7 +499,7 @@ function initScrollAnimations() {
   const targets = document.querySelectorAll(
     '.section-title, .section-sub, .about-text p, .about-languages, .tag-list, .linkedin-btn,' +
     '.research-card, .project-card, .artist-card, .anime-card, .comedian-card,' +
-    '.book-card, .game-card, .nickname-card, .sub-heading'
+    '.book-card, .game-card, .sub-heading'
   );
 
   const observer = new IntersectionObserver((entries) => {

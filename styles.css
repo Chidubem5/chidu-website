@@ -71,14 +71,41 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
-  background: var(--bg);
+  /* Base colour — sphere pattern layered on top */
+  background-color: var(--bg);
+  background-image:
+    /* Specular highlight (top-left bright spot) */
+    radial-gradient(ellipse 32% 26% at 37% 30%, rgba(255,255,255,.78) 0%, transparent 100%),
+    /* Rim light (bottom-right) */
+    radial-gradient(ellipse 20% 20% at 68% 70%, rgba(220,200,255,.52) 0%, transparent 100%),
+    /* Sphere body */
+    radial-gradient(circle at 50% 50%, rgba(167,139,250,.52) 0%, rgba(109,40,217,.34) 42%, rgba(76,29,149,.15) 65%, transparent 88%),
+    /* Second layer — smaller spheres offset for depth */
+    radial-gradient(ellipse 30% 24% at 38% 32%, rgba(255,255,255,.42) 0%, transparent 100%),
+    radial-gradient(circle at 50% 50%, rgba(139,92,246,.26) 0%, rgba(91,33,182,.15) 42%, transparent 80%);
+  background-size: 92px 92px, 92px 92px, 92px 92px, 50px 50px, 50px 50px;
+  background-position: 0 0, 0 0, 0 0, 23px 23px, 23px 23px;
+  background-attachment: fixed;
+  background-repeat: repeat;
   color: var(--text);
   line-height: 1.7;
-  transition: background .35s, color .35s;
+  transition: background-color .35s, color .35s;
   overscroll-behavior-y: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+[data-theme="dark"] body {
+  background-image:
+    radial-gradient(ellipse 32% 26% at 37% 30%, rgba(255,255,255,.30) 0%, transparent 100%),
+    radial-gradient(ellipse 20% 20% at 68% 70%, rgba(167,139,250,.24) 0%, transparent 100%),
+    radial-gradient(circle at 50% 50%, rgba(124,58,237,.52) 0%, rgba(91,33,182,.34) 42%, rgba(60,20,130,.16) 65%, transparent 88%),
+    radial-gradient(ellipse 30% 24% at 38% 32%, rgba(255,255,255,.16) 0%, transparent 100%),
+    radial-gradient(circle at 50% 50%, rgba(109,40,217,.28) 0%, rgba(76,29,149,.16) 42%, transparent 80%);
+  background-size: 92px 92px, 92px 92px, 92px 92px, 50px 50px, 50px 50px;
+  background-position: 0 0, 0 0, 0 0, 23px 23px, 23px 23px;
+  background-attachment: fixed;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -120,11 +147,15 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 
 .section {
   padding: 100px 0;
-  transition: background .35s;
+  background: transparent;
 }
 
 .section-alt {
-  background: var(--bg-alt);
+  background: rgba(255,255,255,.07);
+}
+
+[data-theme="dark"] .section-alt {
+  background: rgba(255,255,255,.04);
 }
 
 /* ─────────────────────────────────────────
@@ -369,7 +400,6 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .nickname-text {
   font-weight: 600;
   color: var(--accent);
-  min-width: 100px;
   text-align: left;
 }
 .nickname-cursor {
@@ -504,72 +534,6 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   margin-bottom: 2.5rem;
 }
 
-.nickname-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 1.5rem 1.75rem;
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-}
-.nickname-card-title {
-  font-size: .8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: var(--text-muted);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.nickname-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .5rem;
-  flex: 1;
-}
-.nickname-grid span {
-  background: var(--accent-dim);
-  color: var(--accent);
-  text-align: center;
-  padding: .45rem .9rem;
-  border-radius: 20px;
-  font-size: .88rem;
-  font-weight: 600;
-  white-space: nowrap;
-  transition: background .2s, transform .2s;
-}
-.nickname-grid span:hover {
-  background: var(--accent);
-  color: #fff;
-  transform: scale(1.06);
-}
-
-/* Mobile: title above, pills in a single scrollable row */
-@media (max-width: 640px) {
-  .nickname-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: .75rem;
-    padding: 1.1rem 1.1rem 1.1rem;
-  }
-  .nickname-grid {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    width: 100%;
-    padding-bottom: .3rem;
-    scrollbar-width: none;
-  }
-  .nickname-grid::-webkit-scrollbar { display: none; }
-  .nickname-grid span {
-    flex-shrink: 0;
-    font-size: .8rem;
-    padding: .35rem .75rem;
-  }
-}
 
 .about-text p {
   color: var(--text-2);
@@ -1725,4 +1689,73 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   .slide-arrow:active                { background: var(--accent); color: #fff; }
   .music-toggle:active               { transform: scale(.93); transition: transform .1s; }
   .linkedin-btn:active               { transform: scale(.97); transition: transform .1s; }
+}
+
+/* ─────────────────────────────────────────
+   CONTACT SECTION
+───────────────────────────────────────── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .75rem;
+  padding: 2.25rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  text-decoration: none;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  transition: transform .22s, box-shadow .22s;
+}
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+.contact-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+.contact-label {
+  font-size: .78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-muted);
+}
+.contact-value {
+  font-size: .95rem;
+  font-weight: 500;
+  color: var(--accent);
+  word-break: break-all;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .contact-grid { grid-template-columns: 1fr; max-width: 320px; }
+}
+
+/* ─────────────────────────────────────────
+   MOBILE: music button on left
+───────────────────────────────────────── */
+@media (max-width: 768px) {
+  .music-player {
+    right: auto;
+    left: 1.25rem;
+    flex-direction: row-reverse;
+  }
+  .music-label {
+    transform: translateX(-8px);
+  }
+  .music-player.playing .music-label {
+    transform: translateX(0);
+  }
 }
