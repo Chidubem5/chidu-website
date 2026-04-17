@@ -620,6 +620,54 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
 
 /* ─────────────────────────────────────────
+   COPY EMAIL TO CLIPBOARD
+───────────────────────────────────────── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+window.copyEmail = function() {
+  const email = 'Chidumeh@gmail.com';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(email).then(() => showToast('Email copied!'));
+  } else {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = email;
+    ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('Email copied!');
+  }
+};
+
+
+/* ─────────────────────────────────────────
+   KEYBOARD ACCESSIBILITY
+   Make onclick <div>s operable via Enter
+   and Space for keyboard-only users.
+───────────────────────────────────────── */
+document.querySelectorAll('.artist-card, .model-ph').forEach(el => {
+  if (!el.hasAttribute('tabindex')) {
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('role', 'button');
+  }
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      el.click();
+    }
+  });
+});
+
+
+/* ─────────────────────────────────────────
    INFINITY MIRROR BACKGROUND  (canvas)
    Concentric rounded rectangles recede to
    a vanishing point — slowly drifting

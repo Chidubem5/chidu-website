@@ -1674,6 +1674,79 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 
 /* ─────────────────────────────────────────
+   SKIP NAVIGATION  (accessibility)
+───────────────────────────────────────── */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  background: var(--accent);
+  color: #fff;
+  padding: .6rem 1.4rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: .95rem;
+  text-decoration: none;
+  transition: top .2s;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ─────────────────────────────────────────
+   KEYBOARD FOCUS RINGS
+   Only shown when navigating via keyboard
+   (focus-visible = no ring on mouse click)
+───────────────────────────────────────── */
+:focus-visible {
+  outline: 2.5px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+/* Elements that already have a visible border — give more breathing room */
+.btn:focus-visible,
+.contact-card:focus-visible,
+.project-card:focus-visible,
+.research-card:focus-visible,
+.anime-card:focus-visible,
+.book-card:focus-visible,
+.game-card:focus-visible,
+.artist-card:focus-visible,
+.model-ph:focus-visible {
+  outline-offset: 5px;
+}
+
+/* ─────────────────────────────────────────
+   TOAST NOTIFICATION
+───────────────────────────────────────── */
+#toast {
+  position: fixed;
+  bottom: 5.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(.75rem);
+  background: var(--accent);
+  color: #fff;
+  padding: .55rem 1.4rem;
+  border-radius: 999px;
+  font-size: .88rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s, transform .25s;
+  z-index: 500;
+  white-space: nowrap;
+}
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ─────────────────────────────────────────
    CONTACT SECTION
 ───────────────────────────────────────── */
 .contact-grid {
@@ -1684,16 +1757,21 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   margin: 0 auto;
 }
 
+/* Reset button defaults then style as card */
 .contact-card {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  font-family: inherit;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: .75rem;
+  width: 100%;
   padding: 2.25rem 1.5rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 20px;
-  text-decoration: none;
   color: var(--text);
   box-shadow: var(--shadow);
   transition: transform .22s, box-shadow .22s;
@@ -1720,9 +1798,25 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   word-break: break-all;
   text-align: center;
 }
+.contact-copy-hint {
+  font-size: .78rem;
+  color: var(--text-muted);
+  opacity: .7;
+}
+.contact-mail-link {
+  display: block;
+  text-align: center;
+  margin-top: .5rem;
+  font-size: .82rem;
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color .2s;
+}
+.contact-mail-link:hover { color: var(--accent); }
 
 @media (max-width: 480px) {
-  .contact-grid { grid-template-columns: 1fr; max-width: 320px; }
+  .contact-grid { max-width: 280px; }
 }
 
 /* ─────────────────────────────────────────

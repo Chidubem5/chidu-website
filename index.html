@@ -13,12 +13,19 @@
   <meta name="theme-color" content="#7c3aed" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
 
-  <!-- Open Graph -->
+  <!-- Open Graph / Twitter Card -->
   <meta property="og:title" content="Chidubem Umeh" />
-  <meta property="og:description" content="Physicist, analyst, coder, and athlete." />
+  <meta property="og:description" content="Physicist · Analyst · Coder · Explorer. Master's student in Physics at UCF researching adiabatic spintronics." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://chidu.dev" />
-  <meta property="og:image" content="https://chidu.dev/images/logo_reg.jpg" />
+  <meta property="og:image" content="https://chidu.dev/images/modeling/headshot.jpg" />
+  <meta property="og:image:width" content="1080" />
+  <meta property="og:image:height" content="1350" />
+  <meta property="og:site_name" content="chidu.dev" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Chidubem Umeh" />
+  <meta name="twitter:description" content="Physicist · Analyst · Coder · Explorer. Master's student in Physics at UCF." />
+  <meta name="twitter:image" content="https://chidu.dev/images/modeling/headshot.jpg" />
 
   <title>Chidubem Umeh</title>
   <link rel="icon" type="image/png" href="images/logo.png" />
@@ -30,8 +37,14 @@
 </head>
 <body>
 
+  <!-- ── SKIP NAV (accessibility) ── -->
+  <a href="#home" class="skip-link">Skip to main content</a>
+
   <!-- ── INFINITY MIRROR BACKGROUND ── -->
   <canvas id="mirrorBg" aria-hidden="true"></canvas>
+
+  <!-- ── TOAST NOTIFICATION ── -->
+  <div id="toast" role="status" aria-live="polite"></div>
 
   <!-- ── SCROLL PROGRESS ── -->
   <div class="scroll-progress" id="scrollProgress"></div>
@@ -795,11 +808,13 @@
       <h2 class="section-title">Contact Me</h2>
       <p class="section-sub">Let's connect</p>
       <div class="contact-grid">
-        <a href="mailto:Chidumeh@gmail.com" class="contact-card">
+        <button type="button" class="contact-card" onclick="copyEmail()" aria-label="Copy email address">
           <div class="contact-icon">✉</div>
           <div class="contact-label">Email</div>
           <div class="contact-value">Chidumeh@gmail.com</div>
-        </a>
+          <span class="contact-copy-hint">click to copy</span>
+        </button>
+        <a href="mailto:Chidumeh@gmail.com" class="contact-mail-link">open in mail app ↗</a>
       </div>
     </div>
   </section>
