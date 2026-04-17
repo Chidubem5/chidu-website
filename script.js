@@ -617,3 +617,105 @@ musicToggle.addEventListener('click', () => {
    FOOTER YEAR
 ───────────────────────────────────────── */
 document.getElementById('year').textContent = new Date().getFullYear();
+
+
+/* ─────────────────────────────────────────
+   INFINITY MIRROR BACKGROUND  (canvas)
+   Concentric rounded rectangles recede to
+   a vanishing point — slowly drifting
+   inward like looking through two mirrors.
+───────────────────────────────────────── */
+(function initMirrorBg() {
+  const canvas = document.getElementById('mirrorBg');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let w, h, cx, cy;
+  let tick = 0;
+  const LAYERS = 30;
+  const DRIFT  = 0.00028; // very slow forward drift
+
+  /* Draw a rounded rectangle path */
+  function roundRect(x, y, rw, rh, r) {
+    r = Math.min(r, rw / 2, rh / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + rw - r, y);
+    ctx.arcTo(x + rw, y,      x + rw, y + r,      r);
+    ctx.lineTo(x + rw, y + rh - r);
+    ctx.arcTo(x + rw, y + rh, x + rw - r, y + rh, r);
+    ctx.lineTo(x + r,  y + rh);
+    ctx.arcTo(x,       y + rh, x,         y + rh - r, r);
+    ctx.lineTo(x,      y + r);
+    ctx.arcTo(x,       y,      x + r,     y,          r);
+    ctx.closePath();
+  }
+
+  function draw() {
+    tick += DRIFT;
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+    /* Base fill — matches --bg custom property */
+    ctx.fillStyle = dark ? '#0a0a0a' : '#f7f7f9';
+    ctx.fillRect(0, 0, w, h);
+
+    /* Accent colour per theme */
+    const [ar, ag, ab] = dark ? [167, 139, 250] : [124, 58, 237];
+
+    /* Concentric frames — drift from edge → centre, loop */
+    for (let i = 0; i < LAYERS; i++) {
+      /* raw: 0 = centre/far, 1 = edge/near; advances with tick */
+      const raw = ((i / LAYERS) - (tick % 1) + 1) % 1;
+
+      /* Non-linear curve: frames bunch up near centre (depth illusion) */
+      const scale = Math.pow(raw, 1.55);
+      if (scale < 0.004) continue;
+
+      const fw = Math.max(2, w * scale);
+      const fh = Math.max(2, h * scale);
+      const fx = (w - fw) / 2;
+      const fy = (h - fh) / 2;
+
+      /* Corner radius scales with frame size */
+      const radius = scale * 26;
+
+      /* Opacity: bright near edges, fades toward vanishing point */
+      const alpha  = dark
+        ? Math.pow(raw, 0.65) * 0.58
+        : Math.pow(raw, 0.65) * 0.36;
+      const lw     = Math.max(0.4, scale * 3.0);
+
+      ctx.strokeStyle = `rgba(${ar},${ag},${ab},${alpha})`;
+      ctx.lineWidth   = lw;
+      roundRect(fx, fy, fw, fh, radius);
+      ctx.stroke();
+    }
+
+    /* Radial vignette — darkens corners for tunnel depth */
+    const vig = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.hypot(cx, cy));
+    if (dark) {
+      vig.addColorStop(0,    'rgba(0,0,0,0)');
+      vig.addColorStop(0.50, 'rgba(0,0,0,0)');
+      vig.addColorStop(1,    'rgba(0,0,0,0.75)');
+    } else {
+      vig.addColorStop(0,    'rgba(0,0,0,0)');
+      vig.addColorStop(0.50, 'rgba(0,0,0,0)');
+      vig.addColorStop(1,    'rgba(0,0,0,0.16)');
+    }
+    ctx.fillStyle = vig;
+    ctx.fillRect(0, 0, w, h);
+
+    requestAnimationFrame(draw);
+  }
+
+  function resize() {
+    w  = canvas.width  = window.innerWidth;
+    h  = canvas.height = window.innerHeight;
+    cx = w / 2;
+    cy = h / 2;
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  draw();
+})();

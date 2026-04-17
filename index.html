@@ -30,6 +30,9 @@
 </head>
 <body>
 
+  <!-- ── INFINITY MIRROR BACKGROUND ── -->
+  <canvas id="mirrorBg" aria-hidden="true"></canvas>
+
   <!-- ── SCROLL PROGRESS ── -->
   <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -80,7 +83,7 @@
         also known as <span class="nickname-wrap"><span id="nicknameDisplay" class="nickname-text"></span><span class="nickname-cursor">|</span></span>
       </p>
       <p class="hero-tagline">
-        Physicist &middot; Analyst &middot; Coder &middot; Athlete &middot; Explorer<br />
+        Physicist &middot; Analyst &middot; Coder &middot; Explorer<br />
         <span class="tagline-sub">Making sense of the world through science, data, and curiosity.</span>
       </p>
       <div class="hero-cta">
@@ -145,7 +148,6 @@
           <span class="tag">Social Issues</span>
           <span class="tag">Quantum Computing</span>
           <span class="tag">Astronomy</span>
-          <span class="tag">Collegiate Athlete</span>
           <span class="tag">NSBP</span>
           <span class="tag">Python · SQL · MATLAB</span>
           <span class="tag">UCF · Bates College</span>
@@ -752,6 +754,13 @@
       <h2 class="section-title">Pictures Through The Years</h2>
       <p class="section-sub">In front of the lens</p>
 
+      <!-- Featured photo -->
+      <div class="model-featured">
+        <div class="model-ph model-ph-featured" onclick="openLightbox('images/modeling/modeling-4.jpg', 3)">
+          <img src="images/modeling/modeling-4.jpg" alt="Blue and orange dramatic lighting" loading="lazy" decoding="async" />
+        </div>
+      </div>
+
       <!-- Gallery grid -->
       <div class="model-grid" id="modelGrid">
         <div class="model-ph" onclick="openLightbox('images/modeling/modeling-1.jpg', 0)">
@@ -794,11 +803,6 @@
           <div class="contact-icon">✉</div>
           <div class="contact-label">Email</div>
           <div class="contact-value">Chidumeh@gmail.com</div>
-        </a>
-        <a href="tel:6177504536" class="contact-card">
-          <div class="contact-icon">📞</div>
-          <div class="contact-label">Phone</div>
-          <div class="contact-value">(617) 750-4536</div>
         </a>
       </div>
     </div>
