@@ -390,12 +390,12 @@ addSwipe('intl-track');
    MODELING — LIGHTBOX
 ───────────────────────────────────────── */
 let lbImages = [
-  'images/modeling/modeling-1.jpg',
-  'images/modeling/modeling-2.jpg',
-  'images/modeling/modeling-3.jpg',
-  'images/modeling/modeling-4.jpg',
-  'images/modeling/modeling-5.jpg',
-  'images/modeling/Magazine%20cover%201%20-557.JPG',
+  'images/modeling/modeling-1.webp',
+  'images/modeling/modeling-2.webp',
+  'images/modeling/modeling-3.webp',
+  'images/modeling/modeling-4.webp',
+  'images/modeling/modeling-5.webp',
+  'images/modeling/Magazine%20cover%201%20-557.webp',
 ];
 let lbCurrent = 0;
 
