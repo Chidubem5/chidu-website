@@ -1,2 +1,9 @@
 .DS_Store
 Dominican Republic/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
