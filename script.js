@@ -396,6 +396,7 @@ let lbImages = [
   'images/modeling/modeling-4.webp',
   'images/modeling/modeling-5.webp',
   'images/modeling/Magazine%20cover%201%20-557.webp',
+  'images/modeling/modeling-6.webp',
 ];
 let lbCurrent = 0;
 
