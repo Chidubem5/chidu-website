@@ -76,6 +76,7 @@ html {
   z-index: -1;
   pointer-events: none;
   display: block;
+  will-change: transform; /* promotes to GPU layer — smoother on iOS */
 }
 
 body {
@@ -1694,6 +1695,9 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   .slide-arrow:active                { background: var(--accent); color: #fff; }
   .music-toggle:active               { transform: scale(.93); transition: transform .1s; }
   .linkedin-btn:active               { transform: scale(.97); transition: transform .1s; }
+  .contact-submit:hover              { transform: none; opacity: 1; }
+  .contact-card:hover                { transform: none; box-shadow: var(--shadow); }
+  .contact-submit:active             { transform: scale(.97); opacity: .9; transition: transform .1s; }
 }
 
 /* ─────────────────────────────────────────
@@ -1808,7 +1812,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   border-radius: 12px;
   color: var(--text);
   font-family: inherit;
-  font-size: .95rem;
+  font-size: 1rem; /* must be ≥16px — iOS Safari zooms on focus if smaller */
   transition: border-color .2s, box-shadow .2s;
   outline: none;
   resize: vertical;
@@ -1818,6 +1822,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .form-group input:focus,
 .form-group textarea:focus {
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18); /* fallback for older iOS */
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
 }
 .form-group input.invalid,

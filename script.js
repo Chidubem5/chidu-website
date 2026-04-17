@@ -425,6 +425,18 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') lbShift(e,  1);
 });
 
+// Swipe to navigate lightbox on touch devices
+(function() {
+  const lb = document.getElementById('lightbox');
+  let startX = 0;
+  lb.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) < 40) return;
+    lbShift(e, dx < 0 ? 1 : -1);
+  }, { passive: true });
+})();
+
 /* ─────────────────────────────────────────
    TRAVEL SLIDESHOW — CLICK TO EXPAND
 ───────────────────────────────────────── */
@@ -703,7 +715,7 @@ document.querySelectorAll('.artist-card, .model-ph').forEach(el => {
   const ctx = canvas.getContext('2d');
 
   let w, h, cx, cy, tick = 0, running = true;
-  const LAYERS = 30, DRIFT = 0.00014;
+  const LAYERS = window.innerWidth < 768 ? 18 : 30, DRIFT = 0.00014;
 
   function roundRect(x, y, rw, rh, r) {
     r = Math.min(r, rw / 2, rh / 2);
