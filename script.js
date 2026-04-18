@@ -488,6 +488,36 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
 
 /* ─────────────────────────────────────────
+   MORE ABOUT ME — EXPAND / COLLAPSE
+───────────────────────────────────────── */
+function toggleMoreAbout() {
+  const wrapper = document.getElementById('moreAboutWrapper');
+  const toggle  = document.getElementById('more-about-me');
+  const isOpen  = wrapper.classList.contains('open');
+  wrapper.classList.toggle('open');
+  toggle.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', String(!isOpen));
+  wrapper.setAttribute('aria-hidden', String(isOpen));
+}
+
+window.expandMoreAbout = function() {
+  const wrapper = document.getElementById('moreAboutWrapper');
+  const toggle  = document.getElementById('more-about-me');
+  if (!wrapper.classList.contains('open')) {
+    wrapper.classList.add('open');
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    wrapper.setAttribute('aria-hidden', 'false');
+  }
+};
+
+// Keyboard support for the toggle
+document.getElementById('more-about-me').addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleMoreAbout(); }
+});
+
+
+/* ─────────────────────────────────────────
    COPY EMAIL TO CLIPBOARD
 ───────────────────────────────────────── */
 function showToast(msg) {

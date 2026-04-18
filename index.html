@@ -84,13 +84,7 @@
           <a href="#about"    class="drop-link">About Me</a>
           <a href="#projects" class="drop-link">Projects</a>
           <div class="drop-divider"></div>
-          <span class="drop-label">Hobbies</span>
-          <a href="#anime"      class="drop-link drop-indent">Anime &amp; Manga</a>
-          <a href="#comedians"  class="drop-link drop-indent">Comedians</a>
-          <a href="#travel"     class="drop-link drop-indent">Travel</a>
-          <a href="#books"      class="drop-link drop-indent">Books</a>
-          <div class="drop-divider"></div>
-          <a href="#modeling" class="drop-link">Pictures Through The Years</a>
+          <a href="#more-about-me" class="drop-link" onclick="expandMoreAbout()">More About Me</a>
           <div class="drop-divider"></div>
           <a href="#contact" class="drop-link">Contact Me</a>
         </div>
@@ -233,6 +227,23 @@
       </div>
     </div>
   </section>
+
+  <!-- ── MORE ABOUT ME TOGGLE ── -->
+  <div class="more-about-toggle" id="more-about-me" onclick="toggleMoreAbout()" role="button" tabindex="0" aria-expanded="false" aria-controls="moreAboutWrapper">
+    <div class="container">
+      <div class="more-about-toggle-inner">
+        <div class="more-about-toggle-text">
+          <h2 class="more-about-heading">More About Me</h2>
+          <p class="more-about-sub">Travel &middot; Anime &amp; Manga &middot; Books &middot; Comedians &middot; Photos</p>
+        </div>
+        <svg class="more-about-chevron" id="moreAboutChevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MORE ABOUT ME WRAPPER ── -->
+  <div class="more-about-wrapper" id="moreAboutWrapper" aria-hidden="true">
+    <div class="more-about-inner">
 
   <!-- ── ANIME & MANGA ── -->
   <section id="anime" class="section">
@@ -681,6 +692,9 @@
       </div>
     </div>
   </section>
+
+    </div><!-- /.more-about-inner -->
+  </div><!-- /#moreAboutWrapper -->
 
   <!-- ── CONTACT ── -->
   <section id="contact" class="section section-alt">
