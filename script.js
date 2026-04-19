@@ -110,6 +110,14 @@ cycleNickname();
 ───────────────────────────────────────── */
 const projects = [
   {
+    name: 'Split Tank',
+    desc: 'Web app for splitting gas costs on road trips and carpools. Pulls live weekly gas prices from the EIA API, looks up real MPG via FuelEconomy.gov, and generates Venmo / Cash App / Zelle payment links with the exact amount pre-filled.',
+    url:  'https://splittank.com',
+    github: 'https://github.com/Chidubem5/Gas-Money',
+    lang: 'React',
+    updated: 'Apr 2026',
+  },
+  {
     name: 'Erdos_Africa',
     desc: 'Used Python to analyze realized vs. implied volatility of the VanEck Africa index fund. Findings presented as an academic paper and slideshow through the Erdős Institute.',
     url:  'https://github.com/Chidubem5/Erdos_Africa',
@@ -151,22 +159,31 @@ const langMeta = {
   'Python':           { cls: 'lang-python',   label: 'Python' },
   'HTML':             { cls: 'lang-html',     label: 'HTML' },
   'LaTeX':            { cls: 'lang-latex',    label: 'LaTeX' },
+  'React':            { cls: 'lang-react',    label: 'React' },
 };
 
 function renderProjects() {
   const grid = document.getElementById('projectsGrid');
   grid.innerHTML = projects.map(p => {
     const lm = langMeta[p.lang] || { cls: 'lang-default', label: p.lang };
+    const liveTag = p.github
+      ? `<span class="project-live-badge">Live ↗</span>`
+      : '';
+    const githubLink = p.github
+      ? `<a class="project-github-link" href="${p.github}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">GitHub ↗</a>`
+      : '';
     return `
       <a class="project-card" href="${p.url}" target="_blank" rel="noopener noreferrer">
         <div class="project-header">
           <span class="project-name">${p.name}</span>
+          ${liveTag}
           <span class="project-arrow">↗</span>
         </div>
         <p class="project-desc">${p.desc}</p>
         <div class="project-footer">
           <span class="lang-dot ${lm.cls}"></span>
           <span class="lang-name">${lm.label}</span>
+          ${githubLink}
           <span class="project-updated">${p.updated}</span>
         </div>
       </a>`;
