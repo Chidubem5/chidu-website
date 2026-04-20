@@ -183,7 +183,7 @@ const projects = [
     desc: 'Used Python to analyze realized vs. implied volatility of the VanEck Africa index fund. Findings presented as an academic paper and slideshow through the Erdős Institute.',
     url:  'https://github.com/Chidubem5/Erdos_Africa',
     lang: 'Jupyter Notebook',
-    updated: 'Jan 2026',
+    updated: 'Nov 2025',
   },
   {
     name: 'Gun_Violence',
@@ -197,21 +197,21 @@ const projects = [
     desc: 'Collection of academic writing: undergraduate senior thesis, graduate computational physics papers, and other coursework typeset in LaTeX.',
     url:  'https://github.com/Chidubem5/Latex',
     lang: 'LaTeX',
-    updated: 'Apr 2026',
+    updated: 'Apr 2022',
   },
   {
     name: 'QC',
     desc: 'Demonstrating quantum computing concepts and experiments',
     url:  'https://github.com/Chidubem5/QC',
     lang: 'Python',
-    updated: 'Apr 2026',
+    updated: 'Mar 2025',
   },
   {
     name: 'batesastronomythesis2022',
     desc: 'Python analysis of MaNGA IFU spectroscopy data exploring the relationship between stellar mass, star formation rate, and gas outflow velocity across a large galaxy sample. Figures published in senior thesis (Spring 2022).',
     url:  'https://github.com/Chidubem5/batesastronomythesis2022',
     lang: 'Jupyter Notebook',
-    updated: 'Apr 2026',
+    updated: 'Jan 2020',
   },
 ];
 
