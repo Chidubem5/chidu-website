@@ -170,7 +170,9 @@ function renderProjects() {
       ? `<span class="project-live-badge">Live ↗</span>`
       : '';
     const githubLink = p.github
-      ? `<a class="project-github-link" href="${p.github}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">GitHub ↗</a>`
+      ? `<span class="project-github-link" role="link" tabindex="0"
+           onclick="event.preventDefault();event.stopPropagation();window.open('${p.github}','_blank','noopener,noreferrer')"
+           onkeydown="if(event.key==='Enter'){event.preventDefault();event.stopPropagation();window.open('${p.github}','_blank','noopener,noreferrer')}">GitHub ↗</span>`
       : '';
     return `
       <a class="project-card" href="${p.url}" target="_blank" rel="noopener noreferrer">
