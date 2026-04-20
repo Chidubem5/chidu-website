@@ -179,13 +179,6 @@ const projects = [
     updated: 'Apr 2026',
   },
   {
-    name: 'Erdos_Africa',
-    desc: 'Used Python to analyze realized vs. implied volatility of the VanEck Africa index fund. Findings presented as an academic paper and slideshow through the Erdős Institute.',
-    url:  'https://github.com/Chidubem5/Erdos_Africa',
-    lang: 'Jupyter Notebook',
-    updated: 'Nov 2025',
-  },
-  {
     name: 'Gun_Violence',
     desc: 'Data exploration challenging common narratives around gun violence in the US — examining victim demographics adjusted for population proportionality.',
     url:  'https://github.com/Chidubem5/Gun_Violence',
@@ -193,11 +186,11 @@ const projects = [
     updated: 'Apr 2026',
   },
   {
-    name: 'Latex',
-    desc: 'Collection of academic writing: undergraduate senior thesis, graduate computational physics papers, and other coursework typeset in LaTeX.',
-    url:  'https://github.com/Chidubem5/Latex',
-    lang: 'LaTeX',
-    updated: 'Apr 2022',
+    name: 'Erdos_Africa',
+    desc: 'Used Python to analyze realized vs. implied volatility of the VanEck Africa index fund. Findings presented as an academic paper and slideshow through the Erdős Institute.',
+    url:  'https://github.com/Chidubem5/Erdos_Africa',
+    lang: 'Jupyter Notebook',
+    updated: 'Nov 2025',
   },
   {
     name: 'QC',
@@ -205,6 +198,13 @@ const projects = [
     url:  'https://github.com/Chidubem5/QC',
     lang: 'Python',
     updated: 'Mar 2025',
+  },
+  {
+    name: 'Latex',
+    desc: 'Collection of academic writing: undergraduate senior thesis, graduate computational physics papers, and other coursework typeset in LaTeX.',
+    url:  'https://github.com/Chidubem5/Latex',
+    lang: 'LaTeX',
+    updated: 'Apr 2022',
   },
   {
     name: 'batesastronomythesis2022',
