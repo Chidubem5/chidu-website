@@ -1,32 +1,46 @@
 /* ─────────────────────────────────────────
    CSS CUSTOM PROPERTIES — LIGHT (DAY) THEME
+
+   CSS custom properties (also called "CSS variables") let you define
+   a value once and reuse it everywhere. The format is:
+     --name: value;   ← definition
+     var(--name)      ← usage anywhere in a rule
+
+   :root is a special selector that targets the <html> element.
+   Defining variables here makes them available to EVERY element on the page.
+   [data-theme="light"] targets elements with that exact HTML attribute —
+   JavaScript sets this on <html> when toggling themes.
 ───────────────────────────────────────── */
 :root,
 [data-theme="light"] {
-  --bg:           #f7f7f9;
-  --bg-alt:       #ffffff;
-  --bg-card:      #ffffff;
-  --bg-card-hover:#f0ebff;
-  --text:         #161616;
-  --text-2:       #3d3d3d;
-  --text-muted:   #737373;
-  --accent:       #7c3aed;
-  --accent-dim:   #ede9fe;
-  --accent-2:     #0f62fe;
-  --border:       #e4e4e7;
-  --shadow:       0 2px 12px rgba(0,0,0,.07);
-  --shadow-lg:    0 8px 32px rgba(0,0,0,.10);
-  --nav-bg:       rgba(247,247,249,.92);
-  --orb-1:        rgba(124,58,237,.12);
+  --bg:           #f7f7f9;   /* main page background */
+  --bg-alt:       #ffffff;   /* slightly lighter — used for footer, section-alt */
+  --bg-card:      #ffffff;   /* card backgrounds */
+  --bg-card-hover:#f0ebff;   /* card background when hovered */
+  --text:         #161616;   /* primary text color */
+  --text-2:       #3d3d3d;   /* secondary text (slightly lighter) */
+  --text-muted:   #737373;   /* hints, captions, placeholders */
+  --accent:       #7c3aed;   /* brand purple — used for buttons, headings, highlights */
+  --accent-dim:   #ede9fe;   /* light purple tint for tag backgrounds */
+  --accent-2:     #0f62fe;   /* secondary accent blue — used in gradients */
+  --border:       #e4e4e7;   /* dividers, card outlines */
+  --shadow:       0 2px 12px rgba(0,0,0,.07);   /* soft box shadow */
+  --shadow-lg:    0 8px 32px rgba(0,0,0,.10);   /* larger shadow on hover */
+  --nav-bg:       rgba(247,247,249,.92);         /* navbar glass effect */
+  --orb-1:        rgba(124,58,237,.12);          /* hero background orb colors */
   --orb-2:        rgba(15,98,254,.08);
-  --slide-ph-bg:  #f0ebff;
-  --slide-ph-txt: #7c3aed;
-  --genre-bg:     #ede9fe;
-  --genre-txt:    #6d28d9;
+  --slide-ph-bg:  #f0ebff;   /* slideshow placeholder background */
+  --slide-ph-txt: #7c3aed;   /* slideshow placeholder text */
+  --genre-bg:     #ede9fe;   /* genre badge background */
+  --genre-txt:    #6d28d9;   /* genre badge text */
 }
 
 /* ─────────────────────────────────────────
    DARK (EVENING) THEME
+
+   When JavaScript sets data-theme="dark" on <html>, this block overrides
+   every variable from :root. All the var(--x) references throughout the CSS
+   automatically update — no other rules need to change.
 ───────────────────────────────────────── */
 [data-theme="dark"] {
   --bg:           #0a0a0a;
@@ -36,7 +50,7 @@
   --text:         #f4f4f4;
   --text-2:       #d4d4d4;
   --text-muted:   #8d8d8d;
-  --accent:       #a78bfa;
+  --accent:       #a78bfa;   /* lighter purple so it's readable on dark backgrounds */
   --accent-dim:   #1e133a;
   --accent-2:     #33b1ff;
   --border:       #2a2a2a;
@@ -53,57 +67,91 @@
 
 /* ─────────────────────────────────────────
    RESET & BASE
+
+   Browsers apply their own default styles (margins on headings, padding
+   on lists, etc.). A CSS reset zeroes those out so we start from a clean slate.
 ───────────────────────────────────────── */
+
+/* * = every element.  *::before and *::after = pseudo-elements (decorative
+   content added before/after an element via CSS content:'').
+   box-sizing: border-box makes padding and border count WITHIN the element's
+   declared width — so a 200px element with 20px padding is still 200px wide total,
+   not 240px. This is almost always what you want. */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* Removes the semi-transparent grey highlight that flashes when you tap
+     an element on iOS Safari. Purely aesthetic. */
   -webkit-tap-highlight-color: transparent;
 }
 
 html {
+  /* smooth scrolling: when you click #about, it glides instead of jumping */
   scroll-behavior: smooth;
   font-size: 16px;
+  /* Prevents iOS Safari from enlarging text in landscape mode — keep the
+     font size we set, don't auto-adjust. */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
 
-/* Canvas provides the background; body is transparent so it shows through */
+/* The canvas is fixed behind everything else.
+   position: fixed = stays in place as you scroll (relative to the viewport).
+   inset: 0 = shorthand for top:0; right:0; bottom:0; left:0 — fills the screen.
+   z-index: -1 = renders below everything so page content appears on top.
+   pointer-events: none = clicks pass through the canvas to whatever's beneath it.
+   will-change: transform tells the GPU to treat this as a composited layer,
+   making scrolling smoother on mobile. */
 #mirrorBg {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   display: block;
-  will-change: transform; /* promotes to GPU layer — smoother on iOS */
+  will-change: transform;
 }
 
 body {
   font-family: 'Inter', sans-serif;
-  background: transparent;
-  color: var(--text);
-  line-height: 1.7;
+  background: transparent;   /* canvas shows through from behind */
+  color: var(--text);        /* var() pulls in the current theme's text color */
+  line-height: 1.7;          /* comfortable reading — 1.7× the font size between lines */
+  /* transition makes theme-switching animate smoothly instead of flashing */
   transition: color .35s;
+  /* overscroll-behavior-y: none prevents the "rubber band" bounce effect
+     at the top/bottom of the page on iOS — keeps the fixed canvas looking right */
   overscroll-behavior-y: none;
+  /* These improve how text is rendered on screens — smoother anti-aliasing */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
+/* Remove underlines from all links by default; we style them individually */
 a { color: inherit; text-decoration: none; }
+/* max-width: 100% prevents images from overflowing their container.
+   display: block removes the small gap below images (inline baseline gap). */
 img { max-width: 100%; display: block; }
 
-/* Remove 300ms tap delay on all interactive elements */
+/* touch-action: manipulation removes the 300ms delay on tap events in iOS.
+   Without this, mobile browsers wait to see if you're double-tapping to zoom.
+   Setting it on all interactive elements makes the site feel instant. */
 a, button, [onclick], label, input, select, textarea {
   touch-action: manipulation;
 }
 
-/* Prevent text selection flash on tap for UI elements */
+/* user-select: none prevents text selection when tapping UI elements.
+   Without this, holding down on a card would highlight the text inside,
+   which looks wrong for button-like elements. */
 button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   -webkit-user-select: none;
   user-select: none;
 }
 
+/* prefers-reduced-motion: some users have a system setting that requests
+   fewer animations (e.g. people with vestibular disorders or motion sensitivity).
+   This rule turns all animations off to nearly zero for those users. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: .01ms !important;
@@ -112,7 +160,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 
 /* ─────────────────────────────────────────
-   SCROLLBAR
+   SCROLLBAR — custom styling for browsers that support it (Chrome, Safari)
 ───────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
@@ -121,6 +169,10 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 /* ─────────────────────────────────────────
    LAYOUT HELPERS
 ───────────────────────────────────────── */
+/* .container centers content and prevents it from stretching too wide on
+   large monitors. margin: 0 auto centers a block-level element horizontally
+   when it has a fixed max-width. padding: 0 1.5rem adds breathing room
+   on smaller screens so content doesn't touch the screen edges. */
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -128,20 +180,28 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 
 .section {
-  padding: 100px 0;
+  padding: 100px 0;     /* top and bottom space between sections */
   background: transparent;
 }
 
+/* A subtle semi-transparent white overlay to create visual alternation
+   between sections without a solid color change. */
 .section-alt {
   background: rgba(255,255,255,.07);
 }
 
+/* In dark mode, the same overlay at a slightly different opacity */
 [data-theme="dark"] .section-alt {
   background: rgba(255,255,255,.04);
 }
 
 /* ─────────────────────────────────────────
    SCROLL PROGRESS BAR
+
+   The thin purple line at the top of the page.
+   position: fixed + top: 0 + left: 0 pins it to the top of the viewport.
+   width starts at 0% and JavaScript updates it as you scroll.
+   pointer-events: none so it doesn't block clicks on the navbar.
 ───────────────────────────────────────── */
 .scroll-progress {
   position: fixed;
@@ -149,26 +209,35 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   height: 3px;
   width: 0%;
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  z-index: 9999;
+  z-index: 9999;    /* a very high z-index ensures it's above everything */
   transition: width .08s linear;
   pointer-events: none;
 }
 
 /* ─────────────────────────────────────────
    SCROLL-TRIGGERED ENTRANCE ANIMATIONS
+
+   Elements start invisible and slightly shifted down (fade-up class).
+   When JavaScript detects they've scrolled into view, it adds "visible"
+   which transitions them to fully opaque and in their correct position.
 ───────────────────────────────────────── */
 .fade-up {
-  opacity: 0;
-  transform: translateY(22px);
+  opacity: 0;                          /* invisible */
+  transform: translateY(22px);         /* shifted 22px down */
   transition: opacity .55s ease, transform .55s ease;
 }
 .fade-up.visible {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1;                          /* fully visible */
+  transform: translateY(0);            /* back to normal position */
 }
 
 /* ─────────────────────────────────────────
    NAVBAR
+
+   position: fixed keeps it stuck at the top as you scroll.
+   z-index: 100 ensures it floats above all page content.
+   backdrop-filter: blur(12px) creates the frosted glass effect —
+   the content beneath the navbar is blurred. -webkit- prefix = Safari support.
 ───────────────────────────────────────── */
 .navbar {
   position: fixed;
@@ -178,7 +247,9 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
-  /* respect iPhone notch / Dynamic Island */
+  /* env(safe-area-inset-left/right) = iPhone notch/Dynamic Island padding.
+     max(2rem, ...) uses whichever is larger — at least 2rem, more if needed
+     to avoid the notch. */
   padding-left:  max(2rem, env(safe-area-inset-left));
   padding-right: max(2rem, env(safe-area-inset-right));
   height: 60px;
@@ -187,7 +258,8 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   transition: background .35s, border-color .35s;
-  /* GPU layer so scrolling never repaints the navbar */
+  /* translateZ(0) creates a GPU compositing layer — the navbar won't
+     need to be repainted as the page scrolls under it, keeping it smooth. */
   will-change: transform;
   transform: translateZ(0);
 }
@@ -202,6 +274,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   width: 36px;
   object-fit: contain;
   border-radius: 8px;
+  /* transition: makes the scale animation smooth instead of instant */
   transition: transform .2s;
 }
 .nav-logo:hover { transform: scale(1.08); }
@@ -228,14 +301,15 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   gap: .75rem;
 }
 
-/* Dropdown */
+/* Dropdown — the container is position:relative so the menu can be
+   positioned absolute relative to it, not the whole page. */
 .nav-dropdown { position: relative; }
 
 .nav-toggle {
   background: none;
   border: 1.5px solid var(--border);
   color: var(--text);
-  font-family: inherit;
+  font-family: inherit;   /* inputs and buttons don't inherit font by default */
   font-size: .9rem;
   font-weight: 500;
   padding: .4rem .85rem;
@@ -248,6 +322,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 .nav-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
+/* The ▾ arrow rotates 180° when the menu is open */
 .arrow {
   display: inline-block;
   transition: transform .25s;
@@ -255,9 +330,11 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 .nav-toggle.open .arrow { transform: rotate(180deg); }
 
+/* The dropdown menu itself: absolutely positioned below the toggle button.
+   Starts hidden (display: none). JS adds class "open" to show it. */
 .dropdown-menu {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 8px);   /* calc() does math — 100% of button height + 8px gap */
   right: 0;
   min-width: 190px;
   background: var(--bg-card);
@@ -267,10 +344,14 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   padding: .5rem 0;
   display: none;
   flex-direction: column;
+  /* @keyframes dropIn — defined below — makes it slide down when opening */
   animation: dropIn .2s ease;
 }
 .dropdown-menu.open { display: flex; }
 
+/* @keyframes define the frames of a CSS animation.
+   "from" = start state, "to" = end state.
+   dropIn slides the menu down 6px and fades it in from invisible. */
 @keyframes dropIn {
   from { opacity: 0; transform: translateY(-6px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -301,7 +382,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   color: var(--text-muted);
 }
 
-/* Theme button */
+/* Theme toggle button — the sun/moon emoji */
 .theme-btn {
   background: none;
   border: 1.5px solid var(--border);
@@ -316,6 +397,11 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 
 /* ─────────────────────────────────────────
    HERO
+
+   min-height: 100vh makes the hero fill at least the full viewport height.
+   100svh = "small viewport height" — accounts for browser chrome on iOS that
+   can collapse and expand (100vh would sometimes be too tall on Safari).
+   display: flex + align/justify: center = centers content both ways.
 ───────────────────────────────────────── */
 .hero {
   min-height: 100vh;
@@ -324,11 +410,15 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
+  overflow: hidden;    /* clips the orbs that extend outside the section */
   padding: 80px 1.5rem 40px;
   text-align: center;
 }
 
+/* The two blurred color circles behind the hero text.
+   position: absolute places them relative to the nearest positioned ancestor (.hero).
+   filter: blur(80px) creates the soft glow.
+   pointer-events: none = clicks pass through them. */
 .hero-bg-orb {
   position: absolute;
   border-radius: 50%;
@@ -338,7 +428,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .orb-1 {
   width: 500px; height: 500px;
   background: var(--orb-1);
-  top: -100px; right: -120px;
+  top: -100px; right: -120px;    /* partially off-screen intentionally */
 }
 .orb-2 {
   width: 400px; height: 400px;
@@ -346,6 +436,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   bottom: -80px; left: -80px;
 }
 
+/* z-index: 1 ensures this content renders in front of the orbs (z-index: 0) */
 .hero-content {
   position: relative;
   z-index: 1;
@@ -361,6 +452,11 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   margin-bottom: .75rem;
 }
 
+/* clamp(min, preferred, max) — the font size scales with viewport width (6vw),
+   but never shrinks below 2.6rem or grows above 4.5rem.
+   This is "fluid typography" — responsive text without media queries.
+   linear-gradient + background-clip:text creates the gradient text effect:
+   the gradient is applied as a background, then only shown through the text shape. */
 .hero-name {
   font-size: clamp(2.6rem, 6vw, 4.5rem);
   font-weight: 800;
@@ -377,7 +473,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   font-size: 1rem;
   color: var(--text-muted);
   margin-bottom: 1.25rem;
-  min-height: 1.5em;
+  min-height: 1.5em;    /* prevents layout shift as JS types nicknames */
 }
 .nickname-wrap { display: inline-flex; align-items: center; gap: 2px; }
 .nickname-text {
@@ -385,6 +481,9 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   color: var(--accent);
   text-align: left;
 }
+/* The blinking | cursor: @keyframes blink fades it in/out.
+   step-end means the transition is a hard cut (on or off), not a fade.
+   animation: blink .8s step-end infinite = runs forever, 0.8s per cycle. */
 .nickname-cursor {
   color: var(--accent);
   animation: blink .8s step-end infinite;
@@ -403,6 +502,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   font-size: 1rem;
 }
 
+/* flex-wrap: wrap = if the buttons don't fit side-by-side, they stack vertically */
 .hero-cta {
   display: flex;
   gap: 1rem;
@@ -411,6 +511,8 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   flex-wrap: wrap;
 }
 
+/* Shared button styles. transform: translateY(-2px) lifts the button on hover
+   for a "raised" feel. box-shadow grows to give depth. */
 .btn {
   padding: .65rem 1.6rem;
   border-radius: 10px;
@@ -426,7 +528,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   color: #fff;
   border: 2px solid var(--accent);
 }
-.btn-primary:hover { background: #6d28d9; }
+.btn-primary:hover { background: #6d28d9; }   /* slightly darker on hover */
 .btn-outline {
   background: transparent;
   color: var(--accent);
@@ -434,7 +536,8 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 .btn-outline:hover { background: var(--accent-dim); }
 
-/* Scroll hint */
+/* The "scroll" hint at the bottom of the hero.
+   position: absolute + left: 50% + translateX(-50%) = horizontally centered. */
 .hero-scroll-hint {
   position: absolute;
   bottom: 2rem;
@@ -449,6 +552,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   letter-spacing: .1em;
   text-transform: uppercase;
 }
+/* The vertical line that pulses up and down */
 .scroll-line {
   width: 1px;
   height: 40px;
@@ -462,6 +566,10 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 
 /* ─────────────────────────────────────────
    SECTION HEADINGS
+
+   clamp() for fluid size. ::after adds the purple underline bar
+   using the CSS "content" trick: a block element with zero content
+   but defined width, height, and background color = a decorative line.
 ───────────────────────────────────────── */
 .section-title {
   font-size: clamp(1.7rem, 3.5vw, 2.5rem);
@@ -471,7 +579,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   color: var(--text);
 }
 .section-title::after {
-  content: '';
+  content: '';        /* required for pseudo-elements to appear */
   display: block;
   width: 40px; height: 3px;
   background: var(--accent);
@@ -500,6 +608,9 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .about-photo {
   margin-bottom: 2.5rem;
 }
+/* object-fit: cover = the image fills its container, cropping edges if needed
+   (like "background-size: cover" but for img elements).
+   object-position: center 20% = focus the crop 20% from the top (shows face). */
 .about-img {
   width: 100%;
   height: 450px;
@@ -509,6 +620,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   box-shadow: var(--shadow-lg);
   display: block;
 }
+/* Responsive: on phones the photo is shorter so it doesn't dominate the screen */
 @media (max-width: 640px) {
   .about-img { height: 280px; }
 }
@@ -517,18 +629,20 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   margin-bottom: 2.5rem;
 }
 
-
 .about-text p {
   color: var(--text-2);
   margin-bottom: 1.1rem;
   font-size: 1.02rem;
 }
+
+/* flex-wrap: wrap = pills wrap to the next line if they overflow */
 .tag-list {
   display: flex;
   flex-wrap: wrap;
   gap: .5rem;
   margin-top: 1.25rem;
 }
+/* Each tag is a pill shape: border-radius: 20px makes the ends rounded */
 .tag {
   background: var(--accent-dim);
   color: var(--accent);
@@ -557,7 +671,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   display: inline-flex;
   align-items: center;
   gap: .5rem;
-  background: #0077b5;
+  background: #0077b5;    /* LinkedIn's official brand blue */
   color: #fff;
   padding: .55rem 1.2rem;
   border-radius: 10px;
@@ -582,6 +696,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   transition: background .2s, transform .15s;
 }
 .resume-btn:hover { background: var(--accent-2); transform: translateY(-2px); }
+/* The little white "in" badge inside the LinkedIn button */
 .linkedin-icon {
   background: #fff;
   color: #0077b5;
@@ -595,6 +710,12 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 
 /* ─────────────────────────────────────────
    RESEARCH CARDS
+
+   display: grid creates a grid layout.
+   repeat(auto-fill, minmax(300px, 1fr)):
+     • auto-fill = create as many columns as will fit
+     • minmax(300px, 1fr) = each column is at least 300px, grows equally
+   This automatically shifts from 3 columns on desktop to 1 column on mobile.
 ───────────────────────────────────────── */
 .research-grid {
   display: grid;
@@ -606,7 +727,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .research-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-left: 4px solid var(--accent);
+  border-left: 4px solid var(--accent);    /* colored left border = accent stripe */
   border-radius: 14px;
   padding: 1.4rem;
   display: flex;
@@ -619,7 +740,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   transform: translateY(-3px);
   box-shadow: var(--shadow-lg);
 }
-.research-icon { font-size: 1.8rem; flex-shrink: 0; }
+.research-icon { font-size: 1.8rem; flex-shrink: 0; }   /* flex-shrink:0 = don't shrink the emoji */
 .research-body h4 {
   font-size: .98rem;
   font-weight: 700;
@@ -640,6 +761,8 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.4rem;
 }
+/* The card is an <a> tag styled as a block element.
+   flex-direction: column stacks header, description, footer vertically. */
 .project-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -664,6 +787,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   align-items: flex-start;
   gap: .5rem;
 }
+/* margin-left: auto = pushes the arrow to the far right of the flex row */
 .project-header .project-arrow {
   margin-left: auto;
 }
@@ -672,6 +796,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   font-weight: 700;
   color: var(--text);
 }
+/* Arrow is invisible until hover — opacity animates in */
 .project-arrow {
   color: var(--accent);
   font-size: 1.1rem;
@@ -684,13 +809,14 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   font-size: .88rem;
   color: var(--text-muted);
   line-height: 1.55;
-  flex: 1;
+  flex: 1;    /* flex: 1 = grow to fill available space, pushing the footer down */
 }
 .project-footer {
   display: flex;
   align-items: center;
   gap: .5rem;
 }
+/* Small colored dot next to the language name */
 .lang-dot {
   width: 10px; height: 10px;
   border-radius: 50%;
@@ -700,13 +826,14 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   font-size: .78rem;
   color: var(--text-muted);
 }
+/* margin-left: auto pushes the date to the far right */
 .project-updated {
   margin-left: auto;
   font-size: .75rem;
   color: var(--text-muted);
 }
 
-/* language colors */
+/* Language dot colors matching GitHub's language color convention */
 .lang-python     { background: #3572A5; }
 .lang-jupyter    { background: #DA5B0B; }
 .lang-html       { background: #e34c26; }
@@ -714,14 +841,14 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .lang-react      { background: #61DAFB; }
 .lang-default    { background: #8d8d8d; }
 
-/* live site badge on project cards */
+/* "Live ↗" badge on project cards that have a deployed site */
 .project-live-badge {
   font-size: .68rem;
   font-weight: 600;
   background: #dcfce7;
   color: #166534;
   border: 1px solid #86efac;
-  border-radius: 99px;
+  border-radius: 99px;    /* 99px = pill shape regardless of text length */
   padding: .15rem .55rem;
   flex-shrink: 0;
 }
@@ -735,7 +862,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .project-github-link:hover { opacity: 1; text-decoration: underline; }
 
 /* ─────────────────────────────────────────
-   GAMING
+   GAMING — currently defined for future use
 ───────────────────────────────────────── */
 .games-grid {
   display: grid;
@@ -767,6 +894,9 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 
 /* ─────────────────────────────────────────
    ANIME & MANGA
+
+   flex-direction: column stacks cards in a single vertical list.
+   Each card is a horizontal flex row: poster | rank | info | wiki link.
 ───────────────────────────────────────── */
 .anime-list {
   display: flex;
@@ -774,6 +904,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   gap: .6rem;
 }
 
+/* translateX(4px) slides the card right on hover — subtle directional cue */
 .anime-card {
   display: flex;
   align-items: center;
@@ -802,6 +933,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   display: block;
   transition: opacity .3s;
 }
+/* Hides broken images (when src attribute is empty) */
 .anime-poster[src=""] { opacity: 0; }
 
 .anime-rank {
@@ -818,9 +950,10 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   flex-direction: column;
   gap: .3rem;
   flex: 1;
-  min-width: 0;
+  min-width: 0;   /* prevents flex child from overflowing its container */
 }
 
+/* text-overflow: ellipsis clips long titles with "…" instead of overflowing */
 .anime-title {
   font-size: .98rem;
   font-weight: 700;
@@ -845,6 +978,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   border-radius: 20px;
 }
 
+/* Wikipedia link — dim until hovered */
 .anime-wiki {
   font-size: .78rem;
   font-weight: 600;
@@ -856,6 +990,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 .anime-card:hover .anime-wiki { opacity: 1; }
 
+/* On small phones: hide the wiki link (not enough room) and allow title to wrap */
 @media (max-width: 480px) {
   .anime-card   { padding: .75rem .9rem; gap: .75rem; }
   .anime-wiki   { display: none; }
@@ -864,6 +999,9 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 
 /* ─────────────────────────────────────────
    COMEDIANS
+
+   A responsive grid — auto-fill means it switches from 2 columns on desktop
+   to 1 column on narrow screens without a media query.
 ───────────────────────────────────────── */
 .comedian-list {
   display: grid;
@@ -923,9 +1061,15 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 
 /* ─────────────────────────────────────────
    TRAVEL — SLIDESHOW
+
+   The slideshow is a stack of slides, all occupying the same space.
+   Only the one with class "active" is shown (display: block).
+   The others are display: none, so they take up no space.
 ───────────────────────────────────────── */
 .travel-sub { margin-bottom: 1rem; margin-top: 2.5rem; }
 
+/* position: relative lets the arrow buttons be positioned absolute
+   relative to this container, not the whole page. */
 .slideshow-wrapper {
   position: relative;
   display: flex;
@@ -947,6 +1091,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   background: #000;
 }
 
+/* All slides are hidden by default */
 .slide {
   display: none;
   width: 100%;
@@ -954,6 +1099,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   opacity: 0;
   transition: opacity .8s ease;
 }
+/* The active slide is shown and fully opaque */
 .slide.active {
   display: block;
   height: 100%;
@@ -993,6 +1139,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   border-radius: 16px;
   background: #000;
 }
+/* object-fit: contain shows the full image with letterboxing/pillarboxing */
 .slide-img {
   width: 100%;
   height: 100%;
@@ -1002,6 +1149,8 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   background: #000;
 }
 
+/* Caption overlay at the bottom of each slide.
+   linear-gradient from black to transparent = gradual fade from bottom. */
 .slide-caption {
   position: absolute;
   bottom: 0; left: 0; right: 0;
@@ -1014,10 +1163,11 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   z-index: 2;
 }
 
+/* Arrow buttons are absolutely positioned over the slides */
 .slide-arrow {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%);    /* shift up by half its own height = true center */
   background: var(--bg-card);
   border: 1px solid var(--border);
   color: var(--text);
@@ -1033,6 +1183,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .slide-arrow.right { right: 8px; }
 .slide-arrow:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 
+/* Dot navigation — one dot per slide */
 .slide-dots {
   display: flex;
   gap: .45rem;
@@ -1046,11 +1197,13 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   cursor: pointer;
   transition: background .2s, transform .2s;
 }
+/* Active dot is purple and slightly larger */
 .dot.active { background: var(--accent); transform: scale(1.25); }
 
 /* ─────────────────────────────────────────
    BOOKS
 ───────────────────────────────────────── */
+/* flex-wrap: wrap = cards move to a new row when they don't all fit */
 .books-row {
   display: flex;
   flex-wrap: wrap;
@@ -1074,11 +1227,13 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   display: flex;
   flex-shrink: 0;
 }
+/* The narrow colored strip on the left = book spine */
 .book-spine-bar {
   width: 18px;
   background: linear-gradient(to bottom, var(--accent), var(--accent-2));
   border-radius: 3px 0 0 3px;
 }
+/* The front cover area — a box with title and author text */
 .book-cover-front {
   background: var(--accent-dim);
   border-radius: 0 4px 4px 0;
@@ -1114,13 +1269,18 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   letter-spacing: .08em;
   color: var(--text-muted);
 }
+/* Star icons are ★ Unicode characters.
+   JS assigns classes "full", "half", or "" (empty) to each. */
 .star-rating { display: flex; gap: 2px; }
 .star {
   font-size: 1.3rem;
-  color: var(--border);
+  color: var(--border);    /* empty star = grey */
   transition: color .15s;
 }
-.star.full  { color: #f59e0b; }
+.star.full  { color: #f59e0b; }    /* full star = amber */
+/* Half star: a gradient that's gold on the left and grey on the right.
+   background-clip: text + text-fill-color: transparent = gradient shows
+   through the star character shape. */
 .star.half  {
   background: linear-gradient(90deg, #f59e0b 50%, var(--border) 50%);
   -webkit-background-clip: text;
@@ -1134,12 +1294,14 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 
 /* ─────────────────────────────────────────
-   MODELING
+   MODELING (Pictures Through the Years)
 ───────────────────────────────────────── */
 .model-featured {
   margin-bottom: 1.25rem;
 }
 
+/* !important overrides any other competing rules for this specific element.
+   Used sparingly here because the featured photo needs a specific height. */
 .model-ph-featured {
   width: 100%;
   height: 420px !important;
@@ -1154,6 +1316,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   cursor: pointer;
 }
 
+/* 3-column photo grid */
 .model-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1166,6 +1329,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   .model-ph-featured img { height: 260px; }
 }
 
+/* position: relative so the absolutely-positioned img inside is relative to this */
 .model-ph {
   background: var(--slide-ph-bg);
   border: 2px dashed var(--accent);
@@ -1178,15 +1342,18 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   gap: .4rem;
   cursor: pointer;
   transition: transform .2s, box-shadow .2s, background .2s;
-  overflow: hidden;
+  overflow: hidden;    /* clips the image to the rounded corners */
   position: relative;
 }
 
+/* scale(1.02) = grow 2% on hover — subtle zoom-out effect */
 .model-ph:hover {
   transform: scale(1.02);
   box-shadow: var(--shadow-lg);
 }
 
+/* Image fills the entire card.
+   position: absolute + inset: 0 = top:0 right:0 bottom:0 left:0 = fills parent */
 .model-ph img {
   width: 100%;
   height: 100%;
@@ -1197,13 +1364,18 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   transition: transform .35s;
 }
 
+/* Inner zoom effect on hover — the card grows slightly AND the image zooms more */
 .model-ph:hover img { transform: scale(1.05); }
 
 .model-ph-icon  { font-size: 2rem; color: var(--accent); }
 .model-ph-label { font-size: .9rem; font-weight: 600; color: var(--slide-ph-txt); }
 .model-ph-hint  { font-size: .75rem; color: var(--text-muted); }
 
-/* Lightbox */
+/* ── Lightbox overlay ───────────────────────────────────────────────
+   The full-screen photo viewer.
+   display: none by default; JS adds class "open" to show it.
+   backdrop-filter: blur(6px) blurs whatever is behind the overlay.
+   position: fixed + inset: 0 = covers the entire viewport. */
 .lightbox {
   display: none;
   position: fixed;
@@ -1217,8 +1389,8 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .lightbox.open { display: flex; }
 
 .lightbox-img {
-  max-width: 88vw;
-  max-height: 88vh;
+  max-width: 88vw;     /* vw = "viewport width" — 88% of screen width */
+  max-height: 88vh;    /* vh = "viewport height" */
   border-radius: 12px;
   box-shadow: 0 8px 48px rgba(0,0,0,.6);
   object-fit: contain;
@@ -1250,13 +1422,14 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: background .2s;
-  /* ensure at least 44px touch target */
+  /* 44px minimum touch target — Apple's accessibility recommendation */
   min-width: 44px; min-height: 44px;
 }
 .lightbox-arrow:hover { background: rgba(255,255,255,.25); }
 .lightbox-arrow.left  { left: 1.5rem; }
 .lightbox-arrow.right { right: 1.5rem; }
 
+/* Caption centered at the bottom of the lightbox */
 .lightbox-caption {
   position: absolute;
   bottom: 1.5rem;
@@ -1271,10 +1444,17 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   pointer-events: none;
   white-space: nowrap;
 }
+/* :empty hides the caption element when it has no text content */
 .lightbox-caption:empty { display: none; }
 
 /* ─────────────────────────────────────────
    MORE ABOUT ME
+
+   The expand/collapse trick uses CSS Grid animation:
+   grid-template-rows: 0fr = the row is 0 tall (collapsed).
+   grid-template-rows: 1fr = the row is full height (expanded).
+   Animating between these values creates a smooth height transition.
+   The inner div needs overflow: hidden so content is clipped at height 0.
 ───────────────────────────────────────── */
 .more-about-toggle {
   background: var(--bg-alt);
@@ -1307,15 +1487,19 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   margin: 0;
 }
 
+/* cubic-bezier(.4,0,.2,1) is the "Material Design ease" curve — feels natural */
 .more-about-chevron {
   color: var(--accent);
   flex-shrink: 0;
   transition: transform .45s cubic-bezier(.4,0,.2,1);
 }
+/* Rotate the arrow 180° when the section is open */
 .more-about-toggle.open .more-about-chevron {
   transform: rotate(180deg);
 }
 
+/* grid-template-rows: 0fr = no height; 1fr = full height.
+   Transitioning between them animates the height change. */
 .more-about-wrapper {
   display: grid;
   grid-template-rows: 0fr;
@@ -1324,6 +1508,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .more-about-wrapper.open {
   grid-template-rows: 1fr;
 }
+/* overflow: hidden is required for the grid row height trick to work */
 .more-about-inner {
   overflow: hidden;
 }
@@ -1335,6 +1520,9 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   background: var(--bg-alt);
   border-top: 1px solid var(--border);
   padding: 2.5rem 0;
+  /* max() picks the larger of the two values.
+     env(safe-area-inset-bottom) = iPhone home bar height (0 on Android/desktop).
+     Ensures content doesn't get hidden behind the home indicator. */
   padding-bottom: max(2.5rem, calc(1.5rem + env(safe-area-inset-bottom)));
   transition: background .35s;
 }
@@ -1357,52 +1545,52 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .footer-copy { font-size: .78rem; color: var(--text-muted); }
 
 /* ─────────────────────────────────────────
-   RESPONSIVE  ≤ 768px  (tablets / large phones)
+   RESPONSIVE — ≤768px (tablets / large phones)
+
+   @media rules apply their styles ONLY when the screen width matches.
+   "max-width: 768px" = these rules kick in on screens 768px wide or narrower.
+   Think of it as: "if the screen is ≤768px wide, do this instead."
 ───────────────────────────────────────── */
 @media (max-width: 768px) {
+  /* Stack research cards into a single column on tablets */
   .research-grid { grid-template-columns: 1fr; }
 
-  /* Slideshow height handled dynamically by JS */
-
-  /* Bigger arrow touch targets */
+  /* Bigger arrow touch targets (easier to tap with a finger) */
   .slide-arrow {
     width: 44px; height: 44px;
     font-size: 1.6rem;
   }
 
-  /* Bigger dot tap areas */
+  /* Bigger dots = easier to tap */
   .dot { width: 10px; height: 10px; }
 }
 
 /* ─────────────────────────────────────────
-   RESPONSIVE  ≤ 640px  (phones)
+   RESPONSIVE — ≤640px (phones)
 ───────────────────────────────────────── */
 @media (max-width: 640px) {
-  /* Spacing */
+  /* Less vertical padding on mobile — sections feel less spread out */
   .section         { padding: 60px 0; }
+  /* Less horizontal padding — more screen space for content */
   .container       { padding: 0 1rem; }
   .hero            { padding: 80px 1rem 40px; }
 
-  /* Grids */
+  /* Responsive grid changes */
   .games-grid      { grid-template-columns: repeat(2, 1fr); }
-  .projects-grid   { grid-template-columns: 1fr; }
+  .projects-grid   { grid-template-columns: 1fr; }       /* 1 column on phones */
   .model-grid      { grid-template-columns: repeat(2, 1fr); }
 
-  /* Books */
+  /* Books: stack the visual and metadata vertically instead of side-by-side */
   .book-card       { flex-direction: column; max-width: 100%; }
 
-  /* Featured photo */
   .model-ph-featured        { height: 260px !important; }
   .model-ph-featured img    { height: 260px; }
 
-  /* Slideshow height handled dynamically by JS */
-
-  /* Slide arrows sit at absolute center of the track */
   .slideshow-wrapper { position: relative; }
   .slide-arrow.left  { left: 6px; }
   .slide-arrow.right { right: 6px; }
 
-  /* Lightbox */
+  /* Lightbox takes up more of the screen on small phones */
   .lightbox-img {
     max-width: 96vw;
     max-height: 80vh;
@@ -1413,62 +1601,55 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 
 /* ─────────────────────────────────────────
-   RESPONSIVE  ≤ 480px  (small phones)
+   RESPONSIVE — ≤480px (small phones)
 ───────────────────────────────────────── */
 @media (max-width: 480px) {
-  /* Sections */
   .section          { padding: 50px 0; }
   .container        { padding: 0 .9rem; }
 
-  /* Navbar */
   .navbar           { padding: 0 .85rem; }
-  /* Dropdown: full-width feel */
   .dropdown-menu    { min-width: 170px; right: -4px; }
   .drop-link        { padding: .65rem 1.25rem; font-size: .88rem; }
 
-  /* Hero: stack CTA buttons */
+  /* Stack the hero CTA buttons vertically on narrow screens */
   .hero-cta         { flex-direction: column; align-items: center; }
   .btn              { width: 100%; max-width: 280px; text-align: center; justify-content: center; }
+  /* Hide the scroll hint on narrow phones — not enough space */
   .hero-scroll-hint { display: none; }
 
-  /* About */
   .about-text p     { font-size: .97rem; }
 
-  /* Artist cards: tighter on narrow screens */
   .artist-card      { padding: .7rem .85rem; gap: .65rem; }
   .artist-links     { gap: .3rem; }
   .artist-link      { width: 28px; height: 28px; font-size: .75rem; }
   .songs-toggle     { font-size: .75rem; }
 
-  /* Song rows: let platform links wrap if needed */
   .songs-list li    { flex-wrap: wrap; gap: .3rem; }
   .song-platform-links { gap: .25rem; }
 
-  /* Slideshow height handled dynamically by JS */
   .slide-arrow      { width: 40px; height: 40px; font-size: 1.4rem; }
   .slide-caption    { font-size: .78rem; }
 
-  /* Research cards */
   .research-card    { padding: 1.1rem; gap: .75rem; }
   .research-icon    { font-size: 1.5rem; }
 
-  /* Games 2-column stays but tighter */
   .game-card        { padding: 1.5rem 1rem; }
   .game-emoji       { font-size: 1.8rem; }
 
-  /* Books */
   .book-cover-front { width: 105px; }
   .book-cover-title { font-size: .8rem; }
 }
 
 /* ─────────────────────────────────────────
-   IOS / TOUCH  —  hover & active states
-   @media (hover: none) targets real touch
-   screens; mouse/trackpad devices keep their
-   hover animations untouched.
+   IOS / TOUCH — hover & active states
+
+   @media (hover: none) matches devices with no hover capability — touch screens.
+   This is important because on touch devices, :hover styles "stick" after a tap,
+   looking broken. This block overrides those hover styles to have no effect.
+   Then :active styles give instant visual feedback when you tap.
 ───────────────────────────────────────── */
 @media (hover: none) {
-  /* ── neutralise sticky hover states ── */
+  /* ── Neutralize sticky hover states on touch screens ── */
   .btn:hover                         { transform: none; box-shadow: var(--shadow); }
   .btn-primary:hover                 { background: var(--accent); }
   .btn-outline:hover                 { background: transparent; }
@@ -1490,7 +1671,8 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   .model-ph:hover img                { transform: none; }
   .slide-arrow:hover                 { background: rgba(0,0,0,.45); color: #fff; border-color: rgba(255,255,255,.25); }
 
-  /* ── active (tap) feedback ── */
+  /* ── Active (tap) feedback — gives instant visual response ── */
+  /* scale(.97) = shrink slightly when pressed, like a real button */
   .btn:active                        { transform: scale(.97); opacity: .85; transition: transform .1s, opacity .1s; }
   .research-card:active,
   .project-card:active,
@@ -1507,7 +1689,12 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 
 /* ─────────────────────────────────────────
-   SKIP NAVIGATION  (accessibility)
+   SKIP NAVIGATION (accessibility)
+
+   Keyboard-only users navigate with Tab. Without a skip link, they'd have
+   to Tab through all navbar items on every page load. This link is
+   position: fixed off the top of the screen (top: -100%) so it's invisible,
+   but when focused (via Tab), it moves into view (top: 1rem).
 ───────────────────────────────────────── */
 .skip-link {
   position: fixed;
@@ -1524,13 +1711,15 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   transition: top .2s;
 }
 .skip-link:focus {
-  top: 1rem;
+  top: 1rem;    /* slides into view when focused via keyboard */
 }
 
 /* ─────────────────────────────────────────
    KEYBOARD FOCUS RINGS
-   Only shown when navigating via keyboard
-   (focus-visible = no ring on mouse click)
+
+   :focus-visible = only shows the focus outline when navigating by keyboard,
+   NOT when clicking with a mouse. This keeps the design clean for mouse users
+   while still being accessible for keyboard users.
 ───────────────────────────────────────── */
 :focus-visible {
   outline: 2.5px solid var(--accent);
@@ -1538,9 +1727,9 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   border-radius: 4px;
 }
 :focus:not(:focus-visible) {
-  outline: none;
+  outline: none;    /* remove outline on mouse click */
 }
-/* Elements that already have a visible border — give more breathing room */
+/* Give more breathing room for elements that already have a visible border */
 .btn:focus-visible,
 .contact-card:focus-visible,
 .project-card:focus-visible,
@@ -1555,11 +1744,16 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 
 /* ─────────────────────────────────────────
    TOAST NOTIFICATION
+
+   The small pill notification that pops up ("Email copied!").
+   Starts invisible at the bottom, slightly shifted down.
+   When JS adds class "show": opacity becomes 1 and it shifts up — slides in.
 ───────────────────────────────────────── */
 #toast {
   position: fixed;
   bottom: 5.5rem;
   left: 50%;
+  /* translateX(-50%) horizontally centers it (since left: 50% offsets from left edge) */
   transform: translateX(-50%) translateY(.75rem);
   background: var(--accent);
   color: #fff;
@@ -1572,8 +1766,9 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   pointer-events: none;
   transition: opacity .25s, transform .25s;
   z-index: 500;
-  white-space: nowrap;
+  white-space: nowrap;    /* prevents the toast text from wrapping */
 }
+/* When visible: fully opaque and at its normal y-position */
 #toast.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
@@ -1582,6 +1777,8 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 /* ─────────────────────────────────────────
    CONTACT SECTION
 ───────────────────────────────────────── */
+/* Two-column layout: form on the left, email card on the right.
+   grid-template-columns: 1fr 280px = form grows to fill space, card is fixed width. */
 .contact-layout {
   display: grid;
   grid-template-columns: 1fr 280px;
@@ -1590,17 +1787,20 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   max-width: 860px;
   margin: 0 auto;
 }
+/* On narrower screens: single column, email card goes above the form */
 @media (max-width: 720px) {
   .contact-layout {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+  /* order: -1 makes the aside appear first in the DOM order */
   .contact-aside { order: -1; }
 }
 
 /* ── Contact form ── */
 .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
 
+/* Each form group: label above, input below */
 .form-group { display: flex; flex-direction: column; gap: .4rem; }
 .form-group label {
   font-size: .82rem;
@@ -1618,24 +1818,30 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   border-radius: 12px;
   color: var(--text);
   font-family: inherit;
-  font-size: 1rem; /* must be ≥16px — iOS Safari zooms on focus if smaller */
+  /* font-size must be ≥16px — iOS Safari auto-zooms on focus if it's smaller,
+     which makes the form feel broken on iPhones. */
+  font-size: 1rem;
   transition: border-color .2s, box-shadow .2s;
   outline: none;
-  resize: vertical;
+  resize: vertical;    /* users can drag to resize the textarea, but only vertically */
 }
 .form-group input::placeholder,
 .form-group textarea::placeholder { color: var(--text-muted); opacity: .6; }
 .form-group input:focus,
 .form-group textarea:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18); /* fallback for older iOS */
+  /* Fallback for older iOS; modern version uses color-mix */
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.18);
+  /* color-mix blends accent color with transparent — a modern CSS feature */
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
 }
+/* Red border when JS marks a field as invalid */
 .form-group input.invalid,
 .form-group textarea.invalid { border-color: #ef4444; }
 
+/* The submit button */
 .contact-submit {
-  align-self: flex-start;
+  align-self: flex-start;    /* don't stretch to full width */
   padding: .75rem 2rem;
   background: var(--accent);
   color: #fff;
@@ -1649,15 +1855,16 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 .contact-submit:hover { opacity: .88; transform: translateY(-2px); }
 .contact-submit:active { transform: translateY(0); }
+/* :disabled = when button.disabled = true (set by JS while sending) */
 .contact-submit:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 
 .form-success {
-  color: #16a34a;
+  color: #16a34a;    /* green */
   font-size: .9rem;
   font-weight: 500;
 }
 .form-error {
-  color: #dc2626;
+  color: #dc2626;    /* red */
   font-size: .9rem;
 }
 .form-error a { color: inherit; text-decoration: underline; }
@@ -1670,7 +1877,8 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   margin: 0 auto;
 }
 
-/* Reset button defaults then style as card */
+/* The email copy card — styled as a button but looks like a card.
+   appearance: none removes browser-default button styling (border, background). */
 .contact-card {
   appearance: none;
   -webkit-appearance: none;
@@ -1708,7 +1916,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   font-size: .95rem;
   font-weight: 500;
   color: var(--accent);
-  word-break: break-all;
+  word-break: break-all;    /* break long email at any character if needed */
   text-align: center;
 }
 .contact-copy-hint {
@@ -1733,9 +1941,12 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 
 /* ─────────────────────────────────────────
-   ANIME POSTER SKELETON
-   Shows a shimmer while the Jikan API is
-   fetching the cover image (src is empty).
+   ANIME POSTER SKELETON LOADER
+
+   While the page loads, anime poster images have src='' (empty).
+   Instead of showing a broken image, this rule applies a shimmer animation —
+   a sliding gradient that suggests "content is loading."
+   The shimmer moves from right to left by animating background-position.
 ───────────────────────────────────────── */
 @keyframes shimmer {
   0%   { background-position: 200% 0; }
@@ -1748,12 +1959,17 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
     var(--bg-card-hover) 50%,
     var(--border) 75%
   );
-  background-size: 200% 100%;
+  background-size: 200% 100%;    /* wider than the element so the sweep is visible */
   animation: shimmer 1.6s infinite;
 }
 
 /* ─────────────────────────────────────────
    BACK TO TOP BUTTON
+
+   position: fixed keeps it in the corner as you scroll.
+   Starts invisible (opacity: 0) and slightly shifted down.
+   JS adds "visible" class after scrolling 600px, which transitions
+   it to fully visible at its normal position.
 ───────────────────────────────────────── */
 .back-to-top {
   position: fixed;
@@ -1774,10 +1990,11 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   box-shadow: var(--shadow);
   touch-action: manipulation;
 }
+/* When visible: opacity 1 and shifted back to normal position */
 .back-to-top.visible {
   opacity: 1;
   transform: translateY(0);
 }
 .back-to-top:hover { box-shadow: var(--shadow-lg); }
+/* Squish effect when tapped */
 .back-to-top:active { transform: scale(.93); }
-

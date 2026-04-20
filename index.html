@@ -1,19 +1,57 @@
 <!DOCTYPE html>
+<!-- DOCTYPE tells the browser "this is a modern HTML5 page."
+     Without it, some browsers switch to a quirky old rendering mode. -->
+
+<!-- The root <html> element wraps the entire page.
+     lang="en" helps screen readers and search engines know the language.
+     data-theme="light" is a custom attribute that JavaScript uses to switch
+     between light and dark mode — CSS reads it with [data-theme="dark"] rules. -->
 <html lang="en" data-theme="light">
+
+<!-- ─────────────────────────────────────────────────────────────────
+     HEAD — invisible metadata about the page.
+     Nothing here shows up on screen, but it controls:
+       • how the browser renders the page
+       • what shows when shared on social media
+       • fonts, stylesheets, and the page icon
+───────────────────────────────────────────────────────────────── -->
 <head>
+  <!-- charset tells the browser how text is encoded.
+       UTF-8 supports every character — emoji, accents, Igbo, etc. -->
   <meta charset="UTF-8" />
+
+  <!-- viewport controls how the page scales on phones.
+       width=device-width → don't zoom out to show a "desktop" layout.
+       initial-scale=1.0  → start at 100% zoom (not shrunken).
+       viewport-fit=cover → extend content under iPhone notch/home bar. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <!-- Tells the browser this site supports both light and dark color schemes,
+       so it can apply the right system scrollbar colors, form control colors, etc. -->
   <meta name="color-scheme" content="light dark" />
+
+  <!-- Description appears in Google search results under your page title. -->
   <meta name="description" content="Chidubem Umeh — Physicist, analyst, coder, and athlete. Masters student in Physics at UCF researching adiabatic spintronics." />
 
-  <!-- iOS / PWA -->
+  <!-- ── iOS / PWA ─────────────────────────────────────────────────
+       PWA = Progressive Web App. These tags let users "install" the
+       site to their iPhone home screen so it looks like a real app.
+       apple-mobile-web-app-capable   → hides browser chrome when opened from home screen.
+       apple-mobile-web-app-title     → the app name shown under the icon.
+       theme-color                    → tints the browser/status bar to match the site's color. -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Chidubem Umeh" />
+  <!-- Two theme-color tags: one for light mode, one for dark.
+       The browser picks whichever matches the user's system preference. -->
   <meta name="theme-color" content="#7c3aed" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
 
-  <!-- Open Graph / Twitter Card -->
+  <!-- ── Open Graph / Twitter Card ────────────────────────────────
+       When someone shares your link on Twitter, LinkedIn, iMessage, etc.,
+       these tags control the preview card — the title, description, and image
+       that appear in the preview box. "og:" stands for Open Graph Protocol,
+       created by Facebook and now used everywhere. -->
   <meta property="og:title" content="Chidubem Umeh" />
   <meta property="og:description" content="Physicist · Analyst · Coder · Explorer. Master's student in Physics at UCF researching adiabatic spintronics." />
   <meta property="og:type" content="website" />
@@ -25,7 +63,13 @@
   <meta name="twitter:description" content="Physicist · Analyst · Coder · Explorer. Master's student in Physics at UCF." />
   <meta name="twitter:image" content="https://chidu.dev/images/logo_reg.jpg" />
 
-  <!-- Structured Data -->
+  <!-- ── Structured Data (JSON-LD) ────────────────────────────────
+       Search engines like Google can understand *who* this page is about
+       if you describe it using structured data. This block uses a format
+       called JSON-LD (JavaScript Object Notation for Linked Data).
+       type="application/ld+json" tells the browser to treat this script tag
+       as data, not executable code. Google uses it to show richer results
+       like "Physics Graduate Researcher at UCF" in search. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -44,93 +88,176 @@
   }
   </script>
 
+  <!-- The text shown in the browser tab -->
   <title>Chidubem Umeh</title>
+
+  <!-- rel="icon" = the small icon in the browser tab (favicon).
+       rel="apple-touch-icon" = the icon used when saved to iPhone home screen. -->
   <link rel="icon" type="image/png" href="images/favicon.png" />
   <link rel="apple-touch-icon" href="images/favicon.png" />
+
+  <!-- rel="preload" tells the browser to download this image immediately,
+       even before it parses the rest of the HTML. The headshot is above the fold
+       (visible without scrolling), so we want it ready as fast as possible. -->
   <link rel="preload" as="image" href="images/modeling/headshot.webp" />
+
+  <!-- Load the stylesheet (styles.css). All the visual rules live there. -->
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- rel="preconnect" opens an early TCP connection to Google's font servers
+       so when the font request arrives, the network handshake is already done.
+       crossorigin is required by the gstatic CDN for the font files. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Load the Inter typeface from Google Fonts.
+       wght@300;400;500;600;700;800 = load only these weights (smaller download).
+       display=swap = show a fallback font first, swap to Inter once it loads. -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
+
+<!-- ─────────────────────────────────────────────────────────────────
+     BODY — everything visible on the page goes here.
+───────────────────────────────────────────────────────────────── -->
 <body>
 
-  <!-- ── SKIP NAV (accessibility) ── -->
+  <!-- ── SKIP NAV ───────────────────────────────────────────────────
+       Accessibility feature: screen reader users and keyboard-only users
+       can press Tab once and jump straight to the main content,
+       skipping the navbar links they've already heard. Visually hidden
+       until focused — CSS uses :focus to reveal it. -->
   <a href="#home" class="skip-link">Skip to main content</a>
 
-  <!-- ── INFINITY MIRROR BACKGROUND ── -->
+  <!-- ── INFINITY MIRROR BACKGROUND ───────────────────────────────
+       <canvas> is a blank drawing surface that JavaScript can paint on.
+       The script.js animation draws expanding rectangles in an infinite loop,
+       creating the animated background you see behind everything.
+       aria-hidden="true" hides it from screen readers (decorative only). -->
   <canvas id="mirrorBg" aria-hidden="true"></canvas>
 
-  <!-- ── TOAST NOTIFICATION ── -->
+  <!-- ── TOAST NOTIFICATION ────────────────────────────────────────
+       A "toast" is a brief pop-up message (like when you copy an email).
+       It starts invisible; JavaScript adds the class "show" to make it appear,
+       then removes it 2 seconds later.
+       role="status" and aria-live="polite" tell screen readers to announce
+       whatever text appears here without interrupting what they're reading. -->
   <div id="toast" role="status" aria-live="polite"></div>
 
-  <!-- ── SCROLL PROGRESS ── -->
+  <!-- ── SCROLL PROGRESS BAR ───────────────────────────────────────
+       The thin colored line at the top of the page that grows as you scroll.
+       JavaScript calculates (scrolled / totalScrollable) * 100 and sets
+       this element's width as a percentage. -->
   <div class="scroll-progress" id="scrollProgress"></div>
 
-  <!-- ── NAVBAR ── -->
+  <!-- ── NAVBAR ────────────────────────────────────────────────────
+       <nav> is a semantic HTML element that tells browsers and screen readers
+       "this is a navigation menu." position: fixed (in CSS) keeps it at the top
+       as you scroll. -->
   <nav class="navbar" id="navbar">
+
+    <!-- Brand logo — clicking it scrolls back to the top (href="#home"). -->
     <a class="nav-brand" href="#home">
+      <!-- The logo image. alt="" is intentional: the brand name is already
+           clear from context, so an empty alt avoids screen readers saying
+           "image: favicon.png" unnecessarily. -->
       <img src="images/favicon.png" alt="" class="nav-logo" />
+      <!-- Fallback initials shown if the image fails to load. JS hides this
+           by default and only shows it if the logo image errors out. -->
       <span class="nav-initials" style="display:none">CU</span>
     </a>
 
     <div class="nav-right">
+      <!-- Dropdown menu: the button toggles a list of page links.
+           aria-expanded="false" tells screen readers the menu is currently closed.
+           JavaScript updates this attribute to "true" when it opens. -->
       <div class="nav-dropdown" id="navDropdown">
         <button class="nav-toggle" id="navToggle" aria-expanded="false">
           Menu <span class="arrow">▾</span>
         </button>
+        <!-- The dropdown menu itself. Starts hidden (display:none in CSS).
+             JS adds the class "open" to show it. -->
         <div class="dropdown-menu" id="dropdownMenu">
+          <!-- href="#about" = smooth-scrolls to the element with id="about" -->
           <a href="#home"     class="drop-link">Home</a>
           <a href="#about"    class="drop-link">About Me</a>
           <a href="#projects" class="drop-link">Projects</a>
           <div class="drop-divider"></div>
+          <!-- onclick="expandMoreAbout()" calls a JS function that opens
+               the collapsed "More About Me" section before scrolling to it. -->
           <a href="#more-about-me" class="drop-link" onclick="expandMoreAbout()">More About Me</a>
           <div class="drop-divider"></div>
           <a href="#contact" class="drop-link">Contact Me</a>
         </div>
       </div>
 
+      <!-- Theme toggle button: clicking it runs applyTheme() in script.js.
+           The moon/sun emoji inside updates to match the current theme. -->
       <button class="theme-btn" id="themeBtn" title="Toggle theme">
         <span id="themeIcon">🌙</span>
       </button>
     </div>
   </nav>
 
-  <!-- ── HOME ── -->
+  <!-- ── HOME (HERO) ───────────────────────────────────────────────
+       <section> is a semantic container for a meaningful chunk of content.
+       id="home" makes it a jump target for #home links.
+       The hero is the big first-impression screen that fills the viewport. -->
   <section id="home" class="hero">
+    <!-- Decorative blurred color orbs — pure CSS circles filtered with blur().
+         They add depth to the background without needing images. -->
     <div class="hero-bg-orb orb-1"></div>
     <div class="hero-bg-orb orb-2"></div>
+
     <div class="hero-content">
       <p class="hero-greeting">Hello, World. I'm</p>
       <h1 class="hero-name">Chidubem Umeh</h1>
+
+      <!-- The nickname rotator: JS types and erases nicknames one letter at a time
+           inside #nicknameDisplay. The blinking cursor is a separate CSS animation. -->
       <p class="hero-aka">
         also known as <span class="nickname-wrap"><span id="nicknameDisplay" class="nickname-text"></span><span class="nickname-cursor">|</span></span>
       </p>
+
+      <!-- &middot; is an HTML entity — it renders as the · dot character.
+           <br /> forces a line break at that point. -->
       <p class="hero-tagline">
         Physicist &middot; Analyst &middot; Coder &middot; Explorer<br />
         <span class="tagline-sub">Making sense of the world through science, data, and curiosity.</span>
       </p>
+
+      <!-- Call-to-action buttons. Each is an <a> tag styled to look like a button.
+           Using <a> instead of <button> is correct here because clicking navigates. -->
       <div class="hero-cta">
         <a href="#about"    class="btn btn-primary">About Me</a>
         <a href="#projects" class="btn btn-outline">My Projects</a>
       </div>
     </div>
+
+    <!-- Animated "scroll" hint at the bottom of the hero — a short vertical line
+         that pulses to suggest scrolling down. Hidden on small phones via CSS. -->
     <div class="hero-scroll-hint">
       <span>scroll</span>
       <div class="scroll-line"></div>
     </div>
   </section>
 
-  <!-- ── ABOUT ── -->
+  <!-- ── ABOUT ──────────────────────────────────────────────────────
+       Standard content section. The container div limits the max width
+       to ~1100px and centers it horizontally via margin: 0 auto in CSS. -->
   <section id="about" class="section">
     <div class="container">
       <h2 class="section-title">About Me</h2>
 
+      <!-- fetchpriority="high" tells the browser to download this image first —
+           it's the main above-the-fold photo.
+           decoding="async" lets the browser decode the image off the main thread
+           so other content isn't blocked. -->
       <div class="about-photo">
         <img src="images/modeling/headshot.webp" alt="Chidubem Umeh" class="about-img" fetchpriority="high" decoding="async" />
       </div>
 
       <div class="about-text">
+        <!-- <em> = emphasis — renders as italic. Used here for the translation
+             of the name since it's a quoted phrase. -->
         <p>
           Hey, I'm Chidubem! My name comes from the Igbo language and translates to
           <em>"God Guide Me"</em> or <em>"I will follow in God's footsteps"</em>.
@@ -160,9 +287,14 @@
           were service trips through Noble and Greenough School where I got to volunteer in
           education and community health. Those trips really stuck with me.
         </p>
+        <!-- &nbsp; = non-breaking space — prevents the browser from wrapping between the
+             language name and the dot separator. -->
         <p class="about-languages">
           <strong>Languages:</strong> English (Native) &nbsp;·&nbsp; Igbo (Working proficiency) &nbsp;·&nbsp; Spanish (Elementary)
         </p>
+
+        <!-- Skill/interest tags rendered as pill-shaped badges.
+             Each <span> gets its color from the CSS .tag class. -->
         <div class="tag-list">
           <span class="tag">Physics Research</span>
           <span class="tag">Spintronics</span>
@@ -175,10 +307,17 @@
           <span class="tag">Python · SQL · MATLAB</span>
           <span class="tag">UCF · Bates College</span>
         </div>
+
+        <!-- External links open in a new tab.
+             target="_blank"        → open in new tab.
+             rel="noopener noreferrer" → security: the new tab can't access this page
+             via window.opener, and your URL isn't sent as the referrer header. -->
         <div class="about-cta">
           <a href="https://www.linkedin.com/in/chidubem-umeh/" target="_blank" rel="noopener noreferrer" class="linkedin-btn">
             <span class="linkedin-icon">in</span> View LinkedIn Profile
           </a>
+          <!-- download="Umeh_Resume.pdf" tells the browser to download the file
+               with that exact filename instead of opening it in a tab. -->
           <a href="Umeh_Resume.pdf" download="Umeh_Resume.pdf" class="resume-btn">
             ↓ Download Resume
           </a>
@@ -188,13 +327,19 @@
     </div>
   </section>
 
-  <!-- ── PROJECTS ── -->
+  <!-- ── PROJECTS ──────────────────────────────────────────────────
+       section-alt adds a subtle alternate background (slightly different shade)
+       to visually separate sections when scrolling. -->
   <section id="projects" class="section section-alt">
     <div class="container">
       <h2 class="section-title">Projects</h2>
+      <!-- The ↗ arrow is a Unicode character meaning "external link". -->
       <p class="section-sub">Latest work from <a href="https://github.com/Chidubem5" target="_blank" rel="noopener noreferrer" class="link">GitHub ↗</a></p>
 
-      <!-- Graduate Research -->
+      <!-- ── Graduate Research cards ──────────────────────────────
+           Written directly in HTML since the content doesn't change.
+           style="margin-bottom: 1rem;" is an inline style — directly applies
+           CSS to just this element. Useful for one-off adjustments. -->
       <h3 class="sub-heading" style="margin-bottom: 1rem;">Graduate Research at UCF</h3>
       <div class="research-grid">
         <div class="research-card">
@@ -220,7 +365,11 @@
         </div>
       </div>
 
-      <!-- Coding Projects -->
+      <!-- ── Coding Projects ──────────────────────────────────────
+           This grid is intentionally EMPTY here. JavaScript (renderProjects
+           in script.js) reads the projects array and builds the HTML cards,
+           then injects them into this div using innerHTML. This way you
+           only need to update the data in script.js, not touch the HTML. -->
       <h3 class="sub-heading" style="margin: 2.5rem 0 1rem;">Coding Projects</h3>
       <div class="projects-grid" id="projectsGrid">
         <!-- Rendered by JS -->
@@ -228,30 +377,52 @@
     </div>
   </section>
 
-  <!-- ── MORE ABOUT ME TOGGLE ── -->
+  <!-- ── MORE ABOUT ME TOGGLE ──────────────────────────────────────
+       This clickable bar expands/collapses a hidden section.
+       role="button"    → tells screen readers this div acts as a button.
+       tabindex="0"     → makes it reachable by pressing Tab (divs aren't
+                          normally focusable without this).
+       aria-expanded    → announces current state to screen readers.
+       aria-controls    → points to the ID of what this toggle controls.
+       onclick="toggleMoreAbout()" calls the JS function of the same name. -->
   <div class="more-about-toggle" id="more-about-me" onclick="toggleMoreAbout()" role="button" tabindex="0" aria-expanded="false" aria-controls="moreAboutWrapper">
     <div class="container">
       <div class="more-about-toggle-inner">
         <div class="more-about-toggle-text">
           <h2 class="more-about-heading">More About Me</h2>
+          <!-- &amp; renders as & (ampersand). Inside HTML you must escape
+               special characters so the browser doesn't misread them as code.
+               &middot; renders as · -->
           <p class="more-about-sub">Anime &amp; Manga &middot; Comedians &middot; Travel &middot; Books &middot; Pictures Through the Years</p>
         </div>
+        <!-- SVG chevron icon (the ▾ arrow). JavaScript rotates it 180°
+             when the section is open (class "open" → CSS transform). -->
         <svg class="more-about-chevron" id="moreAboutChevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="28" height="28"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
     </div>
   </div>
 
-  <!-- ── MORE ABOUT ME WRAPPER ── -->
+  <!-- ── MORE ABOUT ME WRAPPER ─────────────────────────────────────
+       This div is collapsed by default (height: 0 via CSS grid trick).
+       Adding the class "open" animates it to full height.
+       aria-hidden="true" tells screen readers to ignore this section
+       when it's collapsed — JS flips it to "false" when opened. -->
   <div class="more-about-wrapper" id="moreAboutWrapper" aria-hidden="true">
     <div class="more-about-inner">
 
-  <!-- ── ANIME & MANGA ── -->
+  <!-- ── ANIME & MANGA ─────────────────────────────────────────────
+       Each card is an <a> (link) element so the whole card is clickable.
+       data-mal-type and data-mal-id are custom "data attributes" —
+       they store extra information on the element that JavaScript can read
+       using element.dataset.malType and element.dataset.malId. -->
   <section id="anime" class="section">
     <div class="container">
       <h2 class="section-title">Anime &amp; Manga</h2>
       <p class="section-sub">My top 10 — ranked</p>
       <div class="anime-list">
 
+        <!-- loading="lazy" tells the browser to skip downloading this image
+             until the user scrolls near it. Saves bandwidth for images off-screen. -->
         <a class="anime-card" href="https://en.wikipedia.org/wiki/One_Piece" target="_blank" rel="noopener noreferrer" data-mal-type="anime" data-mal-id="21">
           <img class="anime-poster" src="images/anime/one-piece.webp" alt="One Piece poster" loading="lazy" />
           <span class="anime-rank">01</span>
@@ -356,7 +527,8 @@
     </div>
   </section>
 
-  <!-- ── COMEDIANS ── -->
+  <!-- ── COMEDIANS ─────────────────────────────────────────────────
+       Two ranked lists rendered as clickable link cards. -->
   <section id="comedians" class="section section-alt">
     <div class="container">
       <h2 class="section-title">Comedians</h2>
@@ -393,7 +565,9 @@
     </div>
   </section>
 
-  <!-- ── TRAVEL ── -->
+  <!-- ── TRAVEL ────────────────────────────────────────────────────
+       Photo slideshow with arrow navigation. The JS function shiftSlide()
+       is called by the arrow buttons via onclick attributes. -->
   <section id="travel" class="section">
     <div class="container">
       <h2 class="section-title">Travel</h2>
@@ -401,8 +575,16 @@
 
       <h3 class="sub-heading travel-sub">International</h3>
       <div class="slideshow-wrapper">
+        <!-- &#8249; and &#8250; are HTML entities for the ‹ and › characters
+             (single left/right angle quotes), used as arrow icons. -->
         <button class="slide-arrow left"  onclick="shiftSlide('intl', -1)">&#8249;</button>
+
+        <!-- The track holds all slides stacked on top of each other.
+             Only the one with class "active" is displayed; the rest are hidden via CSS. -->
         <div class="slides-track" id="intl-track">
+
+          <!-- Each slide has one image and a caption overlay.
+               decoding="async" = decode the image off the main thread (non-blocking). -->
           <div class="slide active">
             <div class="slide-img-wrap">
               <img src="images/travel/dr-1.webp" alt="Dominican Republic sunset path" class="slide-img slide-img-zoom" loading="lazy" decoding="async" />
@@ -577,15 +759,20 @@
               <span class="slide-caption">🇺🇸 Manhattan, NY</span>
             </div>
           </div>
-        </div>
+        </div><!-- /.slides-track -->
+
         <button class="slide-arrow right" onclick="shiftSlide('intl', 1)">&#8250;</button>
+        <!-- Dot navigation: JS populates this with one dot per slide.
+             display:none keeps it hidden (the JS-built dots render elsewhere). -->
         <div id="intl-dots" style="display:none"></div>
       </div>
 
     </div>
   </section>
 
-  <!-- ── BOOKS ── -->
+  <!-- ── BOOKS ──────────────────────────────────────────────────────
+       Each book is displayed as a CSS-drawn "3D book" with a spine and cover.
+       data-score="4.3" stores the rating — JS reads it to render star icons. -->
   <section id="books" class="section section-alt">
     <div class="container">
       <h2 class="section-title">Books</h2>
@@ -593,6 +780,7 @@
       <div class="books-row">
         <div class="book-card">
           <div class="book-visual">
+            <!-- Colored left strip (the spine) + front cover panel -->
             <div class="book-spine-bar"></div>
             <div class="book-cover-front">
               <p class="book-cover-title">A Mind For Numbers</p>
@@ -602,6 +790,7 @@
           </div>
           <div class="book-meta">
             <p class="book-label">Last Read</p>
+            <!-- JS reads data-score and fills this div with ★ star spans. -->
             <div class="star-rating" data-score="4.3">
               <!-- Stars rendered by JS -->
             </div>
@@ -647,21 +836,27 @@
     </div>
   </section>
 
-  <!-- ── MODELING ── -->
+  <!-- ── MODELING / PICTURES ───────────────────────────────────────
+       A featured photo plus a grid of thumbnails. Clicking any photo
+       opens the lightbox (the full-screen overlay). -->
   <section id="modeling" class="section">
     <div class="container">
       <h2 class="section-title">Pictures Through The Years</h2>
       <p class="section-sub">In front of the lens</p>
 
-      <!-- Featured photo -->
+      <!-- Featured photo — larger than the rest. onclick triggers openLightbox(). -->
       <div class="model-featured">
         <div class="model-ph model-ph-featured" onclick="openLightbox('images/modeling/modeling-4.webp', 3)">
           <img src="images/modeling/modeling-4.webp" alt="Blue and orange dramatic lighting" loading="lazy" decoding="async" />
         </div>
       </div>
 
-      <!-- Gallery grid -->
+      <!-- Thumbnail grid. Each div calls openLightbox(imagePath, index).
+           The index tells the lightbox which image to show and which to
+           navigate to next when you click the arrows. -->
       <div class="model-grid" id="modelGrid">
+        <!-- object-position: center 28% — shifts the visible crop of this image
+             upward so the face is centered rather than the chest. -->
         <div class="model-ph" onclick="openLightbox('images/modeling/modeling-1.webp', 0)">
           <img src="images/modeling/modeling-1.webp" alt="Traditional attire on stage" loading="lazy" decoding="async" style="object-position: center 28%;" />
         </div>
@@ -674,6 +869,8 @@
         <div class="model-ph" onclick="openLightbox('images/modeling/modeling-5.webp', 4)">
           <img src="images/modeling/modeling-5.webp" alt="Modeling photo 5" loading="lazy" decoding="async" />
         </div>
+        <!-- %20 in the filename = a URL-encoded space. Browsers require spaces
+             in URLs to be written as %20. -->
         <div class="model-ph" onclick="openLightbox('images/modeling/Magazine%20cover%201%20-557.webp', 5)">
           <img src="images/modeling/Magazine%20cover%201%20-557.webp" alt="Magazine cover" loading="lazy" decoding="async" style="object-position: center 10%;" />
         </div>
@@ -682,10 +879,17 @@
         </div>
       </div>
 
-      <!-- Lightbox overlay -->
+      <!-- ── LIGHTBOX ─────────────────────────────────────────────
+           Full-screen overlay that shows a photo when you click a thumbnail.
+           Starts hidden (display:none in CSS). JS adds class "open" to show it.
+           Clicking the background (the lightbox div itself) closes it via onclick.
+           The inner buttons also have their own onclick handlers. -->
       <div class="lightbox" id="lightbox" onclick="closeLightbox()">
         <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <!-- e.stopPropagation() in the JS arrow handlers prevents the click
+             from bubbling up to the background and accidentally closing the lightbox. -->
         <button class="lightbox-arrow left"  onclick="lbShift(event, -1)">&#8249;</button>
+        <!-- src="" starts empty; JS sets it to the clicked image's path. -->
         <img class="lightbox-img" id="lightboxImg" src="" alt="Modeling photo" />
         <button class="lightbox-arrow right" onclick="lbShift(event,  1)">&#8250;</button>
         <p class="lightbox-caption" id="lightboxCaption"></p>
@@ -693,37 +897,60 @@
     </div>
   </section>
 
-    </div><!-- /.more-about-inner -->
+    </div><!-- /.more-about-inner — ends the collapsible content -->
   </div><!-- /#moreAboutWrapper -->
 
-  <!-- ── CONTACT ── -->
+  <!-- ── CONTACT ────────────────────────────────────────────────────
+       A form that sends messages via the Formspree service.
+       novalidate disables the browser's default validation UI so the
+       JavaScript can handle errors with its own styled messages instead. -->
   <section id="contact" class="section section-alt">
     <div class="container">
       <h2 class="section-title">Contact Me</h2>
       <p class="section-sub">Let's connect. I'm looking forward to hearing from you!</p>
       <div class="contact-layout">
 
+        <!-- The <form> element groups related inputs and has a submit event.
+             id="contactForm" lets JavaScript find this form with getElementById(). -->
         <form class="contact-form" id="contactForm" novalidate>
           <div class="form-group">
+            <!-- <label for="contactName"> links this label to the input with id="contactName".
+                 Clicking the label focuses the input — important for accessibility. -->
             <label for="contactName">Name</label>
+            <!-- type="text" = plain text input.
+                 required = must have a value before submitting.
+                 placeholder = hint text shown when empty. -->
             <input type="text" id="contactName" name="name" placeholder="Your name" required />
           </div>
           <div class="form-group">
             <label for="contactEmail">Email</label>
+            <!-- type="email" tells mobile devices to show an @ keyboard. -->
             <input type="email" id="contactEmail" name="email" placeholder="your@email.com" required />
           </div>
           <div class="form-group">
             <label for="contactMessage">Message</label>
+            <!-- <textarea> is a multi-line text box.
+                 rows="5" sets the initial height.
+                 resize: vertical (in CSS) lets users drag it taller. -->
             <textarea id="contactMessage" name="message" rows="5" placeholder="What's on your mind?" required></textarea>
           </div>
+          <!-- type="submit" makes this button send the form data. -->
           <button type="submit" class="contact-submit">
+            <!-- Two spans toggle visibility: submit-text shows normally,
+                 submit-loading shows while waiting for the server response.
+                 hidden is an HTML attribute that means display:none. -->
             <span class="submit-text">Send Message</span>
             <span class="submit-loading" hidden>Sending…</span>
           </button>
+          <!-- These messages start hidden; JS removes the hidden attribute
+               once the form succeeds or fails. -->
           <p class="form-success" hidden>✓ Message sent! I'll get back to you soon.</p>
           <p class="form-error" hidden>Something went wrong. <a href="mailto:Chidumeh@gmail.com">Email me directly ↗</a></p>
         </form>
 
+        <!-- Email card on the side: clicking it runs copyEmail() from script.js,
+             which copies the address to the clipboard and shows a toast.
+             aria-label provides a screen-reader description of what the button does. -->
         <div class="contact-aside">
           <button type="button" class="contact-card" onclick="copyEmail()" aria-label="Copy email address">
             <div class="contact-icon">✉</div>
@@ -731,6 +958,7 @@
             <div class="contact-value">Chidumeh@gmail.com</div>
             <span class="contact-copy-hint">click to copy</span>
           </button>
+          <!-- href="mailto:" opens the user's default email app with a new message. -->
           <a href="mailto:Chidumeh@gmail.com" class="contact-mail-link">open in mail app ↗</a>
         </div>
 
@@ -738,7 +966,9 @@
     </div>
   </section>
 
-  <!-- ── FOOTER ── -->
+  <!-- ── FOOTER ─────────────────────────────────────────────────────
+       <footer> is a semantic element — browsers and screen readers know
+       this is the bottom of the page. -->
   <footer class="footer">
     <div class="container footer-inner">
       <p class="footer-name">Chidubem Umeh</p>
@@ -746,13 +976,23 @@
         <a href="https://github.com/Chidubem5" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         <a href="https://www.linkedin.com/in/chidubem-umeh/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
       </div>
+      <!-- &copy; renders as the © copyright symbol.
+           The #year span is empty here; script.js sets it to the current year
+           so the copyright notice never goes stale. -->
       <p class="footer-copy">&copy; <span id="year"></span> Chidubem Umeh</p>
     </div>
   </footer>
 
-  <!-- ── BACK TO TOP ── -->
+  <!-- ── BACK TO TOP ────────────────────────────────────────────────
+       Floating button that scrolls the page to the top.
+       Starts invisible (opacity: 0 in CSS); JS adds "visible" after scrolling 600px. -->
   <button class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">↑</button>
 
+  <!-- ── SCRIPT TAG ─────────────────────────────────────────────────
+       Placed at the very end of <body> so the browser has already
+       parsed and rendered all the HTML before JavaScript runs.
+       If the script were in <head>, it would try to find elements
+       like #navbar before they exist yet, and everything would break. -->
   <script src="script.js"></script>
 </body>
 </html>
