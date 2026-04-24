@@ -349,6 +349,11 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 .dropdown-menu.open { display: flex; }
 
+@media (hover: hover) {
+  .nav-dropdown:hover .dropdown-menu { display: flex; }
+  .nav-dropdown:hover .arrow { transform: rotate(180deg); }
+}
+
 /* @keyframes define the frames of a CSS animation.
    "from" = start state, "to" = end state.
    dropIn slides the menu down 6px and fades it in from invisible. */

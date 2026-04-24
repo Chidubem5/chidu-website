@@ -772,7 +772,9 @@ function showToast(msg) {
       // await pauses here until the response comes back.
       // method: 'POST' = sending data to the server (vs GET which retrieves data).
       // JSON.stringify converts the JS object to a JSON text string for the server.
-      const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      // FormSubmit.co: free, no account needed.
+      // First submission triggers a one-time activation email to chidumeh@gmail.com — click the link once.
+      const res = await fetch('https://formsubmit.co/ajax/chidumeh@gmail.com', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
@@ -782,7 +784,8 @@ function showToast(msg) {
         }),
       });
       // res.ok = true if HTTP status is 200–299 (success)
-      if (res.ok) {
+      const json = await res.json().catch(() => ({}))
+      if (res.ok && json.success !== 'false') {
         form.reset();   // clear all form fields
         successMsg.hidden = false;
       } else {
