@@ -210,7 +210,7 @@ function typeQuote(text, cb) {
 function showQuoteAttr(attr, cb) {
   quoteAttrEl.textContent = attr || '';
   if (attr) quoteAttrEl.classList.add('visible');
-  setTimeout(cb, 3000);
+  setTimeout(cb, 5000);
 }
 
 function eraseQuote(cb) {
