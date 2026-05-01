@@ -495,6 +495,43 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 @keyframes blink { 50% { opacity: 0; } }
 
+/* ── QUOTES SECTION ── */
+.quote-stage {
+  max-width: 720px;
+  margin: 0 auto;
+  min-height: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.quote-text-wrap {
+  margin: 0;
+  padding: 0;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.75;
+}
+.quote-cursor {
+  color: var(--accent);
+  animation: blink .8s step-end infinite;
+}
+.quote-attribution {
+  margin-top: 1rem;
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: .04em;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  min-height: 1.4em;
+}
+.quote-attribution.visible {
+  opacity: 1;
+}
+
 .hero-tagline {
   font-size: 1.1rem;
   font-weight: 600;

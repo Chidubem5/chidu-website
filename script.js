@@ -159,6 +159,87 @@ cycleNickname();   // kick off the animation on page load
 
 
 /* ─────────────────────────────────────────
+   IMPACTFUL QUOTES ROTATOR
+
+   Types each quote letter by letter with a blinking cursor that follows
+   the end of the text. Once fully typed, the attribution fades in.
+   After a reading pause, the attribution fades out and the text erases
+   right-to-left before the next quote begins. Index 0 always runs first.
+───────────────────────────────────────── */
+const quotes = [
+  { text: '"If you think you are too small to make difference, you haven\'t spent a night with a mosquito."', attr: '— Mom' },
+  { text: '"Smart people learn from their mistakes; wise people learn from the mistakes of others."', attr: '— Charlamagne the God' },
+  { text: '"Four quarters are better than one-hundred pennies."', attr: '— Mom; African Proverbs' },
+  { text: '"You don\'t realize now what I am doing, but later you will understand."', attr: '— Jesus John 13' },
+  { text: '"A man who stands for nothing will fall for anything."', attr: '— Malcolm X' },
+  { text: '"Easy day, hard life. Hard today, easy life."', attr: '' },
+  { text: '"Being in a relationship is proving that you can love yourself and others."', attr: '' },
+  { text: '"A knowledgeable person learns while a wise person unlearns."', attr: '' },
+  { text: '"The little things help you celebrate the big things along the way."', attr: '' },
+  { text: '"The grass doesn\'t need to be greener."', attr: '' },
+  { text: '"They will pay one of us to kill one of us, just to say it was one of us."', attr: '— Malcolm X' },
+  { text: '"Imagine everyone is pointing a gun at your head. It\'s up to you how many bullets you give them."', attr: '— Triple H' },
+  { text: '"When you are born, you look like my parents. When I die, I\'ll look like my decisions."', attr: '' },
+  { text: '"The grass is greener on the other side because it\'s fertilized with bs."', attr: '' },
+  { text: '"Water seeks its own level."', attr: '' },
+  { text: '"If you are lonly when you are alone then you are in bad company."', attr: '— Jean-Paul Sartre' },
+  { text: '"If you aim at nothing, you hit nothing."', attr: '' },
+  { text: '"There\'s nothing wrong with limits as long as you set them."', attr: '' },
+  { text: '"I was in darkness but I took three steps and found myself in paradise. The first step was a good thought, the second a good word, and the third, a good deed."', attr: '— Nietzsche' },
+  { text: '"People are more likely to do what you want them to do when they were included in the process."', attr: '' },
+  { text: '"To treat your children all the same, you have to treat them differently."', attr: '' },
+  { text: '"If you realized how powerful your thoughts are, you would never think a negative thought."', attr: '' },
+  { text: '"You are what you try."', attr: '' },
+  { text: '"Effort without execution get you sweaty."', attr: '' },
+];
+
+let quoteIdx = 0;
+const quoteEl  = document.getElementById('quoteDisplay');
+const quoteAttrEl = document.getElementById('quoteAttr');
+
+function typeQuote(text, cb) {
+  quoteEl.textContent = '';
+  let i = 0;
+  const t = setInterval(() => {
+    quoteEl.textContent += text[i];
+    i++;
+    if (i === text.length) { clearInterval(t); setTimeout(cb, 400); }
+  }, 38);
+}
+
+function showQuoteAttr(attr, cb) {
+  quoteAttrEl.textContent = attr || '';
+  if (attr) quoteAttrEl.classList.add('visible');
+  setTimeout(cb, 3000);
+}
+
+function eraseQuote(cb) {
+  quoteAttrEl.classList.remove('visible');
+  setTimeout(() => {
+    quoteAttrEl.textContent = '';
+    const t = setInterval(() => {
+      quoteEl.textContent = quoteEl.textContent.slice(0, -1);
+      if (!quoteEl.textContent) { clearInterval(t); cb(); }
+    }, 20);
+  }, 350);
+}
+
+function cycleQuote() {
+  const { text, attr } = quotes[quoteIdx];
+  typeQuote(text, () => {
+    showQuoteAttr(attr, () => {
+      eraseQuote(() => {
+        quoteIdx = (quoteIdx + 1) % quotes.length;
+        cycleQuote();
+      });
+    });
+  });
+}
+
+cycleQuote();
+
+
+/* ─────────────────────────────────────────
    PROJECTS (GitHub repos)
 
    Instead of writing each project card manually in HTML, the project data
