@@ -935,6 +935,131 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .game-card p { font-size: .82rem; color: var(--text-muted); }
 
 /* ─────────────────────────────────────────
+   PUBLICATIONS
+───────────────────────────────────────── */
+.pub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.pub-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 14px;
+  padding: 1.4rem 1.6rem;
+  box-shadow: var(--shadow);
+  transition: transform .2s, box-shadow .2s;
+}
+.pub-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+.pub-meta {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: .6rem;
+}
+.pub-badge {
+  font-size: .72rem;
+  font-weight: 600;
+  padding: .2rem .65rem;
+  border-radius: 999px;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+.pub-badge-journal    { background: #dbeafe; color: #1d4ed8; }
+.pub-badge-conference { background: #dcfce7; color: #166534; }
+.pub-badge-thesis     { background: var(--accent-dim); color: var(--accent); }
+[data-theme="dark"] .pub-badge-journal    { background: #1e3a5f; color: #60a5fa; }
+[data-theme="dark"] .pub-badge-conference { background: #14532d; color: #4ade80; }
+.pub-year {
+  font-size: .8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.pub-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: .45rem;
+}
+.pub-link {
+  color: var(--text);
+  text-decoration: none;
+  transition: color .2s;
+}
+.pub-link:hover { color: var(--accent); }
+.pub-authors {
+  font-size: .85rem;
+  color: var(--text-2);
+  margin-bottom: .35rem;
+}
+.pub-journal {
+  font-size: .82rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.pub-doi {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.pub-doi:hover { text-decoration: underline; }
+.pub-toggle {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: .83rem;
+  font-weight: 600;
+  padding: .6rem 0 0;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  transition: opacity .15s;
+}
+.pub-toggle:hover { opacity: .75; }
+.pub-arrow { display: inline-block; transition: transform .25s ease; }
+.pub-toggle[aria-expanded="true"] .pub-arrow { transform: rotate(180deg); }
+.pub-desc {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .3s ease;
+  overflow: hidden;
+}
+.pub-desc.open { grid-template-rows: 1fr; }
+.pub-desc-inner {
+  overflow: hidden;
+  padding-top: 0;
+  transition: padding-top .3s ease;
+}
+.pub-desc.open .pub-desc-inner { padding-top: .9rem; }
+.pub-desc-inner > * { border-top: 1px solid var(--border); padding-top: .9rem; }
+.pub-audience-label {
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--accent);
+  margin-bottom: .5rem;
+}
+.pub-desc p {
+  font-size: .87rem;
+  color: var(--text-2);
+  line-height: 1.75;
+  margin-bottom: .65rem;
+}
+.pub-desc p:last-child { margin-bottom: 0; }
+.pub-desc-section + .pub-desc-section {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border);
+}
+
+/* ─────────────────────────────────────────
    ANIME & MANGA
 
    flex-direction: column stacks cards in a single vertical list.
@@ -1617,6 +1742,10 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   .container       { padding: 0 1rem; }
   .hero            { padding: 80px 1rem 40px; }
 
+  /* Quotes section — smaller font so long quotes don't overflow on narrow screens */
+  .quote-text-wrap { font-size: 1.1rem; line-height: 1.7; }
+  .quote-stage     { min-height: 11rem; }
+
   /* Responsive grid changes */
   .games-grid      { grid-template-columns: repeat(2, 1fr); }
   .projects-grid   { grid-template-columns: 1fr; }       /* 1 column on phones */
@@ -1648,6 +1777,11 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 @media (max-width: 480px) {
   .section          { padding: 50px 0; }
   .container        { padding: 0 .9rem; }
+
+  /* Quotes — further reduce on small phones so text stays readable without overflow */
+  .quote-text-wrap  { font-size: 1rem; line-height: 1.65; }
+  .quote-stage      { min-height: 10rem; }
+  .quote-attribution { font-size: .82rem; }
 
   .navbar           { padding: 0 .85rem; }
   .dropdown-menu    { min-width: 170px; right: -4px; }

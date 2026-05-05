@@ -762,6 +762,16 @@ document.getElementById('year').textContent = new Date().getFullYear();
    The CSS grid trick animates the height smoothly:
    grid-template-rows: 0fr → 1fr (see styles.css for explanation).
 ───────────────────────────────────────── */
+/* ─────────────────────────────────────────
+   PUBLICATION DESCRIPTION TOGGLE
+───────────────────────────────────────── */
+window.togglePubDesc = function(btn) {
+  const expanded = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', String(!expanded));
+  btn.querySelector('.pub-btn-text').textContent = expanded ? 'Show description' : 'Hide description';
+  btn.nextElementSibling.classList.toggle('open');
+};
+
 function toggleMoreAbout() {
   const wrapper = document.getElementById('moreAboutWrapper');
   const toggle  = document.getElementById('more-about-me');

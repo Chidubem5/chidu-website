@@ -180,9 +180,10 @@
              JS adds the class "open" to show it. -->
         <div class="dropdown-menu" id="dropdownMenu">
           <!-- href="#about" = smooth-scrolls to the element with id="about" -->
-          <a href="#home"     class="drop-link">Home</a>
-          <a href="#about"    class="drop-link">About Me</a>
-          <a href="#projects" class="drop-link">Projects</a>
+          <a href="#home"         class="drop-link">Home</a>
+          <a href="#about"        class="drop-link">About Me</a>
+          <a href="#publications" class="drop-link">Publications</a>
+          <a href="#projects"     class="drop-link">Projects</a>
           <div class="drop-divider"></div>
           <!-- onclick="expandMoreAbout()" calls a JS function that opens
                the collapsed "More About Me" section before scrolling to it. -->
@@ -330,10 +331,142 @@
     </div>
   </section>
 
+  <!-- ── PUBLICATIONS ─────────────────────────────────────────────── -->
+  <section id="publications" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Publications</h2>
+      <p class="section-sub">Research contributions and academic work</p>
+      <div class="pub-list">
+
+        <div class="pub-card">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-journal">Journal Article</span>
+            <span class="pub-year">2021</span>
+          </div>
+          <h4 class="pub-title">
+            <a href="https://doi.org/10.3847/1538-4357/abe935" target="_blank" rel="noopener noreferrer" class="pub-link">
+              Compact Starburst Galaxies with Fast Outflows: Central Escape Velocities and Stellar Mass Surface Densities from Multi-band Hubble Space Telescope Imaging
+            </a>
+          </h4>
+          <p class="pub-authors">Diamond-Stanic et al. (incl. <strong>C. Umeh</strong>)</p>
+          <p class="pub-journal">
+            <em>Astrophysical Journal</em>, 912, 11 &nbsp;&middot;&nbsp;
+            <a href="https://doi.org/10.3847/1538-4357/abe935" target="_blank" rel="noopener noreferrer" class="pub-doi">DOI ↗</a>
+          </p>
+          <button class="pub-toggle" onclick="togglePubDesc(this)" aria-expanded="false">
+            <span class="pub-btn-text">Show description</span> <span class="pub-arrow">▾</span>
+          </button>
+          <div class="pub-desc">
+            <div class="pub-desc-inner">
+              <div>
+                <div class="pub-desc-section">
+                  <p class="pub-audience-label">For a General Audience</p>
+                  <p>When we think about galaxies, we tend to imagine slow, majestic systems evolving over billions of years. But some galaxies are caught in an extreme and brief phase of activity — forming stars at a furious rate while simultaneously blasting gas outward at extraordinary speeds. This paper focuses on 12 of these rare, compact starburst galaxies, observed using the Hubble Space Telescope, located billions of light years away.</p>
+                  <p>What makes these galaxies remarkable is the sheer violence of their outflows. Gas is being ejected at speeds between 1,000 and 3,000 kilometers per second — fast enough that it can escape the galaxy entirely and travel into the vast space surrounding it. To put that in perspective, that is roughly 0.3% to 1% the speed of light. The central regions of these galaxies are also extraordinarily dense and compact, with half their light coming from a region only about 100 light years across — tiny by galactic standards.</p>
+                  <p>The central question the paper tries to answer is: what is actually launching these outflows? To investigate this, the authors measured the escape velocity at the center of each galaxy — essentially, how fast something would need to move to break free of the galaxy's gravitational pull. Strikingly, the observed outflow speeds are about twice as fast as the central escape velocity. This tells us that whatever is driving these winds is extraordinarily powerful, powerful enough to not only eject gas from the galaxy's core but to send it far out into the surrounding cosmic environment, potentially never to return.</p>
+                  <p>The paper also finds that the density of stars packed into these galactic cores is near a theoretical maximum known as the Eddington limit — the point at which radiation pressure from stars can push outward as strongly as gravity pulls inward. This gives a strong hint that radiation pressure from the intense burst of star formation may be one of the key engines driving these violent outflows.</p>
+                  <p>The authors speculate that these galaxies represent a dramatic transitional moment in galactic evolution, and that they may eventually settle into a particular class of older, quieter elliptical galaxies seen in the present-day universe. This research was made possible through Hubble Space Telescope imaging across multiple wavelengths of light, from near-ultraviolet to near-infrared, allowing the team to disentangle the properties of the young starburst component from the older underlying galaxy. Contributing to this work required writing Python code to process the imaging data and producing scientific visualizations that helped communicate and interpret the results.</p>
+                </div>
+                <div class="pub-desc-section">
+                  <p class="pub-audience-label">For a Technically Familiar Audience</p>
+                  <p>This paper presents multiband Hubble Space Telescope imaging spanning rest-frame near-UV through near-IR (&lambda;_rest = 0.3–1.1 &mu;m) for 12 compact starburst galaxies at z = 0.4–0.8 with stellar masses M* ~ 10<sup>11</sup> solar masses. These systems are driving some of the most extreme galactic outflows known, with maximum outflow velocities v_max = 1,000–3,000 km/s, and their light profiles are dominated by an ultra-compact starburst component with half-light radii of only ~100 pc.</p>
+                  <p>The central scientific objective is to constrain the physical mechanisms responsible for launching these fast outflows by characterizing conditions within the central kiloparsec. Stellar population synthesis modeling reveals that this compact central component contributes roughly 25% of the total stellar mass despite its small physical extent. Critically, the derived central escape velocities v_esc,central ~ 900 km/s are a factor of ~2 below the observed outflow velocities — a result that places strong constraints on the driving mechanism, requiring a physical process capable of accelerating gas well beyond what gravitational potential alone would suggest as a ceiling. This firmly establishes that a significant fraction of the outflowing material has sufficient kinetic energy to reach the circumgalactic medium and potentially achieve true escape from the halo entirely.</p>
+                  <p>The measured central stellar mass surface densities &Sigma;_e,central ~ 3&times;10<sup>11</sup> solar masses per kpc<sup>2</sup> are comparable to theoretical Eddington limit estimates, raising the possibility that radiation pressure on dust is a significant contributor to the outflow driving. The &Sigma;_1 surface densities within the central kiloparsec are consistent with those of compact massive galaxies across 0.5 &lt; z &lt; 3.0. Compared to both red nuggets and blue nuggets at z ~ 2, these galaxies show systematically smaller effective radii at fixed stellar mass, which the authors attribute to the photometric dominance of the young starburst component and the improved physical resolution afforded by observing rest-frame optical emission at z ~ 0.6 rather than z ~ 2.</p>
+                  <p>The authors compare these systems against theoretical formation scenarios including major mergers and violent disk instability, and speculate that these compact starbursts are progenitors of local power-law ellipticals with prominent stellar cusps — placing them at a pivotal evolutionary juncture between gas-rich, star-forming systems and quiescent early-type galaxies. The analysis pipeline underlying these results was built in Python, with contributions including data reduction, stellar population fitting, surface brightness profile decomposition, and the generation of scientific visualizations using standard astronomical Python packages such as NumPy, Matplotlib, and Astropy.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-card">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-conference">Conference Abstract</span>
+            <span class="pub-year">2020</span>
+          </div>
+          <h4 class="pub-title">
+            <a href="https://ui.adsabs.harvard.edu/abs/2020AAS...23511105B/abstract" target="_blank" rel="noopener noreferrer" class="pub-link">
+              Compact Starburst Galaxies with Fast Outflows: Constraints on Recent Star Formation and Outflow Properties from Optical Spectroscopy and Multi-Wavelength Photometry
+            </a>
+          </h4>
+          <p class="pub-authors">Bradna et al. (incl. <strong>C. Umeh</strong>)</p>
+          <p class="pub-journal">
+            American Astronomical Society Meeting #235, ID 111.05 &nbsp;&middot;&nbsp;
+            <em>Bulletin of the American Astronomical Society</em>, Vol. 52, No. 1 &nbsp;&middot;&nbsp;
+            <a href="https://ui.adsabs.harvard.edu/abs/2020AAS...23511105B/abstract" target="_blank" rel="noopener noreferrer" class="pub-doi">ADS ↗</a>
+          </p>
+          <button class="pub-toggle" onclick="togglePubDesc(this)" aria-expanded="false">
+            <span class="pub-btn-text">Show description</span> <span class="pub-arrow">▾</span>
+          </button>
+          <div class="pub-desc">
+            <div class="pub-desc-inner">
+              <div>
+                <div class="pub-desc-section">
+                  <p class="pub-audience-label">For a General Audience</p>
+                  <p>One of the biggest unsolved mysteries in astronomy is understanding how massive galaxies stop forming stars. Most large galaxies we see today are essentially "dead" — they stopped producing new stars billions of years ago and have remained quiet ever since. But how did they get there? Something had to shut the process down, and this paper investigates one of the most compelling suspects: violent outflows of gas driven by intense bursts of star formation.</p>
+                  <p>The paper focuses on a sample of about a dozen massive, compact galaxies that are caught in what appears to be a pivotal transitional moment. These galaxies were recently forming stars at an extraordinary rate, but their current optical signatures suggest that star formation has already begun to fade. At the same time, they are hurling gas outward at speeds exceeding 1,000 kilometers per second — fast enough to strip a galaxy of the very fuel it needs to keep making stars.</p>
+                  <p>To study these galaxies, the team used data from two major observatories — the Sloan Digital Sky Survey and the Keck Telescope — alongside observations spanning from ultraviolet to infrared light. By examining the way certain wavelengths of light are absorbed by outflowing gas, the researchers were able to trace the structure and speed of these winds. They found that the outflowing gas appears to form a shell-like structure that covers a large fraction of the galaxy, consistent with gas being swept up and expelled in a powerful wave.</p>
+                  <p>The central conclusion is that there is a tight connection between the shutting down of star formation and the expulsion of gas reserves through these outflows. In other words, the outflows are not just a side effect of intense star formation — they may be actively causing it to stop by removing the raw material needed to make new stars. The paper also examines which physical processes — including supernova explosions, stellar winds, radiation pressure, cosmic rays, and black hole activity — are capable of accelerating gas to the observed speeds, placing meaningful constraints on each.</p>
+                  <p>This research was made possible through a combination of spectroscopic analysis and multi-wavelength photometric modeling, requiring contributors to work across a broad range of data types and physical scales. The author's role involved Python-based data analysis and the construction of scientific visualizations, translating complex multi-wavelength datasets into interpretable figures that supported the team's broader conclusions.</p>
+                </div>
+                <div class="pub-desc-section">
+                  <p class="pub-audience-label">For a Technically Familiar Audience</p>
+                  <p>This paper addresses the poorly understood transition of massive galaxies from actively star-forming to quiescent, using a sample of ~12 compact starburst galaxies known to be driving large-scale outflows with v &gt; 1,000 km/s. The dataset combines optical spectroscopy from SDSS and Keck with UV-through-IR photometry, enabling a joint analysis of emission-line diagnostics and spectral energy distribution (SED) modeling.</p>
+                  <p>SED fitting reveals that these galaxies hosted extraordinarily high star formation rates in the recent past, yet their current optical emission lines are surprisingly weak — a signature consistent with rapid quenching of the recent starburst. This combination places these systems in a brief and rarely observed post-starburst transitional phase, making them valuable laboratories for studying feedback-driven quenching in real time.</p>
+                  <p>Outflow properties are characterized through interstellar absorption-line profiles, which provide kinematic information on the cool gas phase of the wind. The analysis reveals large covering fractions that vary systematically as a function of velocity, a signature consistent with a swept-up shell model of outflowing interstellar gas rather than a smooth, volume-filling wind. This geometric and kinematic structure has direct implications for estimating mass outflow rates and the efficiency with which these winds can deplete the interstellar gas reservoir.</p>
+                  <p>The absorption-line profiles are further used to constrain the physical driving mechanisms — supernovae, stellar winds, radiation pressure, cosmic rays, and AGN accretion — by comparing observed outflow velocities and momentum fluxes against the predictions of each scenario. The close correspondence between the quenching of the starburst and the observed gas expulsion strongly implicates feedback-driven outflows as a direct causal agent in star formation suppression, rather than a coincidental byproduct. This positions the sample as observational evidence for the kind of rapid, feedback-induced quenching invoked in theoretical models of massive galaxy evolution.</p>
+                  <p>The analysis pipeline was implemented in Python, with contributions including multi-wavelength photometric data handling, SED fitting support, absorption-line profile analysis, and the generation of publication-quality visualizations using standard scientific Python packages including NumPy, Matplotlib, and Astropy.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pub-card">
+          <div class="pub-meta">
+            <span class="pub-badge pub-badge-thesis">Senior Thesis</span>
+            <span class="pub-year">2022</span>
+          </div>
+          <h4 class="pub-title">
+            Exploring the Relationship between Stellar Mass, Star Formation Rate, and Gas Outflow Velocity in a Large Sample of Galaxies
+          </h4>
+          <p class="pub-authors"><strong>Umeh, C.</strong>, et al.</p>
+          <p class="pub-journal">Unpublished &nbsp;&middot;&nbsp; Bates College Senior Thesis</p>
+          <button class="pub-toggle" onclick="togglePubDesc(this)" aria-expanded="false">
+            <span class="pub-btn-text">Show description</span> <span class="pub-arrow">▾</span>
+          </button>
+          <div class="pub-desc">
+            <div class="pub-desc-inner">
+              <div>
+                <div class="pub-desc-section">
+                  <p class="pub-audience-label">For a General Audience</p>
+                  <p>Galaxies like our Milky Way are surprisingly bad at making stars. Even though galaxies contain enormous amounts of gas — the raw material for stars — only a tiny fraction of it ever becomes one. Scientists believe a major culprit is galactic outflows: powerful winds of gas that get ejected from a galaxy, taking potential star-forming material with them and slowing the whole process down.</p>
+                  <p>This thesis investigates those outflows by studying a sample of 300,000 galaxies drawn from a massive sky survey called eBOSS. The goal is to understand how a galaxy's size (measured by stellar mass) and its rate of star formation connect to how fast gas is being blown out of it.</p>
+                  <p>To measure star formation, the author relies on a specific wavelength of light called H-alpha, which is emitted when hydrogen atoms get energized by newborn stars and then release that energy as light. By measuring how bright this light is, one can calculate how many stars a galaxy is currently producing. A complication is that cosmic dust absorbs some of this light — particularly at shorter wavelengths — making galaxies look dimmer than they really are. The thesis develops careful mathematical corrections to account for this dust and recover the true star formation rates.</p>
+                  <p>The main finding is that the galaxies forming stars most rapidly are also the dustiest, which means the dust correction is especially important for the most active galaxies. This work lays the groundwork for follow-up research that will stack thousands of galaxy spectra together to directly measure how fast gas is being expelled, and whether faster star formation leads to faster outflows.</p>
+                  <p>Completing this research required more than just an understanding of space — it demanded a working knowledge of computer programming. The author used Python, a widely used coding language in scientific research, to process and analyze data from hundreds of thousands of galaxies. This involved writing code to read large datasets, apply mathematical corrections for dust, calculate luminosities, and generate the plots and figures presented in the thesis. On the astronomy side, the work required understanding how light interacts with matter at the atomic level, how to interpret spectra (the "fingerprints" of light that reveal a galaxy's chemistry and motion), and how to account for the fact that the universe is expanding — meaning that light from distant galaxies is stretched to longer wavelengths, a phenomenon called redshift. Tying all of this together required the ability to translate physical theory into working code, and to critically evaluate whether the results made physical sense.</p>
+                </div>
+                <div class="pub-desc-section">
+                  <p class="pub-audience-label">For a Technically Familiar Audience</p>
+                  <p>This thesis establishes the observational and computational pipeline for characterizing stellar mass, star formation rate (SFR), and gas outflow velocity across a sample of ~300,000 star-forming galaxies from the eBOSS survey (0.4 &lt; z &lt; 1.2), representing roughly 10% of the total eBOSS target catalog.</p>
+                  <p>The core methodology centers on dust-corrected hydrogen recombination line luminosities as SFR tracers. For galaxies at z &lt; 0.58, where H-alpha falls within the spectrograph's wavelength range (360–1000 nm, R ~ 2000), the Balmer decrement (H-alpha/H-beta) is used to compute color excess E(B-V) following the Momcheva et al. (2013) attenuation framework. With k(H-alpha) = 3.33 and k(H-beta) = 4.60, dust correction factors reaching ~100x are applied to recover intrinsic H-alpha flux. SFR is then derived via the Kennicutt &amp; Evans (2012) calibration: log(SFR) = log(L_H&#945;) &minus; 41.27</p>
+                  <p>For galaxies at z &gt; 0.58, where H-alpha redshifts out of the detector range, the H-beta/H-gamma ratio serves as the Balmer decrement proxy, with corrected H-beta luminosity scaled by 2.86 to approximate intrinsic H-alpha luminosity. A consistent result across both redshift regimes is the positive correlation between emission-line luminosity and dust attenuation — higher SFR galaxies exhibit systematically larger Balmer decrements, consistent with the picture that the most intensely star-forming systems are embedded in dustier ISM environments.</p>
+                  <p>This work is explicitly framed as the SFR characterization stage of a larger project. The subsequent phase will perform spectral stacking in bins of SFR and stellar mass to measure outflow velocities from blueshifted absorption features — enabling direct empirical tests of competing outflow scaling relations (e.g., velocity scaling with stellar mass per Oppenheimer &amp; Dave 2006, vs. star formation surface density per Heckman et al. 2015).</p>
+                  <p>The execution of this pipeline required proficiency across several technical domains. On the software side, the analysis was conducted entirely in Python, leveraging standard scientific libraries — likely NumPy and SciPy for numerical computation, Matplotlib for visualization, and Astropy for handling FITS-format spectroscopic data. The author had to implement flux extraction, signal-to-noise filtering (SNR &gt; 3 on both H-alpha and H-beta), Balmer decrement calculations, attenuation curve evaluations, and luminosity distance conversions from raw spectral catalogs at scale across a 300,000-object sample. On the astrophysics side, the work demanded fluency in nebular emission physics, ISM dust attenuation modeling, cosmological distance and lookback time calculations using the FLRW framework, and the observational constraints imposed by fixed spectrograph wavelength coverage — specifically, knowing when and why to switch Balmer tracers as a function of redshift. The combination of these skills — translating multi-step physical formalisms into robust, scalable code and applying them critically to real survey data — reflects the core competency expected of an observational extragalactic researcher.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- ── PROJECTS ──────────────────────────────────────────────────
        section-alt adds a subtle alternate background (slightly different shade)
        to visually separate sections when scrolling. -->
-  <section id="projects" class="section section-alt">
+  <section id="projects" class="section">
     <div class="container">
       <h2 class="section-title">Projects</h2>
       <!-- The ↗ arrow is a Unicode character meaning "external link". -->
@@ -343,7 +476,7 @@
            Written directly in HTML since the content doesn't change.
            style="margin-bottom: 1rem;" is an inline style — directly applies
            CSS to just this element. Useful for one-off adjustments. -->
-      <h3 class="sub-heading" style="margin-bottom: 1rem;">Graduate Research at UCF</h3>
+      <h3 class="sub-heading" style="margin-bottom: 1rem;">Graduate Research and Teaching at UCF</h3>
       <div class="research-grid">
         <div class="research-card">
           <div class="research-icon">⚛️</div>
