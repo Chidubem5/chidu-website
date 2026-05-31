@@ -111,7 +111,12 @@ window.addEventListener('scroll', () => {
    Types one nickname letter by letter, pauses, then erases it the same way.
    This creates the animated typewriter effect in the hero section.
 ───────────────────────────────────────── */
-const nicknames = ['Chid', 'Chidu', 'Cheetos', 'Cheetahbem', 'OrlandoBem', 'Dubem', 'Dube Dube', 'Chi Chi', 'Umi', 'Umizoomi', 'Gigabem', 'Supremebem'];
+const _nickRest = ['Chid', 'Cheetos', 'Cheetahbem', 'OrlandoBem', 'Dubem', 'Dube Dube', 'Chi Chi', 'Umi', 'Umizoomi', 'Gigabem', 'Supremebem'];
+for (let i = _nickRest.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [_nickRest[i], _nickRest[j]] = [_nickRest[j], _nickRest[i]];
+}
+const nicknames = ['Chidu', ..._nickRest];
 let nickIdx = 0;   // tracks which nickname we're currently showing
 const nickEl = document.getElementById('nicknameDisplay');
 
