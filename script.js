@@ -1,49 +1,40 @@
 /* ─────────────────────────────────────────
    AUTO DAY / NIGHT THEME
 
-   Instead of always starting in light mode, the site reads the current hour
-   and automatically applies the right theme. 6am–6pm = light, 6pm–6am = dark.
-   The user can still manually toggle, and their choice persists until the
-   next page load.
+   Reads the current hour and applies light (6am–6pm) or dark (6pm–6am).
+   A manual toggle sets a localStorage override so the auto-switch never
+   fights the user's choice, and the choice survives page reloads.
 ───────────────────────────────────────── */
 
-// new Date() creates a JavaScript Date object representing right now.
-// .getHours() returns the hour as a number from 0–23 (0 = midnight, 12 = noon).
-// The ternary operator: (condition) ? valueIfTrue : valueIfFalse
 function getAutoTheme() {
   const h = new Date().getHours();
   return (h >= 6 && h < 18) ? 'light' : 'dark';
 }
 
-// currentTheme starts as whatever the clock says
-let currentTheme = getAutoTheme();
+const THEME_OVERRIDE_KEY = 'themeOverride';
+const savedTheme = localStorage.getItem(THEME_OVERRIDE_KEY);
+let userOverride = savedTheme === 'light' || savedTheme === 'dark';
+let currentTheme = userOverride ? savedTheme : getAutoTheme();
 
-// applyTheme updates two things at once:
-//   1. Sets data-theme="dark" (or "light") on the <html> element —
-//      CSS rules like [data-theme="dark"] react instantly.
-//   2. Swaps the emoji on the theme toggle button.
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   document.getElementById('themeIcon').textContent = theme === 'dark' ? '☀️' : '🌙';
   currentTheme = theme;
 }
 
-// Apply on load — called immediately when the script runs
 applyTheme(currentTheme);
 
-// addEventListener(event, callback) — listen for a specific event on an element.
-// Here: when the theme button is clicked, flip between light and dark.
-// The => arrow function is shorthand for function() { ... }.
 document.getElementById('themeBtn').addEventListener('click', () => {
-  applyTheme(currentTheme === 'light' ? 'dark' : 'light');
+  userOverride = true;
+  const next = currentTheme === 'light' ? 'dark' : 'light';
+  localStorage.setItem(THEME_OVERRIDE_KEY, next);
+  applyTheme(next);
 });
 
-// setInterval(callback, milliseconds) runs the callback every N milliseconds.
-// 60_000ms = 60 seconds. The underscores are just for readability (like 60,000).
-// This re-checks the clock every minute so the theme switches automatically
-// at 6am and 6pm even if the page has been open a long time.
+// Re-checks the clock every minute so the theme switches automatically at
+// 6am/6pm for visitors who haven't manually overridden it.
 setInterval(() => {
-  applyTheme(getAutoTheme());
+  if (!userOverride) applyTheme(getAutoTheme());
 }, 60_000);
 
 
@@ -106,10 +97,31 @@ window.addEventListener('scroll', () => {
 
 
 /* ─────────────────────────────────────────
-   NICKNAME ROTATOR (hero section)
+   TYPEWRITER HELPERS
 
-   Types one nickname letter by letter, pauses, then erases it the same way.
-   This creates the animated typewriter effect in the hero section.
+   Shared char-by-char type/erase loop used by both the hero nickname
+   rotator and the quotes rotator below — they differ only in speed and
+   in what happens during the hold between typing and erasing.
+───────────────────────────────────────── */
+function typewriterType(el, text, ms, cb) {
+  el.textContent = '';
+  let i = 0;
+  const t = setInterval(() => {
+    el.textContent += text[i];
+    i++;
+    if (i === text.length) { clearInterval(t); cb(); }
+  }, ms);
+}
+
+function typewriterErase(el, ms, cb) {
+  const t = setInterval(() => {
+    el.textContent = el.textContent.slice(0, -1);
+    if (!el.textContent) { clearInterval(t); cb(); }
+  }, ms);
+}
+
+/* ─────────────────────────────────────────
+   NICKNAME ROTATOR (hero section)
 ───────────────────────────────────────── */
 const _nickRest = ['Chid', 'Cheetos', 'Cheetahbem', 'OrlandoBem', 'Dubem', 'Dube Dube', 'Chi Chi', 'Umi', 'Umizoomi', 'Gigabem', 'Supremebem'];
 for (let i = _nickRest.length - 1; i > 0; i--) {
@@ -117,50 +129,21 @@ for (let i = _nickRest.length - 1; i > 0; i--) {
   [_nickRest[i], _nickRest[j]] = [_nickRest[j], _nickRest[i]];
 }
 const nicknames = ['Chidu', ..._nickRest];
-let nickIdx = 0;   // tracks which nickname we're currently showing
+let nickIdx = 0;
 const nickEl = document.getElementById('nicknameDisplay');
 
-// typeNickname: adds one character at a time using setInterval.
-// cb = "callback" — a function to call when typing is complete.
-function typeNickname(text, cb) {
-  nickEl.textContent = '';   // clear any existing text
-  let i = 0;
-  // setInterval calls the function every 80ms
-  const t = setInterval(() => {
-    nickEl.textContent += text[i];   // += appends one character
-    i++;
-    // When we've typed all characters, stop the interval and wait before erasing
-    if (i === text.length) {
-      clearInterval(t);
-      setTimeout(cb, 1400);   // wait 1.4 seconds before calling the callback
-    }
-  }, 80);
-}
-
-// eraseNickname: removes one character at a time from the right.
-// .slice(0, -1) returns the string with the last character removed.
-function eraseNickname(cb) {
-  const t = setInterval(() => {
-    nickEl.textContent = nickEl.textContent.slice(0, -1);
-    // When the text is fully erased (falsy = empty string), stop and call cb
-    if (!nickEl.textContent) { clearInterval(t); cb(); }
-  }, 45);   // erases faster than it types (45ms vs 80ms) — feels natural
-}
-
-// cycleNickname: chains typeNickname and eraseNickname in a loop.
-// Each function calls the next one when done via callbacks — "callback chaining".
-// After erasing, we advance to the next nickname and call cycleNickname again.
-// % nicknames.length makes the index wrap around (10 → 0 when it reaches the end).
 function cycleNickname() {
-  typeNickname(nicknames[nickIdx], () => {
-    eraseNickname(() => {
-      nickIdx = (nickIdx + 1) % nicknames.length;
-      cycleNickname();   // start the whole cycle again
-    });
+  typewriterType(nickEl, nicknames[nickIdx], 80, () => {
+    setTimeout(() => {
+      typewriterErase(nickEl, 45, () => {
+        nickIdx = (nickIdx + 1) % nicknames.length;
+        cycleNickname();
+      });
+    }, 1400);
   });
 }
 
-cycleNickname();   // kick off the animation on page load
+cycleNickname();   // hero is always visible on load, so this starts immediately
 
 
 /* ─────────────────────────────────────────
@@ -169,13 +152,13 @@ cycleNickname();   // kick off the animation on page load
    Types each quote letter by letter with a blinking cursor that follows
    the end of the text. Once fully typed, the attribution fades in.
    After a reading pause, the attribution fades out and the text erases
-   right-to-left before the next quote begins. Index 0 always runs first.
+   right-to-left before the next quote begins.
 ───────────────────────────────────────── */
 const quotes = [
-  { text: '"If you think you are too small to make difference, you haven\'t spent a night with a mosquito."', attr: '— Mom' },
-  { text: '"Smart people learn from their mistakes; wise people learn from the mistakes of others."', attr: '— Charlamagne the God' },
+  { text: '"If you think you are too small to make a difference, you haven\'t spent a night with a mosquito."', attr: '— Mom' },
+  { text: '"Smart people learn from their mistakes; wise people learn from the mistakes of others."', attr: '— Charlamagne tha God' },
   { text: '"Four quarters are better than one-hundred pennies."', attr: '— Mom; African Proverbs' },
-  { text: '"You don\'t realize now what I am doing, but later you will understand."', attr: '— Jesus John 13' },
+  { text: '"You don\'t realize now what I am doing, but later you will understand."', attr: '— John 13:7' },
   { text: '"A man who stands for nothing will fall for anything."', attr: '— Malcolm X' },
   { text: '"Easy day, hard life. Hard today, easy life."', attr: '' },
   { text: '"Being in a relationship is proving that you can love yourself and others."', attr: '' },
@@ -184,120 +167,129 @@ const quotes = [
   { text: '"The grass doesn\'t need to be greener."', attr: '' },
   { text: '"They will pay one of us to kill one of us, just to say it was one of us."', attr: '— Malcolm X' },
   { text: '"Imagine everyone is pointing a gun at your head. It\'s up to you how many bullets you give them."', attr: '— Triple H' },
-  { text: '"When you are born, you look like my parents. When I die, I\'ll look like my decisions."', attr: '' },
+  { text: '"When I was born, I looked like my parents. When I die, I\'ll look like my decisions."', attr: '' },
   { text: '"The grass is greener on the other side because it\'s fertilized with bs."', attr: '' },
   { text: '"Water seeks its own level."', attr: '' },
-  { text: '"If you are lonly when you are alone then you are in bad company."', attr: '— Jean-Paul Sartre' },
+  { text: '"If you are lonely when you are alone then you are in bad company."', attr: '— Jean-Paul Sartre' },
   { text: '"If you aim at nothing, you hit nothing."', attr: '' },
   { text: '"There\'s nothing wrong with limits as long as you set them."', attr: '' },
-  { text: '"I was in darkness but I took three steps and found myself in paradise. The first step was a good thought, the second a good word, and the third, a good deed."', attr: '— Nietzsche' },
+  { text: '"I was in darkness but I took three steps and found myself in paradise. The first step was a good thought, the second a good word, and the third, a good deed."', attr: '— Zoroastrian proverb' },
   { text: '"People are more likely to do what you want them to do when they were included in the process."', attr: '' },
   { text: '"To treat your children all the same, you have to treat them differently."', attr: '' },
   { text: '"If you realized how powerful your thoughts are, you would never think a negative thought."', attr: '' },
   { text: '"You are what you try."', attr: '' },
-  { text: '"Effort without execution get you sweaty."', attr: '' },
+  { text: '"Effort without execution gets you sweaty."', attr: '' },
 ];
 
 let quoteIdx = 0;
 const quoteEl  = document.getElementById('quoteDisplay');
 const quoteAttrEl = document.getElementById('quoteAttr');
 
-function typeQuote(text, cb) {
-  quoteEl.textContent = '';
-  let i = 0;
-  const t = setInterval(() => {
-    quoteEl.textContent += text[i];
-    i++;
-    if (i === text.length) { clearInterval(t); setTimeout(cb, 400); }
-  }, 38);
-}
-
-function showQuoteAttr(attr, cb) {
-  quoteAttrEl.textContent = attr || '';
-  if (attr) quoteAttrEl.classList.add('visible');
-  setTimeout(cb, 5000);
-}
-
-function eraseQuote(cb) {
-  quoteAttrEl.classList.remove('visible');
-  setTimeout(() => {
-    quoteAttrEl.textContent = '';
-    const t = setInterval(() => {
-      quoteEl.textContent = quoteEl.textContent.slice(0, -1);
-      if (!quoteEl.textContent) { clearInterval(t); cb(); }
-    }, 20);
-  }, 350);
-}
-
 function cycleQuote() {
   const { text, attr } = quotes[quoteIdx];
-  typeQuote(text, () => {
-    showQuoteAttr(attr, () => {
-      eraseQuote(() => {
-        quoteIdx = (quoteIdx + 1) % quotes.length;
-        cycleQuote();
-      });
-    });
+  typewriterType(quoteEl, text, 38, () => {
+    setTimeout(() => {
+      quoteAttrEl.textContent = attr || '';
+      if (attr) quoteAttrEl.classList.add('visible');
+      setTimeout(() => {
+        quoteAttrEl.classList.remove('visible');
+        setTimeout(() => {
+          quoteAttrEl.textContent = '';
+          typewriterErase(quoteEl, 20, () => {
+            quoteIdx = (quoteIdx + 1) % quotes.length;
+            cycleQuote();
+          });
+        }, 350);
+      }, 5000);
+    }, 400);
   });
 }
 
-cycleQuote();
+// The quotes section sits near the bottom of the page — don't run this
+// forever off-screen for visitors who never scroll that far. Start it
+// the first time the section actually enters the viewport.
+const quoteSection = document.getElementById('quotes');
+if (quoteSection) {
+  const quoteSectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        cycleQuote();
+        quoteSectionObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  quoteSectionObserver.observe(quoteSection);
+}
 
 
 /* ─────────────────────────────────────────
    PROJECTS (GitHub repos)
 
-   Instead of writing each project card manually in HTML, the project data
-   lives here as a JavaScript array of objects. renderProjects() converts
-   each object into an HTML string, joins them all together, and injects
-   the result into the #projectsGrid div.
+   Project data lives here as a JS array. renderProjects() turns it into
+   HTML and injects it into #projectsGrid — updating a project just means
+   editing this array, not the HTML.
 
-   This separation of DATA and PRESENTATION makes it easy to update projects —
-   just change this array without touching the HTML.
+   `updated` starts as a hardcoded fallback (so the card has a date on the
+   very first paint with no network dependency) and hydrateProjectDates()
+   below quietly overwrites it with each repo's real last-pushed date from
+   the GitHub API once that request resolves. `repo` is the slug used for
+   that API call; `github` is only set when the card's main link (`url`)
+   points somewhere other than the repo itself (a live demo), so a second
+   "GitHub ↗" link is worth showing. `live` marks a project with a real
+   deployed site, independent of whether a separate GitHub link exists.
 ───────────────────────────────────────── */
 const projects = [
   {
     name: 'Split Tank',
     desc: 'Web app for splitting gas costs on road trips and carpools. Pulls live weekly gas prices from the EIA API, looks up real MPG via FuelEconomy.gov, and generates Venmo / Cash App / Zelle payment links with the exact amount pre-filled.',
     url:  'https://splittank.com',
-    github: 'https://github.com/Chidubem5/Gas-Money',
+    github: 'https://github.com/Chidubem5/splittank',
+    repo: 'splittank',
     lang: 'React',
-    updated: 'Apr 2026',
+    live: true,
+    updated: 'Jun 2026',
   },
   {
-    name: 'Gun_Violence',
+    name: 'Gun Violence Data Explorer',
     desc: 'Data exploration challenging common narratives around gun violence in the US — examining victim demographics adjusted for population proportionality.',
     url:  'https://chidubem5.github.io/Gun_Violence/gun_violence_combined.html',
+    github: 'https://github.com/Chidubem5/Gun_Violence',
+    repo: 'Gun_Violence',
     lang: 'HTML',
+    live: true,
     updated: 'Apr 2026',
   },
   {
-    name: 'Erdos_Africa',
+    name: 'Africa Volatility Study',
     desc: 'Used Python to analyze realized vs. implied volatility of the VanEck Africa index fund. Findings presented as an academic paper and slideshow through the Erdős Institute.',
     url:  'https://github.com/Chidubem5/Erdos_Africa',
+    repo: 'Erdos_Africa',
     lang: 'Jupyter Notebook',
-    updated: 'Nov 2025',
+    updated: 'May 2026',
   },
   {
-    name: 'QC',
-    desc: 'Demonstrating quantum computing concepts and experiments',
+    name: 'Quantum Computing Experiments',
+    desc: 'Demonstrating quantum computing concepts and experiments.',
     url:  'https://github.com/Chidubem5/QC',
+    repo: 'QC',
     lang: 'Python',
-    updated: 'Mar 2025',
+    updated: 'Apr 2026',
   },
   {
-    name: 'Latex',
+    name: 'Academic Writing in LaTeX',
     desc: 'Collection of academic writing: undergraduate senior thesis, graduate computational physics papers, and other coursework typeset in LaTeX.',
     url:  'https://github.com/Chidubem5/Latex',
+    repo: 'Latex',
     lang: 'LaTeX',
-    updated: 'Apr 2022',
+    updated: 'Apr 2026',
   },
   {
-    name: 'batesastronomythesis2022',
+    name: 'Senior Thesis: Galaxy Outflows',
     desc: 'Python analysis of MaNGA IFU spectroscopy data exploring the relationship between stellar mass, star formation rate, and gas outflow velocity across a large galaxy sample. Figures published in senior thesis (Spring 2022).',
     url:  'https://github.com/Chidubem5/batesastronomythesis2022',
+    repo: 'batesastronomythesis2022',
     lang: 'Jupyter Notebook',
-    updated: 'Jan 2020',
+    updated: 'May 2026',
   },
 ];
 
@@ -320,8 +312,8 @@ function renderProjects() {
   grid.innerHTML = projects.map(p => {
     // Fallback to default dot color if the language isn't in langMeta
     const lm = langMeta[p.lang] || { cls: 'lang-default', label: p.lang };
-    // Conditional HTML: only include the "Live ↗" badge if the project has a github URL
-    const liveTag = p.github
+    // "Live ↗" only appears for projects with a real deployed site
+    const liveTag = p.live
       ? `<span class="project-live-badge">Live ↗</span>`
       : '';
     // The GitHub link is a span (not an <a>) because the whole card is already an <a>.
@@ -350,7 +342,28 @@ function renderProjects() {
   }).join('');
 }
 
-renderProjects();
+renderProjects();   // instant render using the hardcoded fallback dates above
+
+// Quietly replace each project's fallback date with its real last-pushed
+// date from the public GitHub API. Runs after the instant render so there's
+// no flash of empty content, and fails silently (keeping the fallback) if
+// the API is unreachable or rate-limited.
+async function hydrateProjectDates() {
+  const responses = await Promise.allSettled(
+    projects.map(p => fetch(`https://api.github.com/repos/Chidubem5/${p.repo}`))
+  );
+  let changed = false;
+  await Promise.all(responses.map(async (result, i) => {
+    if (result.status !== 'fulfilled' || !result.value.ok) return;
+    const data = await result.value.json().catch(() => null);
+    if (!data?.pushed_at) return;
+    projects[i].updated = new Date(data.pushed_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    changed = true;
+  }));
+  if (changed) renderProjects();
+}
+
+hydrateProjectDates();
 
 
 /* ─────────────────────────────────────────
@@ -488,6 +501,7 @@ function adaptSlideshow(id) {
     }
 
     wrapper.style.maxWidth = newMaxW;
+    track.style.height = newH + 'px';   // actually apply the computed height, not just width
   };
 
   // If the image is already fully loaded, apply immediately.
@@ -589,16 +603,13 @@ addSwipe('intl-track');
    lbImages holds all the image paths in order.
    lbCurrent tracks which image is displayed.
    lbCaptions stores the caption for each image.
+
+   lbImages/lbCaptions are populated from the DOM (see initModelingLightbox
+   and initTravelLightbox below) rather than hand-typed here, so adding a
+   photo to the HTML can never desync the array from what's actually on
+   the page.
 ───────────────────────────────────────── */
-let lbImages = [
-  'images/modeling/modeling-1.webp',
-  'images/modeling/modeling-2.webp',
-  'images/modeling/modeling-3.webp',
-  'images/modeling/modeling-4.webp',
-  'images/modeling/modeling-5.webp',
-  'images/modeling/Magazine%20cover%201%20-557.webp',
-  'images/modeling/modeling-6.webp',
-];
+let lbImages   = [];
 let lbCurrent  = 0;
 let lbCaptions = [];
 
@@ -633,8 +644,12 @@ window.lbShift = function(e, dir) {
   if (cap) cap.textContent = lbCaptions[lbCurrent] || '';
 };
 
-// Keyboard navigation: Escape closes, Arrow keys advance
+// Keyboard navigation: Escape closes, Arrow keys advance.
+// Guarded on the lightbox actually being open — otherwise arrow keys
+// pressed anywhere on the page (e.g. while scrolling) would silently
+// cycle lbCurrent and trigger full-size image downloads.
 document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
   if (e.key === 'Escape') closeLightbox();
   if (e.key === 'ArrowLeft')  lbShift(e, -1);
   if (e.key === 'ArrowRight') lbShift(e,  1);
@@ -655,6 +670,33 @@ document.addEventListener('keydown', e => {
     lbShift(e, dx < 0 ? 1 : -1);
   }, { passive: true });
 })();
+
+/* ─────────────────────────────────────────
+   MODELING PHOTOS — CLICK TO EXPAND
+
+   Populates lbImages/lbCaptions from the .model-ph elements actually
+   present in the DOM (featured photo first, then the grid — matching
+   visual order) and wires up a click handler on each. No hardcoded
+   indexes to keep in sync with the HTML.
+───────────────────────────────────────── */
+function initModelingLightbox() {
+  const nodes = Array.from(document.querySelectorAll('#modeling .model-ph'));
+  const srcs  = nodes.map(el => el.querySelector('img').src);
+
+  // Also the default lightbox content until a travel photo is clicked
+  lbImages   = srcs;
+  lbCaptions = [];
+
+  nodes.forEach((el, i) => {
+    el.addEventListener('click', () => {
+      lbImages   = srcs;
+      lbCaptions = [];
+      openLightbox(srcs[i], i);
+    });
+  });
+}
+
+initModelingLightbox();
 
 /* ─────────────────────────────────────────
    TRAVEL SLIDESHOW — CLICK TO EXPAND
@@ -720,7 +762,7 @@ function initScrollAnimations() {
   const targets = document.querySelectorAll(
     '.section-title, .section-sub, .about-text p, .about-languages, .tag-list, .linkedin-btn,' +
     '.research-card, .project-card, .anime-card, .comedian-card,' +
-    '.book-card, .game-card, .sub-heading'
+    '.book-card, .sub-heading'
   );
 
   // IntersectionObserver fires the callback whenever observed elements
@@ -786,6 +828,11 @@ function toggleMoreAbout() {
   // String(!isOpen) converts boolean to "true" or "false" string for aria attribute
   toggle.setAttribute('aria-expanded', String(!isOpen));
   wrapper.setAttribute('aria-hidden', String(isOpen));
+  // inert removes the whole collapsed subtree from the tab order and the
+  // accessibility tree in one move — without it, aria-hidden alone still
+  // leaves dozens of links inside (anime, comedians, gallery) reachable
+  // by keyboard while visually and semantically "not there."
+  wrapper.toggleAttribute('inert', isOpen);
 }
 
 // expandMoreAbout: called from the nav dropdown when "More About Me" is clicked.
@@ -798,6 +845,7 @@ window.expandMoreAbout = function() {
     toggle.classList.add('open');
     toggle.setAttribute('aria-expanded', 'true');
     wrapper.setAttribute('aria-hidden', 'false');
+    wrapper.removeAttribute('inert');
   }
 };
 
@@ -944,7 +992,7 @@ document.querySelectorAll('.model-ph').forEach(el => {
   el.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      el.click();   // trigger the onclick attribute on the element
+      el.click();   // triggers the click listener registered in initModelingLightbox
     }
   });
 });
@@ -968,16 +1016,21 @@ document.querySelectorAll('.model-ph').forEach(el => {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');   // get the 2D drawing API
 
-  // w, h = canvas dimensions; cx, cy = center point; tick = animation frame counter
-  let w, h, cx, cy, tick = 0, running = true;
+  // w, h = CSS-pixel canvas dimensions; cx, cy = center point;
+  // tick = animation frame counter; loopActive = whether a
+  // requestAnimationFrame chain is currently self-perpetuating.
+  let w, h, cx, cy, tick = 0, running = true, loopActive = false;
   // Fewer layers on mobile to save battery/CPU
   const LAYERS = window.innerWidth < 768 ? 18 : 30;
   // DRIFT controls how fast the frames zoom outward each tick
   const DRIFT = 0.00014;
 
+  // Respect the OS-level "reduce motion" accessibility setting (used by
+  // people with vestibular disorders/motion sensitivity): draw a single
+  // static frame instead of an endless zooming animation.
+  const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
   // roundRect draws a rectangle with rounded corners using canvas path commands.
-  // ctx.beginPath() starts a new path. ctx.moveTo / lineTo draw straight segments.
-  // ctx.arcTo draws the rounded corners. ctx.closePath closes the shape.
   function roundRect(x, y, rw, rh, r) {
     r = Math.min(r, rw / 2, rh / 2);   // corner radius can't exceed half the size
     ctx.beginPath();
@@ -988,9 +1041,25 @@ document.querySelectorAll('.model-ph').forEach(el => {
     ctx.arcTo(x, y, x + r, y, r); ctx.closePath();
   }
 
+  // The vignette gradient only depends on canvas size and theme, not on
+  // the per-frame tick — cache it instead of rebuilding it up to 60
+  // times a second.
+  let cachedVignette = null, cachedVignetteDark = null;
+  function getVignette(dark) {
+    if (!cachedVignette || cachedVignetteDark !== dark) {
+      cachedVignette = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.hypot(cx, cy));
+      cachedVignette.addColorStop(0, 'rgba(0,0,0,0)');
+      cachedVignette.addColorStop(0.40, 'rgba(0,0,0,0)');
+      cachedVignette.addColorStop(1, dark ? 'rgba(0,0,0,0.88)' : 'rgba(0,0,0,0.28)');
+      cachedVignetteDark = dark;
+    }
+    return cachedVignette;
+  }
+
   function draw() {
-    if (!running) return;
-    tick += DRIFT;   // advance the animation each frame
+    if (!running) { loopActive = false; return; }
+    const reduceMotion = reduceMotionQuery.matches;
+    if (!reduceMotion) tick += DRIFT;   // frozen on one frame when motion is reduced
 
     // Read the current theme to choose the right background and rectangle color
     const dark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -1022,38 +1091,56 @@ document.querySelectorAll('.model-ph').forEach(el => {
     }
 
     // Vignette: a radial gradient that fades to dark at the edges.
-    // createRadialGradient(cx,cy, innerRadius, cx,cy, outerRadius)
-    const vig = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.hypot(cx, cy));
-    vig.addColorStop(0, 'rgba(0,0,0,0)');     // center: fully transparent
-    vig.addColorStop(0.40, 'rgba(0,0,0,0)');  // still transparent at 40% radius
-    vig.addColorStop(1, dark ? 'rgba(0,0,0,0.88)' : 'rgba(0,0,0,0.28)');  // dark at edges
-    ctx.fillStyle = vig;
+    ctx.fillStyle = getVignette(dark);
     ctx.fillRect(0, 0, w, h);   // paint the vignette over the whole canvas
 
-    // requestAnimationFrame(draw) schedules draw() to run again before the next screen repaint.
-    // This creates a smooth 60fps loop that's synchronized with the display refresh rate.
-    requestAnimationFrame(draw);
+    if (reduceMotion) {
+      loopActive = false;
+    } else {
+      // requestAnimationFrame(draw) schedules draw() to run again before the
+      // next screen repaint — a smooth 60fps loop synced to the display.
+      loopActive = true;
+      requestAnimationFrame(draw);
+    }
   }
 
-  // When the window is resized, update the canvas dimensions so it always covers the screen.
-  // canvas.width and canvas.height set the pixel dimensions of the drawing surface.
+  // Safe to call anytime — paints one frame immediately, and (re)starts
+  // the animation loop only if one isn't already chaining itself (avoids
+  // stacking a second concurrent rAF loop on top of an existing one).
+  function requestRepaint() {
+    if (!loopActive) draw();
+  }
+
+  // When the window is resized, update the canvas dimensions so it always
+  // covers the screen. The drawing buffer is sized at up to 2x the CSS
+  // pixel size (capped for performance) so the frames render crisply on
+  // retina/mobile screens instead of looking soft; setTransform lets the
+  // rest of the drawing code keep working in ordinary CSS-pixel units.
   function resize() {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width  = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     cx = w / 2; cy = h / 2;
+    cachedVignette = null;   // size changed — rebuild the gradient next frame
+    requestRepaint();
   }
 
   // Pause animation when the browser tab is hidden (user switches to another tab).
-  // document.hidden = true when the tab is not visible.
   // This saves battery and CPU — no point animating when no one can see it.
   document.addEventListener('visibilitychange', () => {
     running = !document.hidden;
-    if (running) draw();   // resume when tab becomes visible again
+    if (running) requestRepaint();
   });
 
+  // If the reduced-motion setting changes while the page is open, either
+  // freeze on the next frame or resume animating.
+  reduceMotionQuery.addEventListener('change', requestRepaint);
+
   window.addEventListener('resize', resize);
-  resize();   // set initial canvas size
-  draw();     // start the animation loop
+  resize();   // sets the initial canvas size and paints the first frame
 })();
 
 

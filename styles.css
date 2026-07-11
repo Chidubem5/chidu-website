@@ -67,16 +67,7 @@
 
 /* ─────────────────────────────────────────
    RESET & BASE
-
-   Browsers apply their own default styles (margins on headings, padding
-   on lists, etc.). A CSS reset zeroes those out so we start from a clean slate.
 ───────────────────────────────────────── */
-
-/* * = every element.  *::before and *::after = pseudo-elements (decorative
-   content added before/after an element via CSS content:'').
-   box-sizing: border-box makes padding and border count WITHIN the element's
-   declared width — so a 200px element with 20px padding is still 200px wide total,
-   not 240px. This is almost always what you want. */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -144,7 +135,7 @@ a, button, [onclick], label, input, select, textarea {
 /* user-select: none prevents text selection when tapping UI elements.
    Without this, holding down on a card would highlight the text inside,
    which looks wrong for button-like elements. */
-button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
+button, .model-ph, .dot, .slide-arrow {
   -webkit-user-select: none;
   user-select: none;
 }
@@ -370,21 +361,11 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   cursor: pointer;
 }
 .drop-link:hover { background: var(--accent-dim); color: var(--accent); }
-.drop-indent { padding-left: 2rem; font-size: .85rem; color: var(--text-muted); }
-.drop-indent:hover { color: var(--accent); }
 
 .drop-divider {
   height: 1px;
   background: var(--border);
   margin: .4rem 0;
-}
-.drop-label {
-  padding: .3rem 1.25rem;
-  font-size: .75rem;
-  font-weight: 600;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--text-muted);
 }
 
 /* Theme toggle button — the sun/moon emoji */
@@ -642,6 +623,12 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   font-weight: 700;
   margin-bottom: 1rem;
   color: var(--text);
+}
+/* Extra top margin for a second sub-heading further down the same section
+   (e.g. "Coding Projects" below a research grid) — pairs with .sub-heading,
+   which already supplies the bottom margin every sub-heading needs. */
+.sub-heading-mt {
+  margin-top: 2.5rem;
 }
 
 /* ─────────────────────────────────────────
@@ -904,37 +891,6 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .project-github-link:hover { opacity: 1; text-decoration: underline; }
 
 /* ─────────────────────────────────────────
-   GAMING — currently defined for future use
-───────────────────────────────────────── */
-.games-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.2rem;
-}
-.game-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 2rem 1.5rem;
-  text-align: center;
-  box-shadow: var(--shadow);
-  transition: transform .2s, box-shadow .2s, border-color .2s;
-}
-.game-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--accent);
-}
-.game-emoji { font-size: 2.2rem; margin-bottom: .75rem; }
-.game-card h3 {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: .35rem;
-  color: var(--text);
-}
-.game-card p { font-size: .82rem; color: var(--text-muted); }
-
-/* ─────────────────────────────────────────
    PUBLICATIONS
 ───────────────────────────────────────── */
 .pub-list {
@@ -1100,8 +1056,6 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   display: block;
   transition: opacity .3s;
 }
-/* Hides broken images (when src attribute is empty) */
-.anime-poster[src=""] { opacity: 0; }
 
 .anime-rank {
   font-size: .75rem;
@@ -1256,6 +1210,7 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   height: 520px;
   min-height: 260px;
   background: #000;
+  transition: height .35s ease;   /* smooth resize between portrait/landscape photos */
 }
 
 /* All slides are hidden by default */
@@ -1565,7 +1520,11 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 
 .lightbox-close {
   position: absolute;
-  top: 1.2rem; right: 1.5rem;
+  top: 1rem; right: 1rem;
+  width: 44px; height: 44px;   /* 44px = Apple's minimum touch target, matches .lightbox-arrow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   color: #fff;
@@ -1747,7 +1706,6 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   .quote-stage     { min-height: 11rem; }
 
   /* Responsive grid changes */
-  .games-grid      { grid-template-columns: repeat(2, 1fr); }
   .projects-grid   { grid-template-columns: 1fr; }       /* 1 column on phones */
   .model-grid      { grid-template-columns: repeat(2, 1fr); }
 
@@ -1795,22 +1753,11 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 
   .about-text p     { font-size: .97rem; }
 
-  .artist-card      { padding: .7rem .85rem; gap: .65rem; }
-  .artist-links     { gap: .3rem; }
-  .artist-link      { width: 28px; height: 28px; font-size: .75rem; }
-  .songs-toggle     { font-size: .75rem; }
-
-  .songs-list li    { flex-wrap: wrap; gap: .3rem; }
-  .song-platform-links { gap: .25rem; }
-
-  .slide-arrow      { width: 40px; height: 40px; font-size: 1.4rem; }
+  .slide-arrow      { width: 44px; height: 44px; font-size: 1.4rem; }   /* 44px = Apple's minimum touch target */
   .slide-caption    { font-size: .78rem; }
 
   .research-card    { padding: 1.1rem; gap: .75rem; }
   .research-icon    { font-size: 1.5rem; }
-
-  .game-card        { padding: 1.5rem 1rem; }
-  .game-emoji       { font-size: 1.8rem; }
 
   .book-cover-front { width: 105px; }
   .book-cover-title { font-size: .8rem; }
@@ -1831,13 +1778,9 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   .btn-outline:hover                 { background: transparent; }
   .linkedin-btn:hover                { background: #0077b5; transform: none; }
   .resume-btn:hover                  { background: var(--accent); transform: none; }
-  .artist-card:hover                 { transform: none; box-shadow: var(--shadow); background: var(--bg-card); }
-  .artist-link:hover                 { transform: none; opacity: 1; }
-  .song-link:hover                   { transform: none; opacity: 1; }
   .research-card:hover               { transform: none; box-shadow: var(--shadow); }
   .project-card:hover                { transform: none; box-shadow: var(--shadow); }
   .project-card:hover .project-arrow { opacity: 0; }
-  .game-card:hover                   { transform: none; box-shadow: var(--shadow); }
   .anime-card:hover                  { transform: none; box-shadow: var(--shadow); }
   .anime-card:hover .anime-wiki      { opacity: 0; }
   .comedian-card:hover               { transform: none; box-shadow: var(--shadow); }
@@ -1852,7 +1795,6 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   .btn:active                        { transform: scale(.97); opacity: .85; transition: transform .1s, opacity .1s; }
   .research-card:active,
   .project-card:active,
-  .game-card:active,
   .anime-card:active,
   .comedian-card:active,
   .book-card:active                  { transform: scale(.985); transition: transform .1s; }
@@ -1912,8 +1854,6 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 .research-card:focus-visible,
 .anime-card:focus-visible,
 .book-card:focus-visible,
-.game-card:focus-visible,
-.artist-card:focus-visible,
 .model-ph:focus-visible {
   outline-offset: 5px;
 }
@@ -2045,14 +1985,6 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
 }
 .form-error a { color: inherit; text-decoration: underline; }
 
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  max-width: 320px;
-  margin: 0 auto;
-}
-
 /* The email copy card — styled as a button but looks like a card.
    appearance: none removes browser-default button styling (border, background). */
 .contact-card {
@@ -2111,33 +2043,6 @@ button, .artist-card, .model-ph, .game-card, .dot, .slide-arrow {
   transition: color .2s;
 }
 .contact-mail-link:hover { color: var(--accent); }
-
-@media (max-width: 480px) {
-  .contact-grid { max-width: 280px; }
-}
-
-/* ─────────────────────────────────────────
-   ANIME POSTER SKELETON LOADER
-
-   While the page loads, anime poster images have src='' (empty).
-   Instead of showing a broken image, this rule applies a shimmer animation —
-   a sliding gradient that suggests "content is loading."
-   The shimmer moves from right to left by animating background-position.
-───────────────────────────────────────── */
-@keyframes shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-.anime-poster[src=''] {
-  background: linear-gradient(
-    90deg,
-    var(--border) 25%,
-    var(--bg-card-hover) 50%,
-    var(--border) 75%
-  );
-  background-size: 200% 100%;    /* wider than the element so the sweep is visible */
-  animation: shimmer 1.6s infinite;
-}
 
 /* ─────────────────────────────────────────
    BACK TO TOP BUTTON
