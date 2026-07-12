@@ -252,7 +252,7 @@ const projects = [
   {
     name: 'Gun Violence Data Explorer',
     desc: 'Data exploration challenging common narratives around gun violence in the US — examining victim demographics adjusted for population proportionality.',
-    url:  'https://github.com/Chidubem5/Gun_Violence',
+    url:  'https://chidubem5.github.io/Gun_Violence/',
     github: 'https://github.com/Chidubem5/Gun_Violence',
     repo: 'Gun_Violence',
     lang: 'HTML',
