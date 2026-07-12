@@ -29,10 +29,7 @@
   --nav-bg:       rgba(247,247,249,.92);         /* navbar glass effect */
   --orb-1:        rgba(124,58,237,.12);          /* hero background orb colors */
   --orb-2:        rgba(15,98,254,.08);
-  --slide-ph-bg:  #f0ebff;   /* slideshow placeholder background */
-  --slide-ph-txt: #7c3aed;   /* slideshow placeholder text */
-  --genre-bg:     #ede9fe;   /* genre badge background */
-  --genre-txt:    #6d28d9;   /* genre badge text */
+  --slide-ph-bg:  #f0ebff;   /* photo-card placeholder background (model grid) */
 }
 
 /* ─────────────────────────────────────────
@@ -60,9 +57,6 @@
   --orb-1:        rgba(167,139,250,.10);
   --orb-2:        rgba(51,177,255,.07);
   --slide-ph-bg:  #1e133a;
-  --slide-ph-txt: #a78bfa;
-  --genre-bg:     #1e133a;
-  --genre-txt:    #c4b5fd;
 }
 
 /* ─────────────────────────────────────────
@@ -1228,31 +1222,6 @@ button, .model-ph, .dot, .slide-arrow {
   opacity: 1;
 }
 
-.slide-ph {
-  background: var(--slide-ph-bg);
-  border-radius: 16px;
-  min-height: 280px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: .5rem;
-  border: 2px dashed var(--accent);
-}
-.slide-ph img {
-  width: 100%;
-  height: 280px;
-  object-fit: cover;
-  border-radius: 14px;
-}
-.slide-flag { font-size: 2.5rem; }
-.slide-place {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--slide-ph-txt);
-}
-.slide-hint { font-size: .8rem; color: var(--text-muted); }
-
 .slide-img-wrap {
   position: relative;
   width: 100%;
@@ -1305,13 +1274,7 @@ button, .model-ph, .dot, .slide-arrow {
 .slide-arrow.right { right: 8px; }
 .slide-arrow:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-/* Dot navigation — one dot per slide */
-.slide-dots {
-  display: flex;
-  gap: .45rem;
-  justify-content: center;
-  margin-top: .5rem;
-}
+/* Dot navigation — one dot per slide (JS builds these inside #intl-dots) */
 .dot {
   width: 8px; height: 8px;
   border-radius: 50%;
@@ -1488,10 +1451,6 @@ button, .model-ph, .dot, .slide-arrow {
 
 /* Inner zoom effect on hover — the card grows slightly AND the image zooms more */
 .model-ph:hover img { transform: scale(1.05); }
-
-.model-ph-icon  { font-size: 2rem; color: var(--accent); }
-.model-ph-label { font-size: .9rem; font-weight: 600; color: var(--slide-ph-txt); }
-.model-ph-hint  { font-size: .75rem; color: var(--text-muted); }
 
 /* ── Lightbox overlay ───────────────────────────────────────────────
    The full-screen photo viewer.
