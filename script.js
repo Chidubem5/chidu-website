@@ -1122,6 +1122,13 @@ document.querySelectorAll('.model-ph').forEach(el => {
     h = window.innerHeight;
     canvas.width  = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
+    // <canvas> is a "replaced element" — unlike a <div>, it doesn't stretch
+    // to fill inset:0 on its own; its layout size defaults to its buffer
+    // resolution. Without pinning style.width/height to the CSS viewport
+    // size, the canvas above renders at dpr× the viewport and (being
+    // fixed at top:0/left:0) only its top-left quadrant is visible.
+    canvas.style.width  = w + 'px';
+    canvas.style.height = h + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     cx = w / 2; cy = h / 2;
     cachedVignette = null;   // size changed — rebuild the gradient next frame
