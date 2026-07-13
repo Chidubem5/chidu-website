@@ -863,6 +863,8 @@ button, .model-ph, .dot, .slide-arrow {
 .lang-latex      { background: #3D6117; }
 .lang-react      { background: #61DAFB; }
 .lang-default    { background: #8d8d8d; }
+.lang-cert       { background: #7c3aed; }
+.lang-volunteer  { background: #16a34a; }
 
 /* "Live ↗" badge on project cards that have a deployed site */
 .project-live-badge {
