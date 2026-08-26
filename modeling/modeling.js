@@ -4,16 +4,20 @@
    Swap in new photos by editing this array only, the grid markup,
    captions, and lightbox below are all generated from it.
 
-   PLACEHOLDER (2026-08-26): reusing photos already on chidu.dev's
-   "Pictures Through The Years" section until dedicated portfolio
-   shots are ready. Point `src` at a new folder (e.g.
-   ../images/modeling-portfolio/your-file.webp) once those land.
+   The first 4 entries are placeholders still borrowed from chidu.dev's
+   "Pictures Through The Years" section. The rest, in images/modeling-portfolio/,
+   are dedicated shots added 2026-08-26.
 ───────────────────────────────────────── */
 const GALLERY = [
-  { src: '../images/modeling/modeling-1.webp', alt: 'Traditional attire on stage', caption: 'Traditional attire, stage', position: 'center 15%' },
+  { src: '../images/modeling/modeling-1.webp', alt: 'Traditional attire on stage', caption: 'Traditional attire, stage', position: 'center 22%' },
   { src: '../images/modeling/Magazine%20cover%201%20-557.webp', alt: 'Magazine cover', caption: 'Magazine cover' },
   { src: '../images/modeling/modeling-6.webp', alt: 'Modeling photo', caption: '' },
-  { src: '../images/modeling/modeling-7.webp', alt: 'Modeling photo', caption: '' },
+  { src: '../images/modeling/modeling-7.webp', alt: 'Modeling photo', caption: '', position: 'center 35%' },
+  { src: '../images/modeling-portfolio/street-editorial-wide.webp', alt: 'Street style editorial, full shot', caption: 'Street style, editorial' },
+  { src: '../images/modeling-portfolio/street-editorial-close.webp', alt: 'Street style editorial, close-up', caption: 'Street style, close-up' },
+  { src: '../images/modeling-portfolio/stairwell-editorial.webp', alt: 'Editorial, stairwell', caption: 'Editorial, stairwell' },
+  { src: '../images/modeling-portfolio/bts-monitor.webp', alt: 'Behind the scenes, camera monitor', caption: 'Behind the scenes' },
+  { src: '../images/modeling-portfolio/bts-portrait.webp', alt: 'Behind the scenes, portrait', caption: 'Behind the scenes' },
 ];
 
 // Editorial rhythm: alternating wide (8-col) / narrow (4-col) tiles on a
@@ -25,7 +29,11 @@ const grid = document.getElementById('galleryGrid');
 
 GALLERY.forEach((photo, i) => {
   const item = document.createElement('div');
-  item.className = 'gallery-item reveal ' + SPAN_PATTERN[i % SPAN_PATTERN.length];
+  // A trailing tile left alone in its row (odd total) spans full width
+  // instead of leaving a dead gap next to it.
+  const isTrailingOrphan = i === GALLERY.length - 1 && GALLERY.length % 2 === 1;
+  const span = isTrailingOrphan ? 'full' : SPAN_PATTERN[i % SPAN_PATTERN.length];
+  item.className = 'gallery-item reveal ' + span;
 
   const num = String(i + 1).padStart(2, '0');
 

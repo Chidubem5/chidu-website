@@ -154,6 +154,7 @@ a { color: inherit; }
 }
 .gallery-item.wide   { grid-column: span 8; }
 .gallery-item.narrow { grid-column: span 4; }
+.gallery-item.full   { grid-column: span 12; }
 
 .gallery-figure { position: relative; height: 100%; }
 .gallery-photo-wrap {
@@ -163,6 +164,7 @@ a { color: inherit; }
   cursor: pointer;
 }
 .gallery-item.wide .gallery-photo-wrap { aspect-ratio: 16 / 10; }
+.gallery-item.full .gallery-photo-wrap { aspect-ratio: 21 / 9; }
 
 .gallery-photo-wrap img {
   width: 100%;
@@ -194,8 +196,9 @@ a { color: inherit; }
 
 @media (max-width: 720px) {
   .gallery-grid { grid-template-columns: 1fr; }
-  .gallery-item, .gallery-item.wide, .gallery-item.narrow { grid-column: span 1; }
-  .gallery-item.wide .gallery-photo-wrap { aspect-ratio: 4 / 5; }
+  .gallery-item, .gallery-item.wide, .gallery-item.narrow, .gallery-item.full { grid-column: span 1; }
+  .gallery-item.wide .gallery-photo-wrap,
+  .gallery-item.full .gallery-photo-wrap { aspect-ratio: 4 / 5; }
 }
 
 /* ── Lightbox ── */
