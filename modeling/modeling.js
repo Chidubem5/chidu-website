@@ -4,20 +4,16 @@
    Swap in new photos by editing this array only, the grid markup,
    captions, and lightbox below are all generated from it.
 
-   PLACEHOLDER (2026-08-26): reusing the same 8 photos already on
-   chidu.dev's "Pictures Through The Years" section until dedicated
-   portfolio shots are ready. Point `src` at a new folder (e.g.
+   PLACEHOLDER (2026-08-26): reusing photos already on chidu.dev's
+   "Pictures Through The Years" section until dedicated portfolio
+   shots are ready. Point `src` at a new folder (e.g.
    ../images/modeling-portfolio/your-file.webp) once those land.
 ───────────────────────────────────────── */
 const GALLERY = [
-  { src: '../images/modeling/modeling-1.webp', alt: 'Traditional attire on stage', caption: 'Traditional attire, stage' },
-  { src: '../images/modeling/modeling-2.webp', alt: 'Rewrite Romance editorial', caption: 'Rewrite Romance, editorial' },
-  { src: '../images/modeling/modeling-3.webp', alt: 'Chika and Mayowa wedding', caption: 'Chika and Mayowa, wedding' },
-  { src: '../images/modeling/modeling-5.webp', alt: 'Modeling photo', caption: '' },
+  { src: '../images/modeling/modeling-1.webp', alt: 'Traditional attire on stage', caption: 'Traditional attire, stage', position: 'center 15%' },
   { src: '../images/modeling/Magazine%20cover%201%20-557.webp', alt: 'Magazine cover', caption: 'Magazine cover' },
   { src: '../images/modeling/modeling-6.webp', alt: 'Modeling photo', caption: '' },
   { src: '../images/modeling/modeling-7.webp', alt: 'Modeling photo', caption: '' },
-  { src: '../images/modeling/modeling-8.webp', alt: 'Modeling photo', caption: '' },
 ];
 
 // Editorial rhythm: alternating wide (8-col) / narrow (4-col) tiles on a
@@ -37,7 +33,7 @@ GALLERY.forEach((photo, i) => {
     <figure class="gallery-figure">
       <div class="gallery-photo-wrap" data-index="${i}">
         <span class="gallery-index">${num}</span>
-        <img src="${photo.src}" alt="${photo.alt}" loading="lazy" decoding="async" />
+        <img src="${photo.src}" alt="${photo.alt}" loading="lazy" decoding="async"${photo.position ? ` style="object-position: ${photo.position};"` : ''} />
       </div>
       <figcaption class="gallery-caption">${photo.caption}</figcaption>
     </figure>
