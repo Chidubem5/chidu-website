@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modeling Portfolio · Chidubem Umeh</title>
+  <meta name="description" content="Modeling portfolio of Chidubem Umeh, featuring editorial, print, and stage work." />
+  <link rel="canonical" href="https://chidu.dev/modeling/" />
+  <link rel="icon" type="image/png" href="../images/favicon.png" />
+
+  <!-- Open Graph / Twitter Card -->
+  <meta property="og:title" content="Modeling Portfolio · Chidubem Umeh" />
+  <meta property="og:description" content="Editorial, print, and stage modeling work." />
+  <meta property="og:image" content="https://chidu.dev/images/modeling/modeling-4.webp" />
+  <meta property="og:url" content="https://chidu.dev/modeling/" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="modeling.css" />
+</head>
+<body>
+
+  <a class="back-link" href="/">&larr; chidu.dev</a>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <img src="../images/modeling/modeling-4.webp" alt="Chidubem Umeh, dramatic blue and orange lighting portrait" />
+    <div class="hero-scrim" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-label">Modeling Portfolio</p>
+      <h1 class="hero-name">Chidubem<br />Umeh</h1>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span>scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </header>
+
+  <!-- ── STATEMENT ── -->
+  <section class="statement reveal">
+    <p>
+      Physics by training, in front of the camera by curiosity. A running
+      collection of editorial, print, and stage work, selected pieces from
+      the last few years.
+    </p>
+  </section>
+
+  <!-- ── GALLERY, populated entirely from GALLERY in modeling.js.
+       Edit that one array to swap in new photos, nothing here needs
+       to change. ── -->
+  <main>
+    <section class="gallery">
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </section>
+  </main>
+
+  <!-- ── LIGHTBOX ── -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close photo viewer">&#10005;</button>
+    <button class="lightbox-arrow left" id="lightboxPrev" aria-label="Previous photo">&#8249;</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+    <button class="lightbox-arrow right" id="lightboxNext" aria-label="Next photo">&#8250;</button>
+    <p class="lightbox-meta" id="lightboxMeta"></p>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <a href="/">chidu.dev</a>
+    <span class="footer-dot">&middot;</span>
+    <a href="mailto:Chidumeh@gmail.com">Chidumeh@gmail.com</a>
+    <span class="footer-dot">&middot;</span>
+    <a href="https://www.linkedin.com/in/chidubem-umeh/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <p class="footer-copy">&copy; 2026 Chidubem Umeh</p>
+  </footer>
+
+  <script src="modeling.js"></script>
+</body>
+</html>
