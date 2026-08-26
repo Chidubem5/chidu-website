@@ -18,6 +18,10 @@ const GALLERY = [
   { src: '../images/modeling-portfolio/stairwell-editorial.webp', alt: 'Editorial, stairwell', caption: 'Editorial, stairwell' },
   { src: '../images/modeling-portfolio/bts-monitor.webp', alt: 'Behind the scenes, camera monitor', caption: 'Behind the scenes' },
   { src: '../images/modeling-portfolio/bts-portrait.webp', alt: 'Behind the scenes, portrait', caption: 'Behind the scenes' },
+  { src: '../images/modeling-portfolio/runway-guard-buoy.webp', alt: 'Runway show, lifeguard rescue buoy', caption: 'Runway, editorial' },
+  { src: '../images/modeling-portfolio/runway-yellow-shorts.webp', alt: 'Runway show, yellow swim trunks', caption: 'Runway, editorial' },
+  { src: '../images/modeling-portfolio/rewrite-romance-portrait.webp', alt: 'Rewrite Romance editorial, rose petal mask', caption: 'Rewrite Romance, editorial' },
+  { src: '../images/modeling-portfolio/red-green-portrait.webp', alt: 'Studio portrait, red and green lighting', caption: 'Studio, editorial' },
 ];
 
 // Editorial rhythm: alternating wide (8-col) / narrow (4-col) tiles on a
