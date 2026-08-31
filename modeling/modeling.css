@@ -131,6 +131,32 @@ a { color: inherit; }
   color: var(--ink);
 }
 
+.statement-cta { margin-top: 2.5rem; }
+.comp-card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: var(--ink);
+  color: var(--bg);
+  border: 1px solid var(--ink);
+  padding: .8rem 1.8rem;
+  font-family: var(--sans);
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background .25s, color .25s, transform .2s;
+}
+.comp-card-btn:hover {
+  background: transparent;
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+@media (hover: none) {
+  .comp-card-btn:hover { background: var(--ink); color: var(--bg); transform: none; }
+}
+
 /* ── Reveal-on-scroll (JS toggles .in-view via IntersectionObserver) ── */
 .reveal {
   opacity: 0;
