@@ -218,6 +218,7 @@ a { color: inherit; }
 }
 .gallery-caption {
   padding: .7rem 1rem .9rem;
+  font-family: Calibri, var(--sans);
   font-size: .78rem;
   letter-spacing: .02em;
   color: var(--ink-muted);
