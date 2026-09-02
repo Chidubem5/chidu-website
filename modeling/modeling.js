@@ -12,7 +12,7 @@ const GALLERY = [
   { src: '../images/modeling/modeling-1.webp', alt: 'Traditional attire on stage', caption: 'Traditional attire, stage', position: 'center 22%' },
   { src: '../images/modeling/Magazine%20cover%201%20-557.webp', alt: 'Magazine cover', caption: 'Magazine cover' },
   { src: '../images/modeling/modeling-7.webp', alt: 'Modeling photo', caption: '', position: 'center 35%' },
-  { src: '../images/modeling-portfolio/bts-portrait.webp', alt: 'Behind the scenes, portrait', caption: 'Behind the scenes' },
+  { src: '../images/modeling-portfolio/bts-portrait.webp', alt: 'Behind the scenes, portrait', caption: 'Behind the scenes', zoom: 0.92 },
   { src: '../images/modeling-portfolio/stairwell-editorial.webp', alt: 'Editorial, stairwell', caption: 'Editorial, stairwell', position: 'center 5%' },
   { src: '../images/modeling-portfolio/runway-guard-buoy.webp', alt: 'Runway show, lifeguard rescue buoy', caption: 'Runway, editorial' },
   { src: '../images/modeling-portfolio/rewrite-romance-portrait.webp', alt: 'Rewrite Romance editorial, rose petal mask', caption: 'Rewrite Romance, editorial' },
@@ -36,11 +36,16 @@ GALLERY.forEach((photo, i) => {
 
   const num = String(i + 1).padStart(2, '0');
 
+  const styleDecls = [];
+  if (photo.position) styleDecls.push(`object-position: ${photo.position}`);
+  if (photo.zoom) styleDecls.push(`--zoom: ${photo.zoom}`);
+  const styleAttr = styleDecls.length ? ` style="${styleDecls.join('; ')};"` : '';
+
   item.innerHTML = `
     <figure class="gallery-figure">
       <div class="gallery-photo-wrap" data-index="${i}">
         <span class="gallery-index">${num}</span>
-        <img src="${photo.src}" alt="${photo.alt}" loading="lazy" decoding="async"${photo.position ? ` style="object-position: ${photo.position};"` : ''} />
+        <img src="${photo.src}" alt="${photo.alt}" loading="lazy" decoding="async"${styleAttr} />
       </div>
       <figcaption class="gallery-caption">${photo.caption}</figcaption>
     </figure>
