@@ -608,7 +608,8 @@ button, .model-ph, .dot, .slide-arrow {
   font-size: .95rem;
   margin-bottom: 2.5rem;
 }
-.section-sub .link {
+.section-sub .link,
+.about-text .link {
   color: var(--accent);
   font-weight: 600;
 }

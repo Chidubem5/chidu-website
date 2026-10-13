@@ -262,7 +262,8 @@ const projects = [
   {
     name: 'Africa Volatility Study',
     desc: 'Used Python to analyze realized vs. implied volatility of the VanEck Africa index fund. Findings presented as an academic paper and slideshow through the Erdős Institute.',
-    url:  'https://github.com/Chidubem5/Erdos_Africa',
+    url:  'https://www.erdosinstitute.org/certificates/fall-2025/quant-finance-boot-camp/chidubem-umeh/f1225098-a47f-4058-aa18-20df860243f8',
+    github: 'https://github.com/Chidubem5/Erdos_Africa',
     repo: 'Erdos_Africa',
     lang: 'Jupyter Notebook',
     updated: 'May 2026',
